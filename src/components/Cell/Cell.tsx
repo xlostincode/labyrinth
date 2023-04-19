@@ -1,6 +1,7 @@
 import "./Cell.css"
 import classnames from "classnames"
 import useVisualizerStore from "~/stores/visualizerStore"
+import type { CellData } from "~/types/visualizer"
 
 type CellProps = {
   cell: CellData

@@ -1,8 +1,9 @@
 import useVisualizerStore from "~/stores/visualizerStore"
 import { bfs, dfs } from "~/algorithms"
 import { delay } from "~/utils"
+import type { Algorithm } from "~/types/visualizer"
 
-export function useAlgorithm(algorithm: AvailableAlgorithms) {
+export function useAlgorithm(algorithm: Algorithm) {
   const maze = useVisualizerStore((state) => state.maze)
   const start = useVisualizerStore((state) => state.start)
   const finish = useVisualizerStore((state) => state.finish)

@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid"
+import type { CellData } from "~/types/visualizer"
 
 export function getRandomIntInclusive(min: number, max: number) {
   min = Math.ceil(min)

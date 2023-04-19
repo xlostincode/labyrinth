@@ -8,6 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test:unit": "vitest run",
+    "test:typecheck": "tsc",
     "execute": "ts-node-esm"
   },
   "dependencies": {

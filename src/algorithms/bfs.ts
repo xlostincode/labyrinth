@@ -1,4 +1,10 @@
 import { generateVisitedMaze, isValidCell, OFFSETS_SIMPLE } from "~/utils"
+import type {
+  AlgorithmFn,
+  CellData,
+  Step,
+  StepsToAnimate,
+} from "~/types/visualizer"
 
 export const bfs: AlgorithmFn = (
   maze: CellData[][],

@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { immer } from "zustand/middleware/immer"
 import { generateMaze } from "~/utils"
+import type { CellData } from "~/types/visualizer"
 
 interface VisualizerState {
   mazeWidth: number

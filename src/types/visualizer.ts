@@ -2,6 +2,8 @@ export const availableAlgorithms = ["bfs", "dfs"] as const
 
 export type Algorithm = typeof availableAlgorithms[number]
 
+export type AlgorithmStatus = "ready" | "running" | "completed"
+
 export type CellData = {
   id: string
   state: "empty" | "visited" | "block" | "start" | "finish" | "path"

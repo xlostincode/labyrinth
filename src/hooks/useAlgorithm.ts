@@ -1,22 +1,26 @@
 import useVisualizerStore from "~/stores/visualizerStore"
 import { bfs, dfs } from "~/algorithms"
 import { delay } from "~/utils"
-import type { Algorithm } from "~/types/visualizer"
 
-export function useAlgorithm(algorithm: Algorithm) {
+export function useAlgorithm() {
   const maze = useVisualizerStore((state) => state.maze)
   const start = useVisualizerStore((state) => state.start)
   const finish = useVisualizerStore((state) => state.finish)
+  const selectedAlgorithm = useVisualizerStore(
+    (state) => state.selectedAlgorithm
+  )
 
   const stepAnimationDelay = useVisualizerStore(
     (state) => state.stepAnimationDelay
   )
 
   const setCellState = useVisualizerStore((state) => state.setCellState)
-  const setIsRunning = useVisualizerStore((state) => state.setIsRunning)
+  const setAlgorithmStatus = useVisualizerStore(
+    (state) => state.setAlgorithmStatus
+  )
 
   const getAlgorithm = () => {
-    switch (algorithm) {
+    switch (selectedAlgorithm) {
       case "bfs":
         return bfs
       case "dfs":
@@ -25,7 +29,7 @@ export function useAlgorithm(algorithm: Algorithm) {
   }
 
   const runAlgorithm = async () => {
-    setIsRunning(true)
+    setAlgorithmStatus("running")
     const algorithmFn = getAlgorithm()
 
     const [stepsToAnimate, pathFromStartToFinish] = algorithmFn(
@@ -47,7 +51,7 @@ export function useAlgorithm(algorithm: Algorithm) {
 
       await delay(stepAnimationDelay)
     }
-    setIsRunning(false)
+    setAlgorithmStatus("completed")
   }
 
   return runAlgorithm

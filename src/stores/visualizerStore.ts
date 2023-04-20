@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { immer } from "zustand/middleware/immer"
 import { generateMaze } from "~/utils"
-import type { CellData } from "~/types/visualizer"
+import type { Algorithm, AlgorithmStatus, CellData } from "~/types/visualizer"
 
 interface VisualizerState {
   mazeWidth: number
@@ -10,14 +10,21 @@ interface VisualizerState {
   start: [number, number]
   finish: [number, number]
   blockChance: number
+
+  algorithmStatus: AlgorithmStatus
+  isReady: boolean
   isRunning: boolean
+  isCompleted: boolean
   stepAnimationDelay: number
+  selectedAlgorithm: Algorithm
+
+  setSelectedAlgorithm: (algorithm: Algorithm) => void
   setCellState: (
     rowIdx: number,
     colIdx: number,
     newState: CellData["state"]
   ) => void
-  setIsRunning: (running: boolean) => void
+  setAlgorithmStatus: (status: AlgorithmStatus) => void
   setStepAnimationDelay: (delay: number) => void
 }
 
@@ -31,8 +38,19 @@ const useVisualizerStore = create<VisualizerState, [["zustand/immer", never]]>(
     maze: randomMaze,
     start: start,
     finish: finish,
+
+    algorithmStatus: "ready",
+    isReady: true,
     isRunning: false,
+    isCompleted: false,
     stepAnimationDelay: 0,
+    selectedAlgorithm: "bfs",
+
+    setSelectedAlgorithm(algorithm: Algorithm) {
+      set((state) => {
+        state.selectedAlgorithm = algorithm
+      })
+    },
 
     setCellState(rowIdx, colIdx, newState) {
       set((state) => {
@@ -44,9 +62,13 @@ const useVisualizerStore = create<VisualizerState, [["zustand/immer", never]]>(
       })
     },
 
-    setIsRunning(running) {
+    setAlgorithmStatus(status) {
       set((state) => {
-        state.isRunning = running
+        state.algorithmStatus = status
+
+        state.isReady = status === "ready"
+        state.isRunning = status === "running"
+        state.isCompleted = status === "completed"
       })
     },
 

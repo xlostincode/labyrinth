@@ -8,7 +8,7 @@ function Visualizer() {
   const maze = useVisualizerStore((state) => state.maze)
   const isRunning = useVisualizerStore((state) => state.isRunning)
 
-  const runAlgorithm = useAlgorithm("bfs")
+  const runAlgorithm = useAlgorithm()
 
   return (
     <main className="relative h-screen max-h-screen w-full bg-zinc-950 text-zinc-100 font-poppins content-auto">

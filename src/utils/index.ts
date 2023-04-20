@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid"
 import type { CellData } from "~/types/visualizer"
+import { availableAlgorithms } from "~/types/visualizer"
 
 export function getRandomIntInclusive(min: number, max: number) {
   min = Math.ceil(min)
@@ -89,36 +90,12 @@ export function isValidCell(
   return true
 }
 
+export function isValidAlgorithm(searchAlgorithm: string) {
+  // TODO: Use ts-reset to fix `includes` typing
+  // @ts-ignore
+  return availableAlgorithms.includes(searchAlgorithm)
+}
+
 export function delay(milliseconds: number) {
   return new Promise((resolve) => setTimeout(resolve, milliseconds))
 }
-
-export const OFFSETS_SIMPLE = [
-  [-1, 0], // Up
-  [0, 1], // Right
-  [1, 0], // Down
-  [0, -1], // Right
-]
-
-// export const OFFSETS_SIMPLE = [
-//     [-1, 0], // Up
-//     [-2, 0], // Up
-//     [0, 1], // Right
-//     [0, 2], // Right
-//     [1, 0], // Down
-//     [2, 0], // Down
-//     [0, -1], // Right
-//     [0, -2] // Right
-// ]
-
-export const OFFSETS_DIAGONAL = [
-  [-1, 0], // Up
-  [0, 1], // Right
-  [1, 0], // Down
-  [0, -1], // Right
-
-  [-1, -1], // Up Left
-  [-1, 1], // Up Right
-  [1, -1], // Down Left
-  [1, 1], // Down Right
-]

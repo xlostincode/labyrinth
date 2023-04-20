@@ -8,7 +8,7 @@ describe.concurrent("Breadth first search algorithm", () => {
     const height = getRandomIntInclusive(5, 100)
     const blockChance = 0
 
-    const [maze, start, finish] = generateMaze(width, height, blockChance)
+    const [maze, start, finish] = generateMaze(width, height, { blockChance })
 
     const [stepsToAnimate, pathFromStartToFinish] = bfs(maze, start, finish)
 
@@ -21,7 +21,7 @@ describe.concurrent("Breadth first search algorithm", () => {
     const height = getRandomIntInclusive(5, 100)
     const blockChance = 100
 
-    const [maze, start, finish] = generateMaze(width, height, blockChance)
+    const [maze, start, finish] = generateMaze(width, height, { blockChance })
 
     const [stepsToAnimate, pathFromStartToFinish] = bfs(maze, start, finish)
 

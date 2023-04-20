@@ -8,12 +8,17 @@ export function getRandomIntInclusive(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
+type GenerateMazeOptions = {
+  blockChance?: number
+  defaultStart?: boolean
+  defaultFinish?: boolean
+  isWeighted?: boolean
+}
+
 export function generateMaze(
   mazeWidth: number,
   mazeHeight: number,
-  blockChance: number = 25,
-  defaultStart: boolean = true,
-  defaultFinish: boolean = true
+  options?: GenerateMazeOptions
 ): [CellData[][], [number, number], [number, number]] {
   if (mazeWidth < 5 || mazeHeight < 5) {
     throw Error(
@@ -21,41 +26,68 @@ export function generateMaze(
     )
   }
 
+  // TODO: Does this need to be typed?
+  const _options = {
+    blockChance: 25,
+    defaultFinish: true,
+    defaultStart: true,
+    isWeighted: false,
+    ...options,
+  }
+
   const maze = new Array(mazeHeight).fill(null).map((e) => {
     return new Array(mazeWidth).fill(null).map((e1) => {
       const cell: CellData = {
         id: nanoid(16),
         state: "empty",
+        weight: null,
       }
 
       const shouldBlock = getRandomIntInclusive(1, 100)
 
-      if (shouldBlock <= blockChance) {
+      if (shouldBlock <= _options.blockChance) {
         cell.state = "block"
+      }
+
+      if (_options.isWeighted) {
+        cell.weight = getRandomIntInclusive(0, 9)
       }
 
       return cell
     })
   })
 
-  let startRowIdx = defaultStart ? 0 : getRandomIntInclusive(0, mazeHeight - 1)
-  let startColIdx = defaultStart ? 0 : getRandomIntInclusive(0, mazeWidth - 1)
+  let startRowIdx = _options.defaultStart
+    ? 0
+    : getRandomIntInclusive(0, mazeHeight - 1)
+  let startColIdx = _options.defaultStart
+    ? 0
+    : getRandomIntInclusive(0, mazeWidth - 1)
 
-  let finishRowIdx = defaultFinish
+  let finishRowIdx = _options.defaultFinish
     ? mazeHeight - 1
     : getRandomIntInclusive(0, mazeHeight - 1)
-  let finishColIdx = defaultFinish
+  let finishColIdx = _options.defaultFinish
     ? mazeWidth - 1
     : getRandomIntInclusive(0, mazeWidth - 1)
 
   // In case start and finish are same change the start
   while (startRowIdx === finishRowIdx && startColIdx === finishRowIdx) {
-    startRowIdx = defaultStart ? 0 : getRandomIntInclusive(0, mazeHeight - 1)
-    startColIdx = defaultStart ? 0 : getRandomIntInclusive(0, mazeWidth - 1)
+    startRowIdx = _options.defaultStart
+      ? 0
+      : getRandomIntInclusive(0, mazeHeight - 1)
+    startColIdx = _options.defaultStart
+      ? 0
+      : getRandomIntInclusive(0, mazeWidth - 1)
   }
 
   maze[startRowIdx][startColIdx].state = "start"
   maze[finishRowIdx][finishColIdx].state = "finish"
+
+  if (_options.isWeighted) {
+    maze[startRowIdx][startColIdx].weight = null
+    maze[finishRowIdx][finishColIdx].weight = null
+  }
 
   return [maze, [startRowIdx, startColIdx], [finishRowIdx, finishColIdx]]
 }

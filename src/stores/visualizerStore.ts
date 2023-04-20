@@ -17,6 +17,7 @@ interface VisualizerState {
   isCompleted: boolean
   stepAnimationDelay: number
   selectedAlgorithm: Algorithm
+  isWeighted: boolean
 
   setSelectedAlgorithm: (algorithm: Algorithm) => void
   setCellState: (
@@ -28,7 +29,7 @@ interface VisualizerState {
   setStepAnimationDelay: (delay: number) => void
 }
 
-const [randomMaze, start, finish] = generateMaze(30, 30, 25)
+const [randomMaze, start, finish] = generateMaze(30, 30, { isWeighted: true })
 
 const useVisualizerStore = create<VisualizerState, [["zustand/immer", never]]>(
   immer((set) => ({
@@ -45,6 +46,7 @@ const useVisualizerStore = create<VisualizerState, [["zustand/immer", never]]>(
     isCompleted: false,
     stepAnimationDelay: 0,
     selectedAlgorithm: "bfs",
+    isWeighted: true,
 
     setSelectedAlgorithm(algorithm: Algorithm) {
       set((state) => {

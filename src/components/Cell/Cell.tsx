@@ -11,12 +11,27 @@ type CellProps = {
 
 function Cell({ cell, rowIdx, colIdx }: CellProps) {
   const isRunning = useVisualizerStore((state) => state.isRunning)
+  const isWeighted = useVisualizerStore((state) => state.isWeighted)
   const setCellState = useVisualizerStore((state) => state.setCellState)
 
   const handleOnClick = () => {
     if (isRunning) return
 
     setCellState(rowIdx, colIdx, cell.state === "block" ? "empty" : "block")
+  }
+
+  const shouldShowWeight = () => {
+    // Only show cell weight when
+    // - a weighed algorithm is selected
+    // - cell is empty, visited or path
+    // - cell has a numeric weight
+    return (
+      isWeighted &&
+      (cell.state === "empty" ||
+        cell.state === "visited" ||
+        cell.state === "path") &&
+      cell.weight !== null
+    )
   }
 
   return (
@@ -32,7 +47,9 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
           "hover:bg-zinc-400 cursor-pointer"
       )}
       onClick={handleOnClick}
-    ></div>
+    >
+      {shouldShowWeight() && cell.weight}
+    </div>
   )
 }
 

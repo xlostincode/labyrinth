@@ -6,7 +6,7 @@ describe.concurrent("Maze related utilities", () => {
     const width = getRandomIntInclusive(5, 100)
     const height = getRandomIntInclusive(5, 100)
 
-    const [maze, start, finish] = generateMaze(width, height, 30)
+    const [maze, start, finish] = generateMaze(width, height)
 
     expect(maze.length).toBe(height)
     expect(maze[0].length).toBe(width)
@@ -19,7 +19,10 @@ describe.concurrent("Maze related utilities", () => {
     const width = getRandomIntInclusive(5, 100)
     const height = getRandomIntInclusive(5, 100)
 
-    const [_, start, finish] = generateMaze(width, height, 30, false, false)
+    const [_, start, finish] = generateMaze(width, height, {
+      defaultFinish: false,
+      defaultStart: false,
+    })
 
     expect(start).not.toEqual(finish)
   })
@@ -35,7 +38,7 @@ describe.concurrent("Maze related utilities", () => {
     const width = getRandomIntInclusive(5, 100)
     const height = getRandomIntInclusive(5, 100)
 
-    const [maze] = generateMaze(width, height, 0)
+    const [maze] = generateMaze(width, height, { blockChance: 0 })
 
     const blockRow = maze.find((row) =>
       row.some((cell) => cell.state === "block")
@@ -48,7 +51,7 @@ describe.concurrent("Maze related utilities", () => {
     const width = getRandomIntInclusive(5, 100)
     const height = getRandomIntInclusive(5, 100)
 
-    const [maze] = generateMaze(width, height, 100)
+    const [maze] = generateMaze(width, height, { blockChance: 100 })
 
     const emptyRow = maze.find((row) =>
       row.some((cell) => cell.state === "empty")

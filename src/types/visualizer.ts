@@ -7,6 +7,7 @@ export type AlgorithmStatus = "ready" | "running" | "completed"
 export type CellData = {
   id: string
   state: "empty" | "visited" | "block" | "start" | "finish" | "path"
+  weight: number | null
 }
 
 export type Step = [number, number][]

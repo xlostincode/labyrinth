@@ -1,7 +1,8 @@
 import "./Cell.css"
 import classnames from "classnames"
-import useVisualizerStore from "~/stores/visualizerStore"
 import type { CellData } from "~/types/visualizer"
+import { useAppDispatch, useAppSelector } from "~/hooks/redux"
+import { setCellState, setFinish, setStart } from "~/slices/visualizerSlice"
 
 type CellProps = {
   cell: CellData
@@ -10,21 +11,41 @@ type CellProps = {
 }
 
 function Cell({ cell, rowIdx, colIdx }: CellProps) {
-  const isRunning = useVisualizerStore((state) => state.isRunning)
-  const isWeighted = useVisualizerStore((state) => state.isWeighted)
-  const setCellState = useVisualizerStore((state) => state.setCellState)
+  const { isRunning, isWeighted, isPickingStart, isPickingFinish } =
+    useAppSelector((state) => state.visualizer)
+  const dispatch = useAppDispatch()
 
-  const handleOnClick = () => {
+  const handleRightClick = (event: React.MouseEvent) => {
     if (isRunning) return
+    if (isPickingStart) dispatch(setStart({ rowIdx, colIdx }))
+    if (isPickingFinish) dispatch(setFinish({ rowIdx, colIdx }))
+    event.preventDefault()
+  }
 
-    setCellState(rowIdx, colIdx, cell.state === "block" ? "empty" : "block")
+  const handleDrawing = (event: React.MouseEvent) => {
+    if (isRunning) return
+    if (event.buttons === 0) return
+
+    if (event.buttons === 1) {
+      dispatch(
+        setCellState({
+          rowIdx,
+          colIdx,
+          newState: "block",
+        })
+      )
+    } else if (event.buttons === 2) {
+      dispatch(
+        setCellState({
+          rowIdx,
+          colIdx,
+          newState: "empty",
+        })
+      )
+    }
   }
 
   const shouldShowWeight = () => {
-    // Only show cell weight when
-    // - a weighed algorithm is selected
-    // - cell is empty, visited or path
-    // - cell has a numeric weight
     return (
       isWeighted &&
       (cell.state === "empty" ||
@@ -45,7 +66,10 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
         (cell.state === "block" || cell.state === "empty") &&
           "hover:bg-zinc-400 cursor-pointer"
       )}
-      onClick={handleOnClick}
+      onMouseDown={handleDrawing}
+      onMouseEnter={handleDrawing}
+      onContextMenu={handleRightClick}
+      draggable={false}
     >
       {shouldShowWeight() && cell.weight}
     </div>

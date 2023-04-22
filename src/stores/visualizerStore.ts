@@ -29,7 +29,7 @@ interface VisualizerState {
   setStepAnimationDelay: (delay: number) => void
 }
 
-const [randomMaze, start, finish] = generateMaze(30, 30, { isWeighted: true })
+const [randomMaze, start, finish] = generateMaze(30, 30)
 
 const useVisualizerStore = create<VisualizerState, [["zustand/immer", never]]>(
   immer((set) => ({

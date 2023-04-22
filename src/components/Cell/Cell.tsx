@@ -29,8 +29,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
       isWeighted &&
       (cell.state === "empty" ||
         cell.state === "visited" ||
-        cell.state === "path") &&
-      cell.weight !== null
+        cell.state === "path")
     )
   }
 

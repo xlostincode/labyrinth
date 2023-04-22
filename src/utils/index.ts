@@ -12,7 +12,6 @@ type GenerateMazeOptions = {
   blockChance?: number
   defaultStart?: boolean
   defaultFinish?: boolean
-  isWeighted?: boolean
 }
 
 export function generateMaze(
@@ -40,17 +39,13 @@ export function generateMaze(
       const cell: CellData = {
         id: nanoid(16),
         state: "empty",
-        weight: null,
+        weight: getRandomIntInclusive(0, 9),
       }
 
       const shouldBlock = getRandomIntInclusive(1, 100)
 
       if (shouldBlock <= _options.blockChance) {
         cell.state = "block"
-      }
-
-      if (_options.isWeighted) {
-        cell.weight = getRandomIntInclusive(0, 9)
       }
 
       return cell
@@ -83,11 +78,6 @@ export function generateMaze(
 
   maze[startRowIdx][startColIdx].state = "start"
   maze[finishRowIdx][finishColIdx].state = "finish"
-
-  if (_options.isWeighted) {
-    maze[startRowIdx][startColIdx].weight = null
-    maze[finishRowIdx][finishColIdx].weight = null
-  }
 
   return [maze, [startRowIdx, startColIdx], [finishRowIdx, finishColIdx]]
 }

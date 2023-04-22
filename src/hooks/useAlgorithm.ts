@@ -49,6 +49,7 @@ export function useAlgorithm() {
     for (const [row, col] of pathFromStartToFinish) {
       setCellState(row, col, "path")
 
+      // TODO: Maybe have this fixed
       await delay(stepAnimationDelay)
     }
     setAlgorithmStatus("completed")

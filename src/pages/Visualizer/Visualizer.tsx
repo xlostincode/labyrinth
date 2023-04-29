@@ -43,7 +43,7 @@ function Visualizer() {
     <main className="relative h-screen max-h-screen w-full bg-zinc-950 text-zinc-100 font-poppins content-auto">
       <aside className="fixed w-16 peer group hover:w-72 duration-300 min-h-screen max-h-screen bg-zinc-900 flex flex-col">
         <div className="w-full h-16 flex-none overflow-y-auto flex flex-col items-center overflow-hidden">
-          <h1 className="p-2 font-semibold w-full text-center hidden group-hover:block overflow-hidden">
+          <h1 className="p-2 font-semibold w-full text-center hidden group-hover:block overflow-hidden sidebar-fade-in">
             Path Finding Visualizer
           </h1>
           {/* TODO: Replace with icon */}

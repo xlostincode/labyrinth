@@ -1,3 +1,4 @@
+import "./Visualizer.css"
 import Button from "~/components/Button/Button"
 import Cell from "~/components/Cell/Cell"
 import { useAlgorithm } from "~/hooks/useAlgorithm"
@@ -51,7 +52,7 @@ function Visualizer() {
 
         <div className="flex flex-col grow overflow-y-auto items-center">
           <IconAdjustments className="h-8 w-8 text-zinc-600 block group-hover:hidden" />
-          <div className="flex-col  justify-center p-2 gap-4 hidden group-hover:flex">
+          <div className="flex-col justify-center p-2 gap-4 hidden group-hover:flex sidebar-fade-in">
             <div className="flex flex-col gap-2">
               <div className="flex gap-2">
                 <button

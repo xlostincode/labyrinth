@@ -121,6 +121,18 @@ export const visualizerSlice = createSlice({
       state.finish = [rowIdx, colIdx]
       state.isPickingFinish = false
     },
+    performReset(state, action: PayloadAction<void>) {
+      for (let i = 0; i < state.maze.length; i++) {
+        for (let j = 0; j < state.maze[i].length; j++) {
+          if (
+            state.maze[i][j].state === "visited" ||
+            state.maze[i][j].state === "path"
+          ) {
+            state.maze[i][j].state = "empty"
+          }
+        }
+      }
+    },
   },
 })
 
@@ -133,6 +145,7 @@ export const {
   setStart,
   setIsPickingFinish,
   setFinish,
+  performReset,
 } = visualizerSlice.actions
 
 export default visualizerSlice.reducer

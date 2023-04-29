@@ -14,6 +14,8 @@ import {
 import { classNames } from "~/utils"
 import { useAppDispatch, useAppSelector } from "~/hooks/redux"
 import {
+  performReset,
+  setAlgorithmStatus,
   setIsPickingFinish,
   setIsPickingStart,
   setSelectedAlgorithm,
@@ -26,6 +28,7 @@ function Visualizer() {
     maze,
     selectedAlgorithm,
     isRunning,
+    isCompleted,
     isPickingStart,
     isPickingFinish,
   } = useAppSelector((state) => state.visualizer)
@@ -33,7 +36,7 @@ function Visualizer() {
 
   const runAlgorithm = useAlgorithm()
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
 
   const handleAlgorithmSelect = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -41,6 +44,11 @@ function Visualizer() {
     },
     []
   )
+
+  const handleReset = () => {
+    dispatch(performReset())
+    dispatch(setAlgorithmStatus("ready"))
+  }
 
   return (
     <main className="relative h-screen max-h-screen w-full bg-zinc-950 text-zinc-100 font-poppins content-auto">
@@ -138,14 +146,16 @@ function Visualizer() {
         </div>
 
         <div className="w-full flex-none py-4 px-2 flex flex-col gap-2">
-          <Button onClick={runAlgorithm} disabled={isRunning}>
+          <Button onClick={runAlgorithm} disabled={isRunning || isCompleted}>
             {isSidebarOpen ? (
-              <span>{isRunning ? "Running" : "Run"}</span>
+              <span>
+                {isCompleted ? "Completed" : isRunning ? "Running" : "Run"}
+              </span>
             ) : (
               <IconPlayerPlay className="h-6 w-6" />
             )}
           </Button>
-          <Button disabled={!isRunning} danger>
+          <Button onClick={handleReset} disabled={!isCompleted} danger>
             {isSidebarOpen ? (
               <span>Reset</span>
             ) : (

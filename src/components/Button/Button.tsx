@@ -12,9 +12,10 @@ function Button(props: ButtonProps) {
     <button
       className={classNames(
         className ??
-          "p-2 bg-violet-500 rounded-md w-full duration-300 flex items-center justify-center",
-        "hover:bg-violet-600  active:bg-violet-500",
-        danger && "bg-red-500 hover:bg-red-600  active:bg-red-500",
+          "p-2 rounded-md w-full duration-300 flex items-center justify-center",
+        danger
+          ? "bg-red-500 hover:bg-red-600  active:bg-red-500"
+          : "bg-violet-500 hover:bg-violet-600  active:bg-violet-500",
         "disabled:bg-zinc-800 disabled:text-zinc-600"
       )}
       disabled={disabled}

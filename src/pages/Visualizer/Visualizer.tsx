@@ -9,17 +9,34 @@ import {
   IconHome,
   IconPennant,
 } from "@tabler/icons-react"
-import classNames from "classnames"
+import { classNames } from "~/utils"
 import { useAppDispatch, useAppSelector } from "~/hooks/redux"
-import { setIsPickingFinish, setIsPickingStart } from "~/slices/visualizerSlice"
+import {
+  setIsPickingFinish,
+  setIsPickingStart,
+  setSelectedAlgorithm,
+} from "~/slices/visualizerSlice"
+import { Algorithm, availableAlgorithms } from "~/types/visualizer"
+import React, { useCallback } from "react"
 
 function Visualizer() {
-  const { maze, isRunning, isPickingStart, isPickingFinish } = useAppSelector(
-    (state) => state.visualizer
-  )
+  const {
+    maze,
+    selectedAlgorithm,
+    isRunning,
+    isPickingStart,
+    isPickingFinish,
+  } = useAppSelector((state) => state.visualizer)
   const dispatch = useAppDispatch()
 
   const runAlgorithm = useAlgorithm()
+
+  const handleAlgorithmSelect = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      dispatch(setSelectedAlgorithm(event.target.value as Algorithm))
+    },
+    []
+  )
 
   return (
     <main className="relative h-screen max-h-screen w-full bg-zinc-950 text-zinc-100 font-poppins content-auto">
@@ -34,42 +51,60 @@ function Visualizer() {
 
         <div className="flex flex-col grow overflow-y-auto items-center">
           <IconAdjustments className="h-8 w-8 text-zinc-600 block group-hover:hidden" />
-          <div className="flex-col items-center justify-center p-2 gap-2 hidden group-hover:flex">
-            <div className="flex gap-2">
-              <button
-                className={classNames(
-                  "flex gap-2 items-center",
-                  isPickingStart && "text-indigo-400 font-semibold"
-                )}
-                onClick={() => dispatch(setIsPickingStart(!isPickingStart))}
-              >
-                <IconHome />
-                Set Start
-              </button>
+          <div className="flex-col  justify-center p-2 gap-4 hidden group-hover:flex">
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-2">
+                <button
+                  className={classNames(
+                    "flex gap-2 items-center",
+                    isPickingStart && "text-indigo-400 font-semibold"
+                  )}
+                  onClick={() => dispatch(setIsPickingStart(!isPickingStart))}
+                >
+                  <IconHome />
+                  Set Start
+                </button>
 
-              <button
-                className={classNames(
-                  "flex gap-2 items-center",
-                  isPickingFinish && "text-indigo-400 font-semibold"
-                )}
-                onClick={() => dispatch(setIsPickingFinish(!isPickingFinish))}
-              >
-                <IconPennant />
-                Set Finish
-              </button>
+                <button
+                  className={classNames(
+                    "flex gap-2 items-center",
+                    isPickingFinish && "text-indigo-400 font-semibold"
+                  )}
+                  onClick={() => dispatch(setIsPickingFinish(!isPickingFinish))}
+                >
+                  <IconPennant />
+                  Set Finish
+                </button>
+              </div>
+              {isPickingStart && (
+                <span className="font-small text-zinc-500 text-center">
+                  Right-click on a cell to set as starting point
+                </span>
+              )}
+
+              {isPickingFinish && (
+                <span className="font-small text-zinc-500 text-center">
+                  Right-click on a cell to set as finishing point
+                </span>
+              )}
             </div>
 
-            {isPickingStart && (
-              <span className="font-small text-zinc-500 text-center">
-                Right-click on a cell to set as starting point
-              </span>
-            )}
-
-            {isPickingFinish && (
-              <span className="font-small text-zinc-500 text-center">
-                Right-click on a cell to set as finishing point
-              </span>
-            )}
+            <div className="flex flex-col gap-2">
+              <label htmlFor="algorithm" className="text-zinc-400">
+                Search Algorithm
+              </label>
+              <select
+                id="algorithm"
+                name="algorithm"
+                className="bg-zinc-700"
+                value={selectedAlgorithm}
+                onChange={handleAlgorithmSelect}
+              >
+                {availableAlgorithms.map((algorithm) => (
+                  <option>{algorithm}</option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 

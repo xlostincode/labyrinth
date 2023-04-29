@@ -36,7 +36,7 @@ const initialState: VisualizerState = {
   isRunning: false,
   isCompleted: false,
   stepAnimationDelay: 0,
-  selectedAlgorithm: "dfs",
+  selectedAlgorithm: "bfs",
   isWeighted: false,
   isPickingStart: false,
   isPickingFinish: false,

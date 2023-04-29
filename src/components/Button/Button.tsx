@@ -1,4 +1,4 @@
-import classNames from "classnames"
+import { classNames } from "~/utils"
 import { ButtonHTMLAttributes } from "react"
 
 type ButtonProps = {

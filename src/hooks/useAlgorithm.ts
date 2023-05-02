@@ -1,4 +1,4 @@
-import { bfs, dfs } from "~/algorithms"
+import { bfs, dfs, dijkstra } from "~/algorithms"
 import { delay } from "~/utils"
 import { useAppDispatch, useAppSelector } from "./redux"
 import { setAlgorithmStatus, setCellState } from "~/slices/visualizerSlice"
@@ -14,6 +14,8 @@ export function useAlgorithm() {
         return bfs
       case "dfs":
         return dfs
+      case "dijkstra":
+        return dijkstra
     }
   }
 

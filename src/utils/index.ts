@@ -77,6 +77,7 @@ export function generateMaze(
   }
 
   maze[startRowIdx][startColIdx].state = "start"
+  maze[startRowIdx][startColIdx].weight = 0
   maze[finishRowIdx][finishColIdx].state = "finish"
 
   return [maze, [startRowIdx, startColIdx], [finishRowIdx, finishColIdx]]

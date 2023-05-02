@@ -1,4 +1,4 @@
-export const availableAlgorithms = ["bfs", "dfs"] as const
+export const availableAlgorithms = ["bfs", "dfs", "dijkstra"] as const
 
 export type Algorithm = (typeof availableAlgorithms)[number]
 

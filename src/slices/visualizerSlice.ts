@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import type { Algorithm, AlgorithmStatus, CellData } from "~/types/visualizer"
+import type {
+    Algorithm,
+    AlgorithmStatus,
+    CellData,
+    Step,
+} from "~/types/visualizer"
 import { generateMaze } from "~/utils"
 
 interface VisualizerState {
@@ -137,6 +142,22 @@ export const visualizerSlice = createSlice({
                 }
             }
         },
+        renderVisitedSteps(state, action: PayloadAction<Step>) {
+            const steps = action.payload
+
+            for (let i = 0; i < steps.length; i++) {
+                const [row, col] = steps[i]
+
+                if (
+                    state.maze[row][col].state === "start" ||
+                    state.maze[row][col].state === "finish"
+                ) {
+                    return
+                }
+
+                state.maze[row][col].state = "visited"
+            }
+        },
     },
 })
 
@@ -150,6 +171,7 @@ export const {
     setIsPickingFinish,
     setFinish,
     performReset,
+    renderVisitedSteps,
 } = visualizerSlice.actions
 
 export default visualizerSlice.reducer

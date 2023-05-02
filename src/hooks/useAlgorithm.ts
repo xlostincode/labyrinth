@@ -1,7 +1,11 @@
 import { bfs, dfs, dijkstra } from "~/algorithms"
 import { delay } from "~/utils"
 import { useAppDispatch, useAppSelector } from "./redux"
-import { setAlgorithmStatus, setCellState } from "~/slices/visualizerSlice"
+import {
+    renderVisitedSteps,
+    setAlgorithmStatus,
+    setCellState,
+} from "~/slices/visualizerSlice"
 
 export function useAlgorithm() {
     const { maze, start, finish, selectedAlgorithm, stepAnimationDelay } =
@@ -31,20 +35,7 @@ export function useAlgorithm() {
 
         // Draw the visited cells in order
         for (let i = 0; i < stepsToAnimate.length; i++) {
-            const steps = stepsToAnimate[i]
-
-            for (let j = 0; j < steps.length; j++) {
-                const [row, col] = steps[j]
-
-                dispatch(
-                    setCellState({
-                        rowIdx: row,
-                        colIdx: col,
-                        newState: "visited",
-                    })
-                )
-            }
-
+            dispatch(renderVisitedSteps(stepsToAnimate[i]))
             await delay(stepAnimationDelay)
         }
 

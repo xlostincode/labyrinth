@@ -1,17 +1,17 @@
 .path {
-  animation: highlight-path 4s ease infinite;
+    animation: highlight-path 4s ease infinite;
 }
 
 @keyframes highlight-path {
-  0% {
-    /* transform: scale(1); */
-  }
-  50% {
-    /* transform: scale(0.8); */
-    background-color: #22c55e;
-    transform: scale(0.8);
-  }
-  100% {
-    /* transform: scale(1); */
-  }
+    0% {
+        /* transform: scale(1); */
+    }
+    50% {
+        /* transform: scale(0.8); */
+        background-color: #22c55e;
+        transform: scale(0.8);
+    }
+    100% {
+        /* transform: scale(1); */
+    }
 }

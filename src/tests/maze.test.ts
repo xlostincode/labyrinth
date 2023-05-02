@@ -2,131 +2,131 @@ import { describe, it, expect } from "vitest"
 import { generateMaze, getRandomIntInclusive, isValidCell } from "~/utils"
 
 describe.concurrent("Maze related utilities", () => {
-  it("Should generate a random maze with given width / height and default start / finish", () => {
-    const width = getRandomIntInclusive(5, 100)
-    const height = getRandomIntInclusive(5, 100)
+    it("Should generate a random maze with given width / height and default start / finish", () => {
+        const width = getRandomIntInclusive(5, 100)
+        const height = getRandomIntInclusive(5, 100)
 
-    const [maze, start, finish] = generateMaze(width, height)
+        const [maze, start, finish] = generateMaze(width, height)
 
-    expect(maze.length).toBe(height)
-    expect(maze[0].length).toBe(width)
+        expect(maze.length).toBe(height)
+        expect(maze[0].length).toBe(width)
 
-    expect(start).toEqual([0, 0])
-    expect(finish).toEqual([height - 1, width - 1])
-  })
-
-  it("Should not have same start and finish", () => {
-    const width = getRandomIntInclusive(5, 100)
-    const height = getRandomIntInclusive(5, 100)
-
-    const [_, start, finish] = generateMaze(width, height, {
-      defaultFinish: false,
-      defaultStart: false,
+        expect(start).toEqual([0, 0])
+        expect(finish).toEqual([height - 1, width - 1])
     })
 
-    expect(start).not.toEqual(finish)
-  })
+    it("Should not have same start and finish", () => {
+        const width = getRandomIntInclusive(5, 100)
+        const height = getRandomIntInclusive(5, 100)
 
-  it("Should not allow generating a maze smaller than 5 * 5", () => {
-    const width = 4
-    const height = 4
+        const [_, start, finish] = generateMaze(width, height, {
+            defaultFinish: false,
+            defaultStart: false,
+        })
 
-    expect(() => generateMaze(width, height)).toThrowError()
-  })
+        expect(start).not.toEqual(finish)
+    })
 
-  it("Should not have any blocks when block chance is 0", () => {
-    const width = getRandomIntInclusive(5, 100)
-    const height = getRandomIntInclusive(5, 100)
+    it("Should not allow generating a maze smaller than 5 * 5", () => {
+        const width = 4
+        const height = 4
 
-    const [maze] = generateMaze(width, height, { blockChance: 0 })
+        expect(() => generateMaze(width, height)).toThrowError()
+    })
 
-    const blockRow = maze.find((row) =>
-      row.some((cell) => cell.state === "block")
-    )
+    it("Should not have any blocks when block chance is 0", () => {
+        const width = getRandomIntInclusive(5, 100)
+        const height = getRandomIntInclusive(5, 100)
 
-    expect(blockRow).toBeUndefined()
-  })
+        const [maze] = generateMaze(width, height, { blockChance: 0 })
 
-  it("Should only have blocks when block chance is 100", () => {
-    const width = getRandomIntInclusive(5, 100)
-    const height = getRandomIntInclusive(5, 100)
+        const blockRow = maze.find((row) =>
+            row.some((cell) => cell.state === "block")
+        )
 
-    const [maze] = generateMaze(width, height, { blockChance: 100 })
+        expect(blockRow).toBeUndefined()
+    })
 
-    const emptyRow = maze.find((row) =>
-      row.some((cell) => cell.state === "empty")
-    )
+    it("Should only have blocks when block chance is 100", () => {
+        const width = getRandomIntInclusive(5, 100)
+        const height = getRandomIntInclusive(5, 100)
 
-    expect(emptyRow).toBeUndefined()
-  })
+        const [maze] = generateMaze(width, height, { blockChance: 100 })
 
-  it("Should be a valid cell when random index is within the size", () => {
-    const width = getRandomIntInclusive(5, 100)
-    const height = getRandomIntInclusive(5, 100)
+        const emptyRow = maze.find((row) =>
+            row.some((cell) => cell.state === "empty")
+        )
 
-    const row = getRandomIntInclusive(0, height - 1)
-    const col = getRandomIntInclusive(0, width - 1)
+        expect(emptyRow).toBeUndefined()
+    })
 
-    const isValid = isValidCell(width, height, row, col)
+    it("Should be a valid cell when random index is within the size", () => {
+        const width = getRandomIntInclusive(5, 100)
+        const height = getRandomIntInclusive(5, 100)
 
-    const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
+        const row = getRandomIntInclusive(0, height - 1)
+        const col = getRandomIntInclusive(0, width - 1)
 
-    expect(isValid, message).toBeTruthy()
-  })
+        const isValid = isValidCell(width, height, row, col)
 
-  it("Should not be a valid cell when random index is outside the size", () => {
-    const width = getRandomIntInclusive(5, 100)
-    const height = getRandomIntInclusive(5, 100)
+        const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
 
-    const row = getRandomIntInclusive(height, height * 2)
-    const col = getRandomIntInclusive(width, width * 2)
+        expect(isValid, message).toBeTruthy()
+    })
 
-    const isValid = isValidCell(width, height, row, col)
+    it("Should not be a valid cell when random index is outside the size", () => {
+        const width = getRandomIntInclusive(5, 100)
+        const height = getRandomIntInclusive(5, 100)
 
-    const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
+        const row = getRandomIntInclusive(height, height * 2)
+        const col = getRandomIntInclusive(width, width * 2)
 
-    expect(isValid, message).toBeFalsy()
-  })
+        const isValid = isValidCell(width, height, row, col)
 
-  it("Should be a valid cell when index is same as the size", () => {
-    const width = getRandomIntInclusive(5, 100)
-    const height = getRandomIntInclusive(5, 100)
+        const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
 
-    const row = height - 1
-    const col = width - 1
+        expect(isValid, message).toBeFalsy()
+    })
 
-    const isValid = isValidCell(width, height, height - 1, width - 1)
+    it("Should be a valid cell when index is same as the size", () => {
+        const width = getRandomIntInclusive(5, 100)
+        const height = getRandomIntInclusive(5, 100)
 
-    const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
+        const row = height - 1
+        const col = width - 1
 
-    expect(isValid, message).toBeTruthy()
-  })
+        const isValid = isValidCell(width, height, height - 1, width - 1)
 
-  it("Should not be a valid cell when row index is outside the size", () => {
-    const width = getRandomIntInclusive(5, 100)
-    const height = getRandomIntInclusive(5, 100)
+        const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
 
-    const row = getRandomIntInclusive(height, height * 2)
-    const col = width - 1
+        expect(isValid, message).toBeTruthy()
+    })
 
-    const isValid = isValidCell(width, height, row, col)
+    it("Should not be a valid cell when row index is outside the size", () => {
+        const width = getRandomIntInclusive(5, 100)
+        const height = getRandomIntInclusive(5, 100)
 
-    const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
+        const row = getRandomIntInclusive(height, height * 2)
+        const col = width - 1
 
-    expect(isValid, message).toBeFalsy()
-  })
+        const isValid = isValidCell(width, height, row, col)
 
-  it("Should not be a valid cell when col index is outside the size", () => {
-    const width = getRandomIntInclusive(5, 100)
-    const height = getRandomIntInclusive(5, 100)
+        const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
 
-    const row = height - 1
-    const col = getRandomIntInclusive(width, width * 2)
+        expect(isValid, message).toBeFalsy()
+    })
 
-    const isValid = isValidCell(width, height, row, col)
+    it("Should not be a valid cell when col index is outside the size", () => {
+        const width = getRandomIntInclusive(5, 100)
+        const height = getRandomIntInclusive(5, 100)
 
-    const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
+        const row = height - 1
+        const col = getRandomIntInclusive(width, width * 2)
 
-    expect(isValid, message).toBeFalsy()
-  })
+        const isValid = isValidCell(width, height, row, col)
+
+        const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
+
+        expect(isValid, message).toBeFalsy()
+    })
 })

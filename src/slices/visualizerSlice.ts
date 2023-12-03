@@ -136,6 +136,34 @@ export const visualizerSlice = createSlice({
         ) {
             state.showCellWeights = action.payload
         },
+        increaseOrDecreaseCellWeight(
+            state,
+            action: PayloadAction<{
+                rowIdx: number
+                colIdx: number
+                operation: "increase" | "decrease"
+            }>
+        ) {
+            const { rowIdx, colIdx, operation } = action.payload
+
+            if (state.maze[rowIdx][colIdx].state === "start") return
+            if (state.maze[rowIdx][colIdx].state === "finish") return
+            if (state.maze[rowIdx][colIdx].state === "block") return
+
+            const currentCellWeight = state.maze[rowIdx][colIdx].weight
+
+            if (operation === "increase") {
+                state.maze[rowIdx][colIdx].weight = Math.min(
+                    currentCellWeight + 1,
+                    9
+                )
+            } else if (operation === "decrease") {
+                state.maze[rowIdx][colIdx].weight = Math.max(
+                    currentCellWeight - 1,
+                    0
+                )
+            }
+        },
         performReset(state, action: PayloadAction<void>) {
             for (let i = 0; i < state.maze.length; i++) {
                 for (let j = 0; j < state.maze[i].length; j++) {
@@ -179,6 +207,7 @@ export const {
     setShowCellWeights,
     performReset,
     renderVisitedSteps,
+    increaseOrDecreaseCellWeight,
 } = visualizerSlice.actions
 
 export default visualizerSlice.reducer

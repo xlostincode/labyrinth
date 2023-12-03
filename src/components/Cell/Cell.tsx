@@ -2,7 +2,12 @@ import "./Cell.css"
 import { classNames } from "~/utils"
 import type { CellData } from "~/types/visualizer"
 import { useAppDispatch, useAppSelector } from "~/hooks/redux"
-import { setCellState, setFinish, setStart } from "~/slices/visualizerSlice"
+import {
+    setCellState,
+    setFinish,
+    setStart,
+    increaseOrDecreaseCellWeight,
+} from "~/slices/visualizerSlice"
 import { useCallback } from "react"
 
 type CellProps = {
@@ -53,6 +58,28 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
         [isRunning]
     )
 
+    const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
+        if (event.deltaY < 0) {
+            // Scrolling Up
+            dispatch(
+                increaseOrDecreaseCellWeight({
+                    rowIdx,
+                    colIdx,
+                    operation: "increase",
+                })
+            )
+        } else if (event.deltaY > 0) {
+            // Scrolling Down
+            dispatch(
+                increaseOrDecreaseCellWeight({
+                    rowIdx,
+                    colIdx,
+                    operation: "decrease",
+                })
+            )
+        }
+    }
+
     const shouldShowWeight = () => {
         return (
             showCellWeights &&
@@ -77,6 +104,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
             onMouseDown={handleDrawing}
             onMouseEnter={handleDrawing}
             onContextMenu={handleRightClick}
+            onWheel={handleWheel}
             draggable={false}
         >
             {shouldShowWeight() && cell.weight}

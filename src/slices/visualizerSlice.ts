@@ -21,7 +21,7 @@ interface VisualizerState {
     isCompleted: boolean
     stepAnimationDelay: number
     selectedAlgorithm: Algorithm
-    isWeighted: boolean
+    showCellWeights: boolean
     isPickingStart: boolean
     isPickingFinish: boolean
 }
@@ -46,7 +46,7 @@ const initialState: VisualizerState = {
     isCompleted: false,
     stepAnimationDelay: 0,
     selectedAlgorithm: "dijkstra",
-    isWeighted: false,
+    showCellWeights: false,
     isPickingStart: false,
     isPickingFinish: false,
 }
@@ -130,6 +130,12 @@ export const visualizerSlice = createSlice({
             state.finish = [rowIdx, colIdx]
             state.isPickingFinish = false
         },
+        setShowCellWeights(
+            state,
+            action: PayloadAction<VisualizerState["showCellWeights"]>
+        ) {
+            state.showCellWeights = action.payload
+        },
         performReset(state, action: PayloadAction<void>) {
             for (let i = 0; i < state.maze.length; i++) {
                 for (let j = 0; j < state.maze[i].length; j++) {
@@ -170,6 +176,7 @@ export const {
     setStart,
     setIsPickingFinish,
     setFinish,
+    setShowCellWeights,
     performReset,
     renderVisitedSteps,
 } = visualizerSlice.actions

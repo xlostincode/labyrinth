@@ -1,7 +1,6 @@
 import "./Sidebar.css"
 import { useAppDispatch, useAppSelector } from "~/hooks/redux"
 import { classNames } from "~/utils"
-import Icon from "~/components/Icon/Icon"
 import { setIsSidebarOpen } from "~/slices/uiSlice"
 import {
     performReset,
@@ -9,18 +8,21 @@ import {
     setIsPickingFinish,
     setIsPickingStart,
     setSelectedAlgorithm,
+    setShowCellWeights,
 } from "~/slices/visualizerSlice"
 import * as React from "react"
 import { Algorithm, availableAlgorithms } from "~/types/visualizer"
-import Button from "../Button/Button"
 import { useAlgorithm } from "~/hooks/useAlgorithm"
+import Button from "~/components/Button/Button"
+import Icon from "~/components/Icon/Icon"
+import Switch from "~/components/Switch/Switch"
 
 function Sidebar() {
     const dispatch = useAppDispatch()
     const { isSidebarOpen } = useAppSelector((state) => state.ui)
     const {
-        maze,
         selectedAlgorithm,
+        showCellWeights,
         isRunning,
         isCompleted,
         isPickingStart,
@@ -81,7 +83,7 @@ function Sidebar() {
                 )}
 
                 {isSidebarOpen && (
-                    <div className="flex-col justify-center p-2 gap-4 flex sidebar-fade-in">
+                    <div className="flex-col w-full justify-center p-2 gap-4 flex sidebar-fade-in">
                         <div className="flex flex-col gap-2">
                             <div className="flex gap-2">
                                 <button
@@ -150,6 +152,14 @@ function Sidebar() {
                                 ))}
                             </select>
                         </div>
+
+                        <Switch
+                            label="Show cell weights"
+                            checked={showCellWeights}
+                            onChange={(show) =>
+                                dispatch(setShowCellWeights(show))
+                            }
+                        />
                     </div>
                 )}
             </div>

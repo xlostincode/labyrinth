@@ -13,7 +13,7 @@ type CellProps = {
 
 // TODO: Check if the rowIdx, colIdx and cell need to be added to the useCallback dependancies
 function Cell({ cell, rowIdx, colIdx }: CellProps) {
-    const { isRunning, isWeighted, isPickingStart, isPickingFinish } =
+    const { isRunning, showCellWeights, isPickingStart, isPickingFinish } =
         useAppSelector((state) => state.visualizer)
     const dispatch = useAppDispatch()
 
@@ -55,7 +55,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
 
     const shouldShowWeight = () => {
         return (
-            isWeighted &&
+            showCellWeights &&
             (cell.state === "empty" ||
                 cell.state === "visited" ||
                 cell.state === "path")

@@ -7,7 +7,7 @@ import type {
     StepsToAnimate,
 } from "~/types/visualizer"
 import PriorityQueue from "~/ds/PriorityQueue"
-import { OFFSETS_SIMPLE } from "./constants"
+import { OFFSETS_SIMPLE } from "~/algorithms/constants"
 
 // TODO: Early exit
 // TODO: Cleanup / Refactor / Improve typing

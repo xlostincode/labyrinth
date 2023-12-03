@@ -2,6 +2,7 @@ import { nanoid } from "nanoid"
 import type { CellData } from "~/types/visualizer"
 import { availableAlgorithms } from "~/types/visualizer"
 
+// TODO: Breakdown utils by category and add tests
 export function getRandomIntInclusive(min: number, max: number) {
     min = Math.ceil(min)
     max = Math.floor(max)

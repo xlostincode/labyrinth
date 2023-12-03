@@ -5,7 +5,7 @@ import type {
     Step,
     StepsToAnimate,
 } from "~/types/visualizer"
-import { OFFSETS_SIMPLE } from "./constants"
+import { OFFSETS_SIMPLE } from "~/algorithms/constants"
 
 export const dfs: AlgorithmFn = (
     maze: CellData[][],

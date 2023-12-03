@@ -8,7 +8,7 @@ import {
     setStart,
     increaseOrDecreaseCellWeight,
 } from "~/slices/visualizerSlice"
-import { useCallback } from "react"
+import * as React from "react"
 
 type CellProps = {
     cell: CellData
@@ -22,7 +22,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
         useAppSelector((state) => state.visualizer)
     const dispatch = useAppDispatch()
 
-    const handleRightClick = useCallback(
+    const handleRightClick = React.useCallback(
         (event: React.MouseEvent) => {
             if (isRunning) return
             if (isPickingStart) dispatch(setStart({ rowIdx, colIdx }))
@@ -32,7 +32,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
         [isRunning, isPickingStart, isPickingFinish]
     )
 
-    const handleDrawing = useCallback(
+    const handleDrawing = React.useCallback(
         (event: React.MouseEvent) => {
             if (isRunning) return
             if (event.buttons === 0) return

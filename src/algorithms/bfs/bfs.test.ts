@@ -1,6 +1,11 @@
 import { describe, it, expect } from "vitest"
 import { bfs } from "~/algorithms"
 import { generateMaze, getRandomIntInclusive } from "~/utils"
+import {
+    MAZE_WITH_BLOCKED_FINISH,
+    MAZE_WITH_UNBLOCKED_FINISH,
+    TEST_MAZE_START_AND_FINISH,
+} from "~/algorithms/constants"
 
 describe.concurrent("Breadth first search algorithm", () => {
     it("Should find a path when the maze has no blocks", () => {
@@ -31,5 +36,31 @@ describe.concurrent("Breadth first search algorithm", () => {
 
         expect(stepsToAnimate.length).toBeGreaterThan(0)
         expect(pathFromStartToFinish.length).toBe(0)
+    })
+
+    it("Should not find a path when the finish is blocked", () => {
+        const [start, finish] = TEST_MAZE_START_AND_FINISH
+
+        const [stepsToAnimate, pathFromStartToFinish] = bfs(
+            MAZE_WITH_BLOCKED_FINISH,
+            start,
+            finish
+        )
+
+        expect(stepsToAnimate.length).toBeGreaterThan(0)
+        expect(pathFromStartToFinish.length).toBe(0)
+    })
+
+    it("Should find a path when the finish is not blocked", () => {
+        const [start, finish] = TEST_MAZE_START_AND_FINISH
+
+        const [stepsToAnimate, pathFromStartToFinish] = bfs(
+            MAZE_WITH_UNBLOCKED_FINISH,
+            start,
+            finish
+        )
+
+        expect(stepsToAnimate.length).toBeGreaterThan(0)
+        expect(pathFromStartToFinish.length).toBeGreaterThan(0)
     })
 })

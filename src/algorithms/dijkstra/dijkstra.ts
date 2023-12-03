@@ -11,7 +11,6 @@ import { OFFSETS_SIMPLE } from "~/algorithms/constants"
 
 // TODO: Early exit
 // TODO: Cleanup / Refactor / Improve typing
-// TODO: Tests
 export const dijkstra: AlgorithmFn = (
     maze: CellData[][],
     start: [number, number],

@@ -1,0 +1,17 @@
+.sidebar-fade-in {
+    opacity: 0;
+    animation-name: animation-sidebar-fade-in;
+    animation-duration: 300ms;
+    animation-delay: 200ms;
+    animation-timing-function: ease-in;
+    animation-fill-mode: forwards;
+}
+
+@keyframes animation-sidebar-fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

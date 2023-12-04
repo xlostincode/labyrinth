@@ -7,16 +7,19 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "prettier": "prettier ./src --write",
     "test:unit": "vitest run",
-    "execute": "ts-node-esm"
+    "test:typecheck": "tsc",
+    "playground": "ts-node-esm ./playground.ts"
   },
   "dependencies": {
-    "classnames": "^2.3.2",
-    "immer": "^9.0.21",
+    "@headlessui/react": "^1.7.17",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@tabler/icons-react": "^2.17.0",
     "nanoid": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "zustand": "^4.3.7"
+    "react-redux": "^8.0.5"
   },
   "devDependencies": {
     "@types/node": "^18.15.11",

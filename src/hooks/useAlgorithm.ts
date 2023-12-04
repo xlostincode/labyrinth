@@ -1,53 +1,62 @@
-import useVisualizerStore from "~/stores/visualizerStore"
-import { bfs, dfs } from "~/algorithms"
+import { bfs, dfs, dijkstra } from "~/algorithms"
 import { delay } from "~/utils"
+import { useAppDispatch, useAppSelector } from "./redux"
+import {
+    renderVisitedSteps,
+    setAlgorithmStatus,
+    setCellState,
+} from "~/slices/visualizerSlice"
 
-export function useAlgorithm(algorithm: AvailableAlgorithms) {
-  const maze = useVisualizerStore((state) => state.maze)
-  const start = useVisualizerStore((state) => state.start)
-  const finish = useVisualizerStore((state) => state.finish)
+export function useAlgorithm() {
+    const { maze, start, finish, selectedAlgorithm, stepAnimationDelay } =
+        useAppSelector((state) => state.visualizer)
+    const dispatch = useAppDispatch()
 
-  const stepAnimationDelay = useVisualizerStore(
-    (state) => state.stepAnimationDelay
-  )
-
-  const setCellState = useVisualizerStore((state) => state.setCellState)
-  const setIsRunning = useVisualizerStore((state) => state.setIsRunning)
-
-  const getAlgorithm = () => {
-    switch (algorithm) {
-      case "bfs":
-        return bfs
-      case "dfs":
-        return dfs
-    }
-  }
-
-  const runAlgorithm = async () => {
-    setIsRunning(true)
-    const algorithmFn = getAlgorithm()
-
-    const [stepsToAnimate, pathFromStartToFinish] = algorithmFn(
-      maze,
-      start,
-      finish
-    )
-
-    for (const steps of stepsToAnimate) {
-      for (const [row, col] of steps) {
-        setCellState(row, col, "visited")
-      }
-
-      await delay(stepAnimationDelay)
+    const getAlgorithm = () => {
+        switch (selectedAlgorithm) {
+            case "bfs":
+                return bfs
+            case "dfs":
+                return dfs
+            case "dijkstra":
+                return dijkstra
+        }
     }
 
-    for (const [row, col] of pathFromStartToFinish) {
-      setCellState(row, col, "path")
+    const runAlgorithm = async () => {
+        dispatch(setAlgorithmStatus("running"))
+        const algorithmFn = getAlgorithm()
 
-      await delay(stepAnimationDelay)
+        const [stepsToAnimate, pathFromStartToFinish] = algorithmFn(
+            maze,
+            start,
+            finish
+        )
+
+        // Draw the visited cells in order
+        for (let i = 0; i < stepsToAnimate.length; i++) {
+            dispatch(renderVisitedSteps(stepsToAnimate[i]))
+            await delay(stepAnimationDelay)
+        }
+
+        // Draw the path from start to finish
+        for (let i = 0; i < pathFromStartToFinish.length; i++) {
+            const [row, col] = pathFromStartToFinish[i]
+
+            dispatch(
+                setCellState({
+                    rowIdx: row,
+                    colIdx: col,
+                    newState: "path",
+                })
+            )
+
+            // TODO: Maybe have this fixed
+            await delay(stepAnimationDelay)
+        }
+
+        dispatch(setAlgorithmStatus("completed"))
     }
-    setIsRunning(false)
-  }
 
-  return runAlgorithm
+    return runAlgorithm
 }

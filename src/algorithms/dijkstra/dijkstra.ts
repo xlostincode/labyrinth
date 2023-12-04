@@ -6,7 +6,7 @@ import type {
     Step,
     StepsToAnimate,
 } from "~/types/visualizer"
-import PriorityQueue from "~/ds/PriorityQueue"
+import PriorityQueue from "~/ds/PriorityQueue/PriorityQueue"
 import { OFFSETS_SIMPLE } from "~/algorithms/constants"
 
 // TODO: Early exit

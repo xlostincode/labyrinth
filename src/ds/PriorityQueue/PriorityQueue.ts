@@ -8,7 +8,6 @@ class QueueNode<T> {
     }
 }
 
-// TODO: Tests
 class PriorityQueue<T> {
     private _nodes: QueueNode<T>[]
 

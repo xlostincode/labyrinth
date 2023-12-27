@@ -16,6 +16,7 @@ import { useAlgorithm } from "~/hooks/useAlgorithm"
 import Button from "~/components/Button/Button"
 import Icon from "~/components/Icon/Icon"
 import Switch from "~/components/Switch/Switch"
+import SidebarSection from "./SidebarSection"
 
 function Sidebar() {
     const dispatch = useAppDispatch()
@@ -84,13 +85,14 @@ function Sidebar() {
 
                 {isSidebarOpen && (
                     <div className="flex-col w-full justify-center p-2 gap-4 flex sidebar-fade-in">
-                        <div className="flex flex-col gap-2">
+                        {/* Start and Finish picker */}
+                        <SidebarSection className="items-center">
                             <div className="flex gap-2">
                                 <button
                                     className={classNames(
                                         "flex gap-2 items-center",
                                         isPickingStart &&
-                                            "text-indigo-400 font-semibold"
+                                            "text-violet-400 font-semibold"
                                     )}
                                     onClick={() =>
                                         dispatch(
@@ -99,14 +101,14 @@ function Sidebar() {
                                     }
                                 >
                                     <Icon name="IconHome" />
-                                    Set Start
+                                    Pick Start
                                 </button>
 
                                 <button
                                     className={classNames(
                                         "flex gap-2 items-center",
                                         isPickingFinish &&
-                                            "text-indigo-400 font-semibold"
+                                            "text-violet-400 font-semibold"
                                     )}
                                     onClick={() =>
                                         dispatch(
@@ -115,7 +117,7 @@ function Sidebar() {
                                     }
                                 >
                                     <Icon name="IconPennant" />
-                                    Set Finish
+                                    Pick Finish
                                 </button>
                             </div>
                             {isPickingStart && (
@@ -131,9 +133,10 @@ function Sidebar() {
                                     point
                                 </span>
                             )}
-                        </div>
+                        </SidebarSection>
 
-                        <div className="flex flex-col gap-2">
+                        {/* Algorithm picker */}
+                        <SidebarSection>
                             <label
                                 htmlFor="algorithm"
                                 className="text-zinc-400"
@@ -143,7 +146,7 @@ function Sidebar() {
                             <select
                                 id="algorithm"
                                 name="algorithm"
-                                className="bg-zinc-700"
+                                className="bg-zinc-700 rounded-md p-1 border-r-2 border-transparent"
                                 value={selectedAlgorithm}
                                 onChange={handleAlgorithmSelect}
                             >
@@ -151,15 +154,17 @@ function Sidebar() {
                                     <option>{algorithm}</option>
                                 ))}
                             </select>
-                        </div>
+                        </SidebarSection>
 
-                        <Switch
-                            label="Show cell weights"
-                            checked={showCellWeights}
-                            onChange={(show) =>
-                                dispatch(setShowCellWeights(show))
-                            }
-                        />
+                        <SidebarSection title="Maze Settings">
+                            <Switch
+                                label="Show cell weights"
+                                checked={showCellWeights}
+                                onChange={(show) =>
+                                    dispatch(setShowCellWeights(show))
+                                }
+                            />
+                        </SidebarSection>
                     </div>
                 )}
             </div>

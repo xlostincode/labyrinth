@@ -5,7 +5,7 @@ import type {
     CellData,
     Step,
 } from "~/types/visualizer"
-import { generateMaze } from "~/utils"
+import { generateMaze } from "~/utils/maze"
 
 interface VisualizerState {
     mazeWidth: number

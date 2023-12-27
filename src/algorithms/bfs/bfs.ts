@@ -1,4 +1,4 @@
-import { generateVisitedMaze, isValidCell } from "~/utils"
+import { generateVisitedMaze, isValidCell } from "~/utils/maze"
 import type {
     AlgorithmFn,
     CellData,

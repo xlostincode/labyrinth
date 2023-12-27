@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest"
 import { bfs } from "~/algorithms"
-import { generateMaze, getRandomIntInclusive } from "~/utils"
+import { getRandomIntInclusive } from "~/utils/math"
+import { generateMaze } from "~/utils/maze"
 import {
     MAZE_WITH_BLOCKED_FINISH,
     MAZE_WITH_UNBLOCKED_FINISH,

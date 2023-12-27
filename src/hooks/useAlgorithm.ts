@@ -1,5 +1,5 @@
 import { bfs, dfs, dijkstra } from "~/algorithms"
-import { delay } from "~/utils"
+import { delay } from "~/utils/logic"
 import { useAppDispatch, useAppSelector } from "./redux"
 import {
     renderVisitedSteps,

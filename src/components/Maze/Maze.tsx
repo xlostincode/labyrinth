@@ -1,5 +1,6 @@
 import { useAppSelector } from "~/hooks/redux"
-import { classNames, createRowId } from "~/utils"
+import { classNames } from "~/utils/style"
+import { createRowId } from "~/utils/maze"
 import Cell from "~/components/Cell/Cell"
 
 function Maze() {

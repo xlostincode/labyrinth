@@ -1,13 +1,6 @@
 import { nanoid } from "nanoid"
 import type { CellData } from "~/types/visualizer"
-import { availableAlgorithms } from "~/types/visualizer"
-
-// TODO: Breakdown utils by category and add tests
-export function getRandomIntInclusive(min: number, max: number) {
-    min = Math.ceil(min)
-    max = Math.floor(max)
-    return Math.floor(Math.random() * (max - min + 1) + min)
-}
+import { getRandomIntInclusive } from "~/utils/math"
 
 type GenerateMazeOptions = {
     blockChance?: number
@@ -112,28 +105,4 @@ export function isValidCell(
     if (cellColIdx < 0 || cellColIdx >= mazeWidth) return false
 
     return true
-}
-
-export function isValidAlgorithm(searchAlgorithm: string) {
-    // TODO: Use ts-reset to fix `includes` typing
-    // @ts-ignore
-    return availableAlgorithms.includes(searchAlgorithm)
-}
-
-export function delay(milliseconds: number) {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds))
-}
-
-export function classNames(...classes: unknown[]) {
-    const classListArray = []
-
-    for (let index = 0; index < classes.length; index++) {
-        const classString = classes[index]
-
-        if (Boolean(classString)) {
-            classListArray.push(classString)
-        }
-    }
-
-    return classListArray.join(" ")
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 import PriorityQueue from "~/ds/PriorityQueue/PriorityQueue"
-import { getRandomIntInclusive } from "~/utils"
+import { getRandomIntInclusive } from "~/utils/math"
 
 describe.concurrent("Priority queue (Min Heap)", () => {
     it("Should return null when queue has no elements", () => {

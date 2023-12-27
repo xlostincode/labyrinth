@@ -1,6 +1,6 @@
 import "./Sidebar.css"
 import { useAppDispatch, useAppSelector } from "~/hooks/redux"
-import { classNames } from "~/utils"
+import { classNames } from "~/utils/style"
 import { setIsSidebarOpen } from "~/slices/uiSlice"
 import {
     performReset,

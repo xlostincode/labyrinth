@@ -1,4 +1,4 @@
-import { classNames } from "~/utils"
+import { classNames } from "~/utils/style"
 import { ButtonHTMLAttributes } from "react"
 import Icon from "~/components/Icon/Icon"
 

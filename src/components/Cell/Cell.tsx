@@ -1,5 +1,5 @@
 import "./Cell.css"
-import { classNames } from "~/utils"
+import { classNames } from "~/utils/style"
 import type { CellData } from "~/types/visualizer"
 import { useAppDispatch, useAppSelector } from "~/hooks/redux"
 import {

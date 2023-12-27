@@ -7,8 +7,12 @@ import {
     setAlgorithmStatus,
     setIsPickingFinish,
     setIsPickingStart,
+    setMazeBlockChance,
+    setMazeHeight,
+    setMazeWidth,
     setSelectedAlgorithm,
     setShowCellWeights,
+    generateRandomMaze,
 } from "~/slices/visualizerSlice"
 import * as React from "react"
 import { Algorithm, availableAlgorithms } from "~/types/visualizer"
@@ -16,6 +20,7 @@ import { useAlgorithm } from "~/hooks/useAlgorithm"
 import Button from "~/components/Button/Button"
 import Icon from "~/components/Icon/Icon"
 import Switch from "~/components/Switch/Switch"
+import Range from "~/components/Range/Range"
 import SidebarSection from "./SidebarSection"
 
 function Sidebar() {
@@ -72,7 +77,7 @@ function Sidebar() {
                 )}
             </div>
 
-            <div className="flex flex-col grow overflow-y-auto items-center">
+            <div className="flex flex-col grow overflow-y-auto items-center custom-scrollbar">
                 {!isSidebarOpen && (
                     <Icon
                         name="IconAdjustments"
@@ -154,6 +159,46 @@ function Sidebar() {
                                     <option>{algorithm}</option>
                                 ))}
                             </select>
+                        </SidebarSection>
+
+                        <SidebarSection title="Maze Generation">
+                            <Range
+                                minimum={5}
+                                maximum={100}
+                                initialValue={30}
+                                label="Width"
+                                debounce={500}
+                                onChange={(value) =>
+                                    dispatch(setMazeWidth(value))
+                                }
+                            />
+                            <Range
+                                minimum={5}
+                                maximum={100}
+                                initialValue={30}
+                                label="Height"
+                                debounce={500}
+                                onChange={(value) =>
+                                    dispatch(setMazeHeight(value))
+                                }
+                            />
+                            <Range
+                                minimum={0}
+                                maximum={100}
+                                initialValue={30}
+                                label="Noise"
+                                debounce={500}
+                                onChange={(value) =>
+                                    dispatch(setMazeBlockChance(value))
+                                }
+                            />
+                            <Button
+                                className="mt-2"
+                                icon="IconHammer"
+                                onClick={() => dispatch(generateRandomMaze())}
+                            >
+                                Generate
+                            </Button>
                         </SidebarSection>
 
                         <SidebarSection title="Maze Settings">

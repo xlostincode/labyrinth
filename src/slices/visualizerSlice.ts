@@ -192,6 +192,39 @@ export const visualizerSlice = createSlice({
                 state.maze[row][col].state = "visited"
             }
         },
+        setMazeHeight(
+            state,
+            action: PayloadAction<VisualizerState["mazeHeight"]>
+        ) {
+            state.mazeHeight = action.payload
+        },
+        setMazeWidth(
+            state,
+            action: PayloadAction<VisualizerState["mazeWidth"]>
+        ) {
+            state.mazeWidth = action.payload
+        },
+        setMazeBlockChance(
+            state,
+            action: PayloadAction<VisualizerState["blockChance"]>
+        ) {
+            state.blockChance = action.payload
+        },
+        generateRandomMaze(state) {
+            const [randomMaze, start, finish] = generateMaze(
+                state.mazeWidth,
+                state.mazeHeight,
+                {
+                    blockChance: state.blockChance,
+                    defaultFinish: false,
+                    defaultStart: false,
+                }
+            )
+
+            state.maze = randomMaze
+            state.start = start
+            state.finish = finish
+        },
     },
 })
 
@@ -208,6 +241,10 @@ export const {
     performReset,
     renderVisitedSteps,
     increaseOrDecreaseCellWeight,
+    setMazeWidth,
+    setMazeHeight,
+    setMazeBlockChance,
+    generateRandomMaze,
 } = visualizerSlice.actions
 
 export default visualizerSlice.reducer

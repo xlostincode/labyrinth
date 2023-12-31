@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-import type { CellData } from "~/types/visualizer"
+import type { CellData, PathFromStartToFinish } from "~/types/visualizer"
 import { getRandomIntInclusive } from "~/utils/math"
 
 type GenerateMazeOptions = {
@@ -106,3 +106,19 @@ export function isValidCell(
 
     return true
 }
+
+export const getPathCost = (
+    maze: CellData[][],
+    path: PathFromStartToFinish
+) => {
+    return path.reduce((prev, curr) => prev + maze[curr[0]][curr[1]].weight, 0)
+}
+
+export const generate2DArray = <T>(
+    mazeWidth: number,
+    mazeHeight: number,
+    fillWith: T
+) =>
+    new Array(mazeHeight).fill(null).map((e) => {
+        return new Array(mazeWidth).fill(fillWith)
+    }) as T[][]

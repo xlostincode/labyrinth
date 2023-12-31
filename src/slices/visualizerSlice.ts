@@ -103,6 +103,7 @@ export const visualizerSlice = createSlice({
 
             state.maze[currentStartRow][currentStartCol].state = "empty"
             state.maze[rowIdx][colIdx].state = "start"
+            state.maze[rowIdx][colIdx].weight = 0
 
             state.start = [rowIdx, colIdx]
             state.isPickingStart = false
@@ -126,6 +127,7 @@ export const visualizerSlice = createSlice({
 
             state.maze[currentFinishRow][currentFinishCol].state = "empty"
             state.maze[rowIdx][colIdx].state = "finish"
+            state.maze[rowIdx][colIdx].weight = 0
 
             state.finish = [rowIdx, colIdx]
             state.isPickingFinish = false

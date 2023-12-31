@@ -17,14 +17,14 @@ export const dfs: AlgorithmFn = (
 
     const visitedMaze = generateVisitedMaze(mazeWidth, mazeHeight)
 
-    const queue: [number, number, [number, number][]][] = []
+    const stack: [number, number, [number, number][]][] = []
 
-    queue.push([start[0], start[1], [[start[0], start[1]]]])
+    stack.push([start[0], start[1], [[start[0], start[1]]]])
 
     const stepsToAnimate: StepsToAnimate = []
 
-    while (queue.length > 0) {
-        const element = queue.pop()
+    while (stack.length > 0) {
+        const element = stack.pop()
 
         if (!element) {
             throw new Error(
@@ -52,7 +52,7 @@ export const dfs: AlgorithmFn = (
                 !visitedMaze[nextRow][nextCol] &&
                 maze[nextRow][nextCol].state !== "block"
             ) {
-                queue.push([
+                stack.push([
                     nextRow,
                     nextCol,
                     [...pathSoFar, [nextRow, nextCol]],

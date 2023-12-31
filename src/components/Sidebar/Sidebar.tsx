@@ -15,13 +15,14 @@ import {
     generateRandomMaze,
 } from "~/slices/visualizerSlice"
 import * as React from "react"
-import { Algorithm, availableAlgorithms } from "~/types/visualizer"
+import { Algorithm } from "~/types/visualizer"
 import { useAlgorithm } from "~/hooks/useAlgorithm"
 import Button from "~/components/Button/Button"
 import Icon from "~/components/Icon/Icon"
 import Switch from "~/components/Switch/Switch"
 import Range from "~/components/Range/Range"
 import SidebarSection from "./SidebarSection"
+import { AVAILABLE_ALGORITHMS } from "~/algorithms/constants"
 
 function Sidebar() {
     const dispatch = useAppDispatch()
@@ -155,8 +156,8 @@ function Sidebar() {
                                 value={selectedAlgorithm}
                                 onChange={handleAlgorithmSelect}
                             >
-                                {availableAlgorithms.map((algorithm) => (
-                                    <option>{algorithm}</option>
+                                {AVAILABLE_ALGORITHMS.map((algorithm) => (
+                                    <option key={algorithm}>{algorithm}</option>
                                 ))}
                             </select>
                         </SidebarSection>

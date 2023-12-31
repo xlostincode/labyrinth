@@ -1,5 +1,7 @@
 import type { CellData } from "~/types/visualizer"
 
+export const AVAILABLE_ALGORITHMS = ["bfs", "dfs", "dijkstra"] as const
+
 export const OFFSETS_SIMPLE = [
     [-1, 0], // Up
     [0, 1], // Right

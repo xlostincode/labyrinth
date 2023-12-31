@@ -1,6 +1,6 @@
-export const availableAlgorithms = ["bfs", "dfs", "dijkstra"] as const
+import { AVAILABLE_ALGORITHMS } from "~/algorithms/constants"
 
-export type Algorithm = (typeof availableAlgorithms)[number]
+export type Algorithm = (typeof AVAILABLE_ALGORITHMS)[number]
 
 export type AlgorithmStatus = "ready" | "running" | "completed"
 

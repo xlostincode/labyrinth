@@ -2,7 +2,7 @@ import { nanoid } from "nanoid"
 import type { CellData, PathFromStartToFinish } from "~/types/visualizer"
 import { getRandomIntInclusive } from "~/utils/math"
 
-type GenerateMazeOptions = {
+export type GenerateMazeOptions = {
     blockChance?: number
     defaultStart?: boolean
     defaultFinish?: boolean

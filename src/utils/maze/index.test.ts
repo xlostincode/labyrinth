@@ -1,13 +1,14 @@
 import { describe, it, expect } from "vitest"
 import { getRandomIntInclusive } from "~/utils/math"
-import { generateMaze, isValidCell } from "~/utils/maze"
+import { isValidCell } from "~/utils/maze"
+import { generateRandomMaze } from "~/maze/random"
 
 describe.concurrent("Maze related utilities", () => {
     it("Should generate a random maze with given width / height and default start / finish", () => {
         const width = getRandomIntInclusive(5, 100)
         const height = getRandomIntInclusive(5, 100)
 
-        const [maze, start, finish] = generateMaze(width, height)
+        const [maze, start, finish] = generateRandomMaze(width, height)
 
         expect(maze.length).toBe(height)
         expect(maze[0].length).toBe(width)
@@ -20,7 +21,7 @@ describe.concurrent("Maze related utilities", () => {
         const width = getRandomIntInclusive(5, 100)
         const height = getRandomIntInclusive(5, 100)
 
-        const [_, start, finish] = generateMaze(width, height, {
+        const [_, start, finish] = generateRandomMaze(width, height, {
             defaultFinish: false,
             defaultStart: false,
         })
@@ -32,14 +33,14 @@ describe.concurrent("Maze related utilities", () => {
         const width = 4
         const height = 4
 
-        expect(() => generateMaze(width, height)).toThrowError()
+        expect(() => generateRandomMaze(width, height)).toThrowError()
     })
 
     it("Should not have any blocks when block chance is 0", () => {
         const width = getRandomIntInclusive(5, 100)
         const height = getRandomIntInclusive(5, 100)
 
-        const [maze] = generateMaze(width, height, { blockChance: 0 })
+        const [maze] = generateRandomMaze(width, height, { blockChance: 0 })
 
         const blockRow = maze.find((row) =>
             row.some((cell) => cell.state === "block")
@@ -52,7 +53,7 @@ describe.concurrent("Maze related utilities", () => {
         const width = getRandomIntInclusive(5, 100)
         const height = getRandomIntInclusive(5, 100)
 
-        const [maze] = generateMaze(width, height, { blockChance: 100 })
+        const [maze] = generateRandomMaze(width, height, { blockChance: 100 })
 
         const emptyRow = maze.find((row) =>
             row.some((cell) => cell.state === "empty")

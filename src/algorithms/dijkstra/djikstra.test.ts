@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest"
 import { dijkstra } from "~/algorithms"
 import { getRandomIntInclusive } from "~/utils/math"
-import { generateMaze } from "~/utils/maze"
+import { generateRandomMaze } from "~/maze/random"
 import {
     MAZE_WITH_BLOCKED_FINISH,
     MAZE_WITH_UNBLOCKED_FINISH,
@@ -14,7 +14,7 @@ describe.concurrent("Djisktra's algorithm", () => {
         const height = getRandomIntInclusive(5, 100)
         const blockChance = 0
 
-        const [maze, start, finish] = generateMaze(width, height, {
+        const [maze, start, finish] = generateRandomMaze(width, height, {
             blockChance,
         })
 
@@ -33,7 +33,7 @@ describe.concurrent("Djisktra's algorithm", () => {
         const height = getRandomIntInclusive(5, 100)
         const blockChance = 100
 
-        const [maze, start, finish] = generateMaze(width, height, {
+        const [maze, start, finish] = generateRandomMaze(width, height, {
             blockChance,
         })
 

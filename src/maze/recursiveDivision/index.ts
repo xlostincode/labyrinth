@@ -2,7 +2,6 @@ import { CellData } from "~/types/visualizer"
 import { nanoid } from "nanoid"
 import { getRandomIntInclusive } from "~/utils/math"
 import { Logger } from "~/utils/logging"
-import { GenerateMazeOptions } from "~/utils/maze"
 
 const ORIENTATION = {
     VERTICAL: "vertical",

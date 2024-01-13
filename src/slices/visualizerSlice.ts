@@ -5,7 +5,7 @@ import type {
     CellData,
     Step,
 } from "~/types/visualizer"
-import { generateMaze } from "~/utils/maze"
+import { generateRandomMaze as _generateRandomMaze } from "~/maze/random"
 
 interface VisualizerState {
     mazeWidth: number
@@ -26,7 +26,7 @@ interface VisualizerState {
     isPickingFinish: boolean
 }
 
-const [randomMaze, start, finish] = generateMaze(30, 30, {
+const [randomMaze, start, finish] = _generateRandomMaze(30, 30, {
     blockChance: 30,
     defaultFinish: false,
     defaultStart: false,
@@ -213,7 +213,7 @@ export const visualizerSlice = createSlice({
             state.blockChance = action.payload
         },
         generateRandomMaze(state) {
-            const [randomMaze, start, finish] = generateMaze(
+            const [randomMaze, start, finish] = _generateRandomMaze(
                 state.mazeWidth,
                 state.mazeHeight,
                 {

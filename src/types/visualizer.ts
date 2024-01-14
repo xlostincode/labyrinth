@@ -1,4 +1,4 @@
-import { AVAILABLE_ALGORITHMS } from "~/algorithms/constants"
+import { AVAILABLE_ALGORITHMS } from "~/algorithms/const"
 
 export type Algorithm = (typeof AVAILABLE_ALGORITHMS)[number]
 

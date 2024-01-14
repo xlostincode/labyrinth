@@ -17,7 +17,7 @@ import Button from "~/components/Button/Button"
 import Icon from "~/components/Icon/Icon"
 import Switch from "~/components/Switch/Switch"
 import SidebarSection from "./SidebarSection"
-import { AVAILABLE_ALGORITHMS } from "~/algorithms/constants"
+import { AVAILABLE_ALGORITHMS } from "~/algorithms/const"
 import MazeGenerationSection from "./section/MazeGeneration"
 
 function Sidebar() {

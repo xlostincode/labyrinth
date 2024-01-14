@@ -12,7 +12,7 @@ import type {
     StepsToAnimate,
 } from "~/types/visualizer"
 import PriorityQueue from "~/ds/PriorityQueue/PriorityQueue"
-import { OFFSETS_SIMPLE } from "~/algorithms/constants"
+import { OFFSETS_SIMPLE } from "~/algorithms/const"
 
 export const dijkstra: AlgorithmFn = (
     maze: CellData[][],

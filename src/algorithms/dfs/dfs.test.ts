@@ -6,7 +6,7 @@ import {
     MAZE_WITH_BLOCKED_FINISH,
     MAZE_WITH_UNBLOCKED_FINISH,
     TEST_MAZE_START_AND_FINISH,
-} from "~/algorithms/constants"
+} from "~/algorithms/const"
 
 describe.concurrent("Depth first search algorithm", () => {
     it("Should find a path when the maze has no blocks", () => {

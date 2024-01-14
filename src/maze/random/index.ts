@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-import type { CellData } from "~/types/visualizer"
+import type { CellData } from "~/visualizer/const"
 import { getRandomIntInclusive } from "~/utils/math"
 
 type Options = {

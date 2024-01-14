@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import type { AlgorithmStatus, CellData, Step } from "~/types/visualizer"
+import type { AlgorithmStatus, CellData, Step } from "~/visualizer/const"
 import {
     MAZE_GENERATION_ALGORITHM_MAP,
     MazeGenerationAlgorithmId,

@@ -1,4 +1,4 @@
-import type { CellData } from "~/types/visualizer"
+import type { CellData } from "~/visualizer/const"
 
 export const PATH_FINDING_ALGORITHM_IDS = ["BFS", "DFS", "DIJKSTRA"] as const
 

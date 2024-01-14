@@ -1,4 +1,4 @@
-import { CellData } from "~/types/visualizer"
+import { CellData } from "~/visualizer/const"
 import { nanoid } from "nanoid"
 import { getRandomIntInclusive } from "~/utils/math"
 import { Logger } from "~/utils/logging"

@@ -10,7 +10,7 @@ import type {
     PathFromStartToFinish,
     Step,
     StepsToAnimate,
-} from "~/types/visualizer"
+} from "~/visualizer/const"
 import PriorityQueue from "~/ds/PriorityQueue/PriorityQueue"
 import { OFFSETS_SIMPLE } from "~/algorithms/const"
 

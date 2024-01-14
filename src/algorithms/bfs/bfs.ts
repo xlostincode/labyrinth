@@ -4,7 +4,7 @@ import type {
     CellData,
     Step,
     StepsToAnimate,
-} from "~/types/visualizer"
+} from "~/visualizer/const"
 import { OFFSETS_SIMPLE } from "~/algorithms/const"
 
 export const bfs: AlgorithmFn = (

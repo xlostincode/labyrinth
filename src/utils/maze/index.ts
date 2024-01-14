@@ -1,4 +1,4 @@
-import type { CellData, PathFromStartToFinish } from "~/types/visualizer"
+import type { CellData, PathFromStartToFinish } from "~/visualizer/const"
 
 export function generateVisitedMaze(mazeWidth: number, mazeHeight: number) {
     const visitedMaze = new Array(mazeHeight).fill(null).map((e) => {

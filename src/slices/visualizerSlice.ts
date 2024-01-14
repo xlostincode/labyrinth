@@ -1,11 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import type {
-    Algorithm,
-    AlgorithmStatus,
-    CellData,
+import {
     Step,
-} from "~/types/visualizer"
-import { generateMaze } from "~/utils"
+    VISUALIZER_STATUS_MAP,
+    VisualizerStatus,
+} from "~/visualizer/const"
+import {
+    CELL_STATE_MAP,
+    MAZE_GENERATION_ALGORITHM_MAP,
+    CellData,
+    Maze,
+    MazeIndex,
+    MazeGenerationAlgorithmId,
+} from "~/maze/const"
+import { generateRandomMaze, generateRecursiveDivisionMaze } from "~/maze"
+import {
+    PATH_FINDING_ALGORITHM_MAP,
+    PathFindingAlgorithmId,
+} from "~/algorithms/const"
 
 interface VisualizerState {
     mazeWidth: number
@@ -13,20 +24,30 @@ interface VisualizerState {
     maze: CellData[][]
     start: [number, number]
     finish: [number, number]
-    blockChance: number
 
-    algorithmStatus: AlgorithmStatus
+    visualizerStatus: VisualizerStatus
     isReady: boolean
     isRunning: boolean
     isCompleted: boolean
     stepAnimationDelay: number
-    selectedAlgorithm: Algorithm
+    selectedPathFindingAlgorithm: PathFindingAlgorithmId
     showCellWeights: boolean
     isPickingStart: boolean
     isPickingFinish: boolean
+
+    selectedMazeGenerationAlgorithm: MazeGenerationAlgorithmId
+    // TODO: There may be a better way to represent this
+    mazeGenerationOptions: {
+        // random
+        blockChance: number
+        defaultStart: boolean
+        defaultFinish: boolean
+        // recursiveDivision
+        roomSize: number
+    }
 }
 
-const [randomMaze, start, finish] = generateMaze(30, 30, {
+const [initialMaze, initialStart, initialFinish] = generateRandomMaze(30, 30, {
     blockChance: 30,
     defaultFinish: false,
     defaultStart: false,
@@ -35,28 +56,40 @@ const [randomMaze, start, finish] = generateMaze(30, 30, {
 const initialState: VisualizerState = {
     mazeWidth: 30,
     mazeHeight: 30,
-    blockChance: 25,
-    maze: randomMaze,
-    start: start,
-    finish: finish,
+    maze: initialMaze,
+    start: initialStart,
+    finish: initialFinish,
 
-    algorithmStatus: "ready",
+    visualizerStatus: VISUALIZER_STATUS_MAP.READY,
     isReady: true,
     isRunning: false,
     isCompleted: false,
     stepAnimationDelay: 0,
-    selectedAlgorithm: "dijkstra",
+    selectedPathFindingAlgorithm: PATH_FINDING_ALGORITHM_MAP.BFS.id,
     showCellWeights: false,
     isPickingStart: false,
     isPickingFinish: false,
+
+    selectedMazeGenerationAlgorithm: MAZE_GENERATION_ALGORITHM_MAP.RANDOM.id,
+    mazeGenerationOptions: {
+        blockChance: 25,
+        defaultStart: false,
+        defaultFinish: false,
+        roomSize: 3,
+    },
 }
 
 export const visualizerSlice = createSlice({
     name: "visualizer",
     initialState,
     reducers: {
-        setSelectedAlgorithm(state, action: PayloadAction<Algorithm>) {
-            state.selectedAlgorithm = action.payload
+        setSelectedPathFindingAlgorithm(
+            state,
+            action: PayloadAction<
+                VisualizerState["selectedPathFindingAlgorithm"]
+            >
+        ) {
+            state.selectedPathFindingAlgorithm = action.payload
         },
         setCellState(
             state,
@@ -70,16 +103,24 @@ export const visualizerSlice = createSlice({
 
             const cell = state.maze[rowIdx][colIdx]
 
-            if (cell.state === "start" || cell.state === "finish") return
+            if (
+                cell.state === CELL_STATE_MAP.START ||
+                cell.state === CELL_STATE_MAP.FINISH
+            )
+                return
 
             state.maze[rowIdx][colIdx].state = newState
         },
-        setAlgorithmStatus(state, action: PayloadAction<AlgorithmStatus>) {
-            state.algorithmStatus = action.payload
+        setVisualizerStatus(
+            state,
+            action: PayloadAction<VisualizerState["visualizerStatus"]>
+        ) {
+            state.visualizerStatus = action.payload
 
-            state.isReady = action.payload === "ready"
-            state.isRunning = action.payload === "running"
-            state.isCompleted = action.payload === "completed"
+            state.isReady = action.payload === VISUALIZER_STATUS_MAP.READY
+            state.isRunning = action.payload === VISUALIZER_STATUS_MAP.RUNNING
+            state.isCompleted =
+                action.payload === VISUALIZER_STATUS_MAP.COMPLETED
         },
         setStepAnimationDelay(state, action: PayloadAction<number>) {
             state.stepAnimationDelay = action.payload
@@ -101,8 +142,10 @@ export const visualizerSlice = createSlice({
 
             const [currentStartRow, currentStartCol] = state.start
 
-            state.maze[currentStartRow][currentStartCol].state = "empty"
-            state.maze[rowIdx][colIdx].state = "start"
+            state.maze[currentStartRow][currentStartCol].state =
+                CELL_STATE_MAP.EMPTY
+            state.maze[rowIdx][colIdx].state = CELL_STATE_MAP.START
+            state.maze[rowIdx][colIdx].weight = 0
 
             state.start = [rowIdx, colIdx]
             state.isPickingStart = false
@@ -124,8 +167,10 @@ export const visualizerSlice = createSlice({
 
             const [currentFinishRow, currentFinishCol] = state.finish
 
-            state.maze[currentFinishRow][currentFinishCol].state = "empty"
-            state.maze[rowIdx][colIdx].state = "finish"
+            state.maze[currentFinishRow][currentFinishCol].state =
+                CELL_STATE_MAP.EMPTY
+            state.maze[rowIdx][colIdx].state = CELL_STATE_MAP.FINISH
+            state.maze[rowIdx][colIdx].weight = 0
 
             state.finish = [rowIdx, colIdx]
             state.isPickingFinish = false
@@ -146,9 +191,12 @@ export const visualizerSlice = createSlice({
         ) {
             const { rowIdx, colIdx, operation } = action.payload
 
-            if (state.maze[rowIdx][colIdx].state === "start") return
-            if (state.maze[rowIdx][colIdx].state === "finish") return
-            if (state.maze[rowIdx][colIdx].state === "block") return
+            if (state.maze[rowIdx][colIdx].state === CELL_STATE_MAP.START)
+                return
+            if (state.maze[rowIdx][colIdx].state === CELL_STATE_MAP.FINISH)
+                return
+            if (state.maze[rowIdx][colIdx].state === CELL_STATE_MAP.BLOCK)
+                return
 
             const currentCellWeight = state.maze[rowIdx][colIdx].weight
 
@@ -168,10 +216,10 @@ export const visualizerSlice = createSlice({
             for (let i = 0; i < state.maze.length; i++) {
                 for (let j = 0; j < state.maze[i].length; j++) {
                     if (
-                        state.maze[i][j].state === "visited" ||
-                        state.maze[i][j].state === "path"
+                        state.maze[i][j].state === CELL_STATE_MAP.VISITED ||
+                        state.maze[i][j].state === CELL_STATE_MAP.PATH
                     ) {
-                        state.maze[i][j].state = "empty"
+                        state.maze[i][j].state = CELL_STATE_MAP.EMPTY
                     }
                 }
             }
@@ -183,13 +231,91 @@ export const visualizerSlice = createSlice({
                 const [row, col] = steps[i]
 
                 if (
-                    state.maze[row][col].state === "start" ||
-                    state.maze[row][col].state === "finish"
+                    state.maze[row][col].state === CELL_STATE_MAP.START ||
+                    state.maze[row][col].state === CELL_STATE_MAP.FINISH
                 ) {
                     return
                 }
 
-                state.maze[row][col].state = "visited"
+                state.maze[row][col].state = CELL_STATE_MAP.VISITED
+            }
+        },
+        setMazeHeight(
+            state,
+            action: PayloadAction<VisualizerState["mazeHeight"]>
+        ) {
+            state.mazeHeight = action.payload
+        },
+        setMazeWidth(
+            state,
+            action: PayloadAction<VisualizerState["mazeWidth"]>
+        ) {
+            state.mazeWidth = action.payload
+        },
+        generateMaze(state) {
+            // TODO: Refactor
+            // TODO: Improve and centralize types
+            let maze: Maze | undefined
+            let start: MazeIndex | undefined
+            let finish: MazeIndex | undefined
+
+            switch (state.selectedMazeGenerationAlgorithm) {
+                case MAZE_GENERATION_ALGORITHM_MAP.RANDOM.id:
+                    const randomMazeOutput = generateRandomMaze(
+                        state.mazeWidth,
+                        state.mazeHeight,
+                        {
+                            blockChance:
+                                state.mazeGenerationOptions.blockChance,
+                            defaultStart:
+                                state.mazeGenerationOptions.defaultStart,
+                            defaultFinish:
+                                state.mazeGenerationOptions.defaultFinish,
+                        }
+                    )
+
+                    maze = randomMazeOutput[0]
+                    start = randomMazeOutput[1]
+                    finish = randomMazeOutput[2]
+                    break
+                case MAZE_GENERATION_ALGORITHM_MAP.RECURSIVE_DIVISION.id:
+                    const recursiveDivisionMazeOutput =
+                        generateRecursiveDivisionMaze(
+                            state.mazeWidth,
+                            state.mazeHeight,
+                            {
+                                minRoomSize:
+                                    state.mazeGenerationOptions.roomSize,
+                            }
+                        )
+
+                    maze = recursiveDivisionMazeOutput[0]
+                    start = recursiveDivisionMazeOutput[1]
+                    finish = recursiveDivisionMazeOutput[2]
+                    break
+            }
+
+            state.maze = maze
+            state.start = start
+            state.finish = finish
+        },
+        setSelectedMazeGenerationAlgorithm(
+            state,
+            action: PayloadAction<
+                VisualizerState["selectedMazeGenerationAlgorithm"]
+            >
+        ) {
+            state.selectedMazeGenerationAlgorithm = action.payload
+        },
+        setMazeGenerationOptions(
+            state,
+            action: PayloadAction<
+                Partial<VisualizerState["mazeGenerationOptions"]>
+            >
+        ) {
+            state.mazeGenerationOptions = {
+                ...state.mazeGenerationOptions,
+                ...action.payload,
             }
         },
     },
@@ -197,8 +323,8 @@ export const visualizerSlice = createSlice({
 
 export const {
     setCellState,
-    setSelectedAlgorithm,
-    setAlgorithmStatus,
+    setSelectedPathFindingAlgorithm,
+    setVisualizerStatus,
     setStepAnimationDelay,
     setIsPickingStart,
     setStart,
@@ -208,6 +334,11 @@ export const {
     performReset,
     renderVisitedSteps,
     increaseOrDecreaseCellWeight,
+    setMazeWidth,
+    setMazeHeight,
+    generateMaze,
+    setSelectedMazeGenerationAlgorithm,
+    setMazeGenerationOptions,
 } = visualizerSlice.actions
 
 export default visualizerSlice.reducer

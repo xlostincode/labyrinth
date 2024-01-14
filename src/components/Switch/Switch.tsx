@@ -1,6 +1,6 @@
 import { Switch as HUISwitch } from "@headlessui/react"
 import * as React from "react"
-import { classNames } from "~/utils"
+import { classNames } from "~/utils/style"
 
 type CustomSwitchProps = {
     label: string

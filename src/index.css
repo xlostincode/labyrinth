@@ -3,3 +3,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    .custom-scrollbar::-webkit-scrollbar {
+        @apply w-1;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+        @apply bg-transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-violet-500 rounded-md;
+    }
+}

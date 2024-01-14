@@ -1,11 +1,12 @@
 import { describe, it, expect } from "vitest"
 import { dfs } from "~/algorithms"
-import { generateMaze, getRandomIntInclusive } from "~/utils"
+import { getRandomIntInclusive } from "~/utils/math"
+import { generateRandomMaze } from "~/maze/random"
 import {
     MAZE_WITH_BLOCKED_FINISH,
     MAZE_WITH_UNBLOCKED_FINISH,
     TEST_MAZE_START_AND_FINISH,
-} from "~/algorithms/constants"
+} from "~/algorithms/const"
 
 describe.concurrent("Depth first search algorithm", () => {
     it("Should find a path when the maze has no blocks", () => {
@@ -13,7 +14,7 @@ describe.concurrent("Depth first search algorithm", () => {
         const height = getRandomIntInclusive(5, 100)
         const blockChance = 0
 
-        const [maze, start, finish] = generateMaze(width, height, {
+        const [maze, start, finish] = generateRandomMaze(width, height, {
             blockChance,
         })
 
@@ -28,7 +29,7 @@ describe.concurrent("Depth first search algorithm", () => {
         const height = getRandomIntInclusive(5, 100)
         const blockChance = 100
 
-        const [maze, start, finish] = generateMaze(width, height, {
+        const [maze, start, finish] = generateRandomMaze(width, height, {
             blockChance,
         })
 

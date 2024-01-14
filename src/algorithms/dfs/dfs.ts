@@ -1,30 +1,22 @@
-import { generateVisitedMaze, isValidCell } from "~/utils"
-import type {
-    AlgorithmFn,
-    CellData,
-    Step,
-    StepsToAnimate,
-} from "~/types/visualizer"
-import { OFFSETS_SIMPLE } from "~/algorithms/constants"
+import { generateVisitedMaze, isValidCell } from "~/utils/maze"
+import { Step, StepsToAnimate } from "~/visualizer/const"
+import { OFFSETS_SIMPLE, PathFindingAlgorithmFn } from "~/algorithms/const"
+import { CELL_STATE_MAP } from "~/maze/const"
 
-export const dfs: AlgorithmFn = (
-    maze: CellData[][],
-    start: [number, number],
-    finish: [number, number]
-) => {
+export const dfs: PathFindingAlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length
     const mazeHeight = maze.length
 
     const visitedMaze = generateVisitedMaze(mazeWidth, mazeHeight)
 
-    const queue: [number, number, [number, number][]][] = []
+    const stack: [number, number, [number, number][]][] = []
 
-    queue.push([start[0], start[1], [[start[0], start[1]]]])
+    stack.push([start[0], start[1], [[start[0], start[1]]]])
 
     const stepsToAnimate: StepsToAnimate = []
 
-    while (queue.length > 0) {
-        const element = queue.pop()
+    while (stack.length > 0) {
+        const element = stack.pop()
 
         if (!element) {
             throw new Error(
@@ -50,9 +42,9 @@ export const dfs: AlgorithmFn = (
             if (
                 isValidCell(mazeWidth, mazeHeight, nextRow, nextCol) &&
                 !visitedMaze[nextRow][nextCol] &&
-                maze[nextRow][nextCol].state !== "block"
+                maze[nextRow][nextCol].state !== CELL_STATE_MAP.BLOCK
             ) {
-                queue.push([
+                stack.push([
                     nextRow,
                     nextCol,
                     [...pathSoFar, [nextRow, nextCol]],

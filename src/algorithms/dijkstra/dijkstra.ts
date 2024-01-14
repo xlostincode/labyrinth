@@ -1,35 +1,25 @@
-import { generateVisitedMaze, isValidCell } from "~/utils"
-import type {
-    AlgorithmFn,
-    CellData,
-    PathFromStartToFinish,
-    Step,
-    StepsToAnimate,
-} from "~/types/visualizer"
+import {
+    generate2DArray,
+    generateVisitedMaze,
+    getPathCost,
+    isValidCell,
+} from "~/utils/maze"
+import { PathFromStartToFinish, Step, StepsToAnimate } from "~/visualizer/const"
 import PriorityQueue from "~/ds/PriorityQueue/PriorityQueue"
-import { OFFSETS_SIMPLE } from "~/algorithms/constants"
+import { OFFSETS_SIMPLE, PathFindingAlgorithmFn } from "~/algorithms/const"
+import { CELL_STATE_MAP } from "~/maze/const"
 
-// TODO: Early exit
-// TODO: Cleanup / Refactor / Improve typing
-export const dijkstra: AlgorithmFn = (
-    maze: CellData[][],
-    start: [number, number],
-    finish: [number, number]
-) => {
+export const dijkstra: PathFindingAlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length
     const mazeHeight = maze.length
 
     const visitedMaze = generateVisitedMaze(mazeWidth, mazeHeight)
-    const distances = new Array(mazeHeight).fill(null).map((e) => {
-        return new Array(mazeWidth).fill(Infinity)
-    }) as number[][]
-
-    const previousNodes = new Array(mazeHeight)
-        .fill(null)
-        .map((e) => new Array(mazeWidth).fill(null)) as (
-        | [number, number]
-        | null
-    )[][]
+    const distances = generate2DArray(mazeWidth, mazeHeight, Infinity)
+    const previousNodes = generate2DArray<[number, number] | null>(
+        mazeWidth,
+        mazeHeight,
+        null
+    )
 
     distances[start[0]][start[1]] = 0
 
@@ -50,6 +40,11 @@ export const dijkstra: AlgorithmFn = (
 
         visitedMaze[currentRow][currentCol] = true
 
+        // Path from start to finish found
+        if (currentRow === finish[0] && currentCol === finish[1]) {
+            break
+        }
+
         const stepToAnimate: Step = [[currentRow, currentCol]]
 
         for (const [offsetX, offsetY] of OFFSETS_SIMPLE) {
@@ -58,21 +53,21 @@ export const dijkstra: AlgorithmFn = (
 
             if (
                 isValidCell(mazeWidth, mazeHeight, nextRow, nextCol) &&
-                maze[nextRow][nextCol].state !== "block"
+                maze[nextRow][nextCol].state !== CELL_STATE_MAP.BLOCK
             ) {
-                const distance =
+                const distanceToNextNode =
                     distances[currentRow][currentCol] +
                     maze[nextRow][nextCol].weight
 
-                if (distance < distances[nextRow][nextCol]) {
-                    distances[nextRow][nextCol] = distance
+                if (distanceToNextNode < distances[nextRow][nextCol]) {
+                    distances[nextRow][nextCol] = distanceToNextNode
                     previousNodes[nextRow][nextCol] = [currentRow, currentCol]
                 }
 
                 if (!visitedMaze[nextRow][nextCol]) {
                     queue.enqueue(
                         [nextRow, nextCol],
-                        maze[nextRow][nextCol].weight
+                        distances[nextRow][nextCol]
                     )
 
                     visitedMaze[nextRow][nextCol] = true
@@ -84,14 +79,9 @@ export const dijkstra: AlgorithmFn = (
 
         stepsToAnimate.push(stepToAnimate)
     }
-
     const path = getPath(previousNodes, start, finish)
 
     return [stepsToAnimate, path]
-}
-
-const getPathCost = (maze: CellData[][], path: PathFromStartToFinish) => {
-    return path.reduce((prev, curr) => prev + maze[curr[0]][curr[1]].weight, 0)
 }
 
 const getPath = (

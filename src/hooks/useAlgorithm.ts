@@ -1,30 +1,38 @@
 import { bfs, dfs, dijkstra } from "~/algorithms"
-import { delay } from "~/utils"
+import { delay } from "~/utils/logic"
 import { useAppDispatch, useAppSelector } from "./redux"
 import {
     renderVisitedSteps,
-    setAlgorithmStatus,
+    setVisualizerStatus,
     setCellState,
 } from "~/slices/visualizerSlice"
+import { PATH_FINDING_ALGORITHM_MAP } from "~/algorithms/const"
+import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
+import { CELL_STATE_MAP } from "~/maze/const"
 
 export function useAlgorithm() {
-    const { maze, start, finish, selectedAlgorithm, stepAnimationDelay } =
-        useAppSelector((state) => state.visualizer)
+    const {
+        maze,
+        start,
+        finish,
+        selectedPathFindingAlgorithm,
+        stepAnimationDelay,
+    } = useAppSelector((state) => state.visualizer)
     const dispatch = useAppDispatch()
 
     const getAlgorithm = () => {
-        switch (selectedAlgorithm) {
-            case "bfs":
+        switch (selectedPathFindingAlgorithm) {
+            case PATH_FINDING_ALGORITHM_MAP.BFS.id:
                 return bfs
-            case "dfs":
+            case PATH_FINDING_ALGORITHM_MAP.DFS.id:
                 return dfs
-            case "dijkstra":
+            case PATH_FINDING_ALGORITHM_MAP.DIJKSTRA.id:
                 return dijkstra
         }
     }
 
     const runAlgorithm = async () => {
-        dispatch(setAlgorithmStatus("running"))
+        dispatch(setVisualizerStatus(VISUALIZER_STATUS_MAP.RUNNING))
         const algorithmFn = getAlgorithm()
 
         const [stepsToAnimate, pathFromStartToFinish] = algorithmFn(
@@ -47,7 +55,7 @@ export function useAlgorithm() {
                 setCellState({
                     rowIdx: row,
                     colIdx: col,
-                    newState: "path",
+                    newState: CELL_STATE_MAP.PATH,
                 })
             )
 
@@ -55,7 +63,7 @@ export function useAlgorithm() {
             await delay(stepAnimationDelay)
         }
 
-        dispatch(setAlgorithmStatus("completed"))
+        dispatch(setVisualizerStatus(VISUALIZER_STATUS_MAP.COMPLETED))
     }
 
     return runAlgorithm

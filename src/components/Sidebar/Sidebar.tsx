@@ -1,27 +1,27 @@
 import "./Sidebar.css"
 import { useAppDispatch, useAppSelector } from "~/hooks/redux"
-import { classNames } from "~/utils"
+import { classNames } from "~/utils/style"
 import { setIsSidebarOpen } from "~/slices/uiSlice"
 import {
     performReset,
-    setAlgorithmStatus,
+    setVisualizerStatus,
     setIsPickingFinish,
     setIsPickingStart,
-    setSelectedAlgorithm,
     setShowCellWeights,
 } from "~/slices/visualizerSlice"
-import * as React from "react"
-import { Algorithm, availableAlgorithms } from "~/types/visualizer"
 import { useAlgorithm } from "~/hooks/useAlgorithm"
 import Button from "~/components/Button/Button"
 import Icon from "~/components/Icon/Icon"
 import Switch from "~/components/Switch/Switch"
+import SidebarSection from "./SidebarSection"
+import MazeGenerationSection from "./section/MazeGeneration"
+import SearchAlgorithmSection from "./section/SearchAlgorithm"
+import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
 
 function Sidebar() {
     const dispatch = useAppDispatch()
     const { isSidebarOpen } = useAppSelector((state) => state.ui)
     const {
-        selectedAlgorithm,
         showCellWeights,
         isRunning,
         isCompleted,
@@ -31,16 +31,9 @@ function Sidebar() {
 
     const runAlgorithm = useAlgorithm()
 
-    const handleAlgorithmSelect = React.useCallback(
-        (event: React.ChangeEvent<HTMLSelectElement>) => {
-            dispatch(setSelectedAlgorithm(event.target.value as Algorithm))
-        },
-        []
-    )
-
     const handleReset = () => {
         dispatch(performReset())
-        dispatch(setAlgorithmStatus("ready"))
+        dispatch(setVisualizerStatus(VISUALIZER_STATUS_MAP.READY))
     }
 
     return (
@@ -71,7 +64,7 @@ function Sidebar() {
                 )}
             </div>
 
-            <div className="flex flex-col grow overflow-y-auto items-center">
+            <div className="flex flex-col grow overflow-y-auto items-center custom-scrollbar">
                 {!isSidebarOpen && (
                     <Icon
                         name="IconAdjustments"
@@ -84,13 +77,14 @@ function Sidebar() {
 
                 {isSidebarOpen && (
                     <div className="flex-col w-full justify-center p-2 gap-4 flex sidebar-fade-in">
-                        <div className="flex flex-col gap-2">
+                        {/* Start and Finish picker */}
+                        <SidebarSection className="items-center">
                             <div className="flex gap-2">
                                 <button
                                     className={classNames(
                                         "flex gap-2 items-center",
                                         isPickingStart &&
-                                            "text-indigo-400 font-semibold"
+                                            "text-violet-400 font-semibold"
                                     )}
                                     onClick={() =>
                                         dispatch(
@@ -99,14 +93,14 @@ function Sidebar() {
                                     }
                                 >
                                     <Icon name="IconHome" />
-                                    Set Start
+                                    Pick Start
                                 </button>
 
                                 <button
                                     className={classNames(
                                         "flex gap-2 items-center",
                                         isPickingFinish &&
-                                            "text-indigo-400 font-semibold"
+                                            "text-violet-400 font-semibold"
                                     )}
                                     onClick={() =>
                                         dispatch(
@@ -115,7 +109,7 @@ function Sidebar() {
                                     }
                                 >
                                     <Icon name="IconPennant" />
-                                    Set Finish
+                                    Pick Finish
                                 </button>
                             </div>
                             {isPickingStart && (
@@ -131,35 +125,21 @@ function Sidebar() {
                                     point
                                 </span>
                             )}
-                        </div>
+                        </SidebarSection>
 
-                        <div className="flex flex-col gap-2">
-                            <label
-                                htmlFor="algorithm"
-                                className="text-zinc-400"
-                            >
-                                Search Algorithm
-                            </label>
-                            <select
-                                id="algorithm"
-                                name="algorithm"
-                                className="bg-zinc-700"
-                                value={selectedAlgorithm}
-                                onChange={handleAlgorithmSelect}
-                            >
-                                {availableAlgorithms.map((algorithm) => (
-                                    <option>{algorithm}</option>
-                                ))}
-                            </select>
-                        </div>
+                        <SearchAlgorithmSection />
 
-                        <Switch
-                            label="Show cell weights"
-                            checked={showCellWeights}
-                            onChange={(show) =>
-                                dispatch(setShowCellWeights(show))
-                            }
-                        />
+                        <MazeGenerationSection />
+
+                        <SidebarSection title="Maze Settings">
+                            <Switch
+                                label="Show cell weights"
+                                checked={showCellWeights}
+                                onChange={(show) =>
+                                    dispatch(setShowCellWeights(show))
+                                }
+                            />
+                        </SidebarSection>
                     </div>
                 )}
             </div>

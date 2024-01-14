@@ -1,6 +1,6 @@
 import "./Cell.css"
-import { classNames } from "~/utils"
-import type { CellData } from "~/types/visualizer"
+import { classNames } from "~/utils/style"
+import { CELL_STATE_MAP, CellData } from "~/maze/const"
 import { useAppDispatch, useAppSelector } from "~/hooks/redux"
 import {
     setCellState,
@@ -42,7 +42,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
                     setCellState({
                         rowIdx,
                         colIdx,
-                        newState: "block",
+                        newState: CELL_STATE_MAP.BLOCK,
                     })
                 )
             } else if (event.buttons === 2) {
@@ -50,7 +50,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
                     setCellState({
                         rowIdx,
                         colIdx,
-                        newState: "empty",
+                        newState: CELL_STATE_MAP.EMPTY,
                     })
                 )
             }
@@ -83,9 +83,9 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
     const shouldShowWeight = () => {
         return (
             showCellWeights &&
-            (cell.state === "empty" ||
-                cell.state === "visited" ||
-                cell.state === "path")
+            (cell.state === CELL_STATE_MAP.EMPTY ||
+                cell.state === CELL_STATE_MAP.VISITED ||
+                cell.state === CELL_STATE_MAP.PATH)
         )
     }
 
@@ -93,12 +93,13 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
         <div
             className={classNames(
                 "flex items-center justify-center h-6 w-6 transition-all",
-                cell.state === "block" && "bg-zinc-600",
-                cell.state === "visited" && "bg-orange-500",
-                cell.state === "finish" && "bg-green-500",
-                cell.state === "path" && "bg-green-500 path",
-                cell.state === "start" && "bg-yellow-500",
-                (cell.state === "block" || cell.state === "empty") &&
+                cell.state === CELL_STATE_MAP.BLOCK && "bg-zinc-600",
+                cell.state === CELL_STATE_MAP.VISITED && "bg-orange-500",
+                cell.state === CELL_STATE_MAP.FINISH && "bg-green-500",
+                cell.state === CELL_STATE_MAP.PATH && "bg-green-500 path",
+                cell.state === CELL_STATE_MAP.START && "bg-yellow-500",
+                (cell.state === CELL_STATE_MAP.BLOCK ||
+                    cell.state === CELL_STATE_MAP.EMPTY) &&
                     "hover:bg-zinc-400 cursor-pointer"
             )}
             onMouseDown={handleDrawing}

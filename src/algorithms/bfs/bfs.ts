@@ -1,17 +1,9 @@
-import { generateVisitedMaze, isValidCell } from "~/utils"
-import type {
-    AlgorithmFn,
-    CellData,
-    Step,
-    StepsToAnimate,
-} from "~/types/visualizer"
-import { OFFSETS_SIMPLE } from "~/algorithms/constants"
+import { generateVisitedMaze, isValidCell } from "~/utils/maze"
+import { Step, StepsToAnimate } from "~/visualizer/const"
+import { OFFSETS_SIMPLE, PathFindingAlgorithmFn } from "~/algorithms/const"
+import { CELL_STATE_MAP } from "~/maze/const"
 
-export const bfs: AlgorithmFn = (
-    maze: CellData[][],
-    start: [number, number],
-    finish: [number, number]
-) => {
+export const bfs: PathFindingAlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length
     const mazeHeight = maze.length
 
@@ -50,7 +42,7 @@ export const bfs: AlgorithmFn = (
             if (
                 isValidCell(mazeWidth, mazeHeight, nextRow, nextCol) &&
                 !visitedMaze[nextRow][nextCol] &&
-                maze[nextRow][nextCol].state !== "block"
+                maze[nextRow][nextCol].state !== CELL_STATE_MAP.BLOCK
             ) {
                 queue.push([
                     nextRow,

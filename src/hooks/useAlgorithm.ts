@@ -6,19 +6,25 @@ import {
     setAlgorithmStatus,
     setCellState,
 } from "~/slices/visualizerSlice"
+import { PATH_FINDING_ALGORITHM_MAP } from "~/algorithms/const"
 
 export function useAlgorithm() {
-    const { maze, start, finish, selectedAlgorithm, stepAnimationDelay } =
-        useAppSelector((state) => state.visualizer)
+    const {
+        maze,
+        start,
+        finish,
+        selectedPathFindingAlgorithm,
+        stepAnimationDelay,
+    } = useAppSelector((state) => state.visualizer)
     const dispatch = useAppDispatch()
 
     const getAlgorithm = () => {
-        switch (selectedAlgorithm) {
-            case "bfs":
+        switch (selectedPathFindingAlgorithm) {
+            case PATH_FINDING_ALGORITHM_MAP.BFS.id:
                 return bfs
-            case "dfs":
+            case PATH_FINDING_ALGORITHM_MAP.DFS.id:
                 return dfs
-            case "dijkstra":
+            case PATH_FINDING_ALGORITHM_MAP.DIJKSTRA.id:
                 return dijkstra
         }
     }

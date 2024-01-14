@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import type {
-    Algorithm,
-    AlgorithmStatus,
-    CellData,
-    Step,
-} from "~/types/visualizer"
-import type { MazeGenerationAlgorithmId } from "~/maze/const"
-import { MAZE_GENERATION_ALGORITHM_MAP } from "~/maze/const"
+import type { AlgorithmStatus, CellData, Step } from "~/types/visualizer"
+import {
+    MAZE_GENERATION_ALGORITHM_MAP,
+    MazeGenerationAlgorithmId,
+} from "~/maze/const"
 import { generateRandomMaze, generateRecursiveDivisionMaze } from "~/maze"
+import {
+    PATH_FINDING_ALGORITHM_MAP,
+    PathFindingAlgorithmId,
+} from "~/algorithms/const"
 
 interface VisualizerState {
     mazeWidth: number
@@ -21,7 +22,7 @@ interface VisualizerState {
     isRunning: boolean
     isCompleted: boolean
     stepAnimationDelay: number
-    selectedAlgorithm: Algorithm
+    selectedPathFindingAlgorithm: PathFindingAlgorithmId
     showCellWeights: boolean
     isPickingStart: boolean
     isPickingFinish: boolean
@@ -56,7 +57,7 @@ const initialState: VisualizerState = {
     isRunning: false,
     isCompleted: false,
     stepAnimationDelay: 0,
-    selectedAlgorithm: "dijkstra",
+    selectedPathFindingAlgorithm: PATH_FINDING_ALGORITHM_MAP.BFS.id,
     showCellWeights: false,
     isPickingStart: false,
     isPickingFinish: false,
@@ -74,8 +75,13 @@ export const visualizerSlice = createSlice({
     name: "visualizer",
     initialState,
     reducers: {
-        setSelectedAlgorithm(state, action: PayloadAction<Algorithm>) {
-            state.selectedAlgorithm = action.payload
+        setSelectedPathFindingAlgorithm(
+            state,
+            action: PayloadAction<
+                VisualizerState["selectedPathFindingAlgorithm"]
+            >
+        ) {
+            state.selectedPathFindingAlgorithm = action.payload
         },
         setCellState(
             state,
@@ -296,7 +302,7 @@ export const visualizerSlice = createSlice({
 
 export const {
     setCellState,
-    setSelectedAlgorithm,
+    setSelectedPathFindingAlgorithm,
     setAlgorithmStatus,
     setStepAnimationDelay,
     setIsPickingStart,

@@ -1,13 +1,43 @@
 import type { CellData } from "~/types/visualizer"
 
-export const AVAILABLE_ALGORITHMS = ["bfs", "dfs", "dijkstra"] as const
+export const PATH_FINDING_ALGORITHM_IDS = ["BFS", "DFS", "DIJKSTRA"] as const
+
+export type PathFindingAlgorithmId = (typeof PATH_FINDING_ALGORITHM_IDS)[number]
+
+export type PathFindingAlgorithm<Id extends PathFindingAlgorithmId> = {
+    id: Id
+    name: string
+}
+
+type PathFindingAlgorithmLookup = {
+    [AlgorithmId in PathFindingAlgorithmId]: PathFindingAlgorithm<AlgorithmId>
+}
+
+export const PATH_FINDING_ALGORITHM_MAP: PathFindingAlgorithmLookup = {
+    BFS: {
+        id: "BFS",
+        name: "Breadth-First Search",
+    },
+    DFS: {
+        id: "DFS",
+        name: "Depth-First Search",
+    },
+    DIJKSTRA: {
+        id: "DIJKSTRA",
+        name: "Djikstra's Algorithm",
+    },
+}
+
+export const PATH_FINDING_ALGORITHM_LIST = Object.values(
+    PATH_FINDING_ALGORITHM_MAP
+)
 
 export const OFFSETS_SIMPLE = [
     [-1, 0], // Up
     [0, 1], // Right
     [1, 0], // Down
     [0, -1], // Right
-]
+] as const
 
 export const OFFSETS_DIAGONAL = [
     [-1, 0], // Up
@@ -19,7 +49,7 @@ export const OFFSETS_DIAGONAL = [
     [-1, 1], // Up Right
     [1, -1], // Down Left
     [1, 1], // Down Right
-]
+] as const
 
 export const TEST_MAZE_START_AND_FINISH = [
     [0, 0],

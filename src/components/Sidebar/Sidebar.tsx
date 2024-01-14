@@ -7,24 +7,20 @@ import {
     setAlgorithmStatus,
     setIsPickingFinish,
     setIsPickingStart,
-    setSelectedAlgorithm,
     setShowCellWeights,
 } from "~/slices/visualizerSlice"
-import * as React from "react"
-import { Algorithm } from "~/types/visualizer"
 import { useAlgorithm } from "~/hooks/useAlgorithm"
 import Button from "~/components/Button/Button"
 import Icon from "~/components/Icon/Icon"
 import Switch from "~/components/Switch/Switch"
 import SidebarSection from "./SidebarSection"
-import { AVAILABLE_ALGORITHMS } from "~/algorithms/const"
 import MazeGenerationSection from "./section/MazeGeneration"
+import SearchAlgorithmSection from "./section/SearchAlgorithm"
 
 function Sidebar() {
     const dispatch = useAppDispatch()
     const { isSidebarOpen } = useAppSelector((state) => state.ui)
     const {
-        selectedAlgorithm,
         showCellWeights,
         isRunning,
         isCompleted,
@@ -33,13 +29,6 @@ function Sidebar() {
     } = useAppSelector((state) => state.visualizer)
 
     const runAlgorithm = useAlgorithm()
-
-    const handleAlgorithmSelect = React.useCallback(
-        (event: React.ChangeEvent<HTMLSelectElement>) => {
-            dispatch(setSelectedAlgorithm(event.target.value as Algorithm))
-        },
-        []
-    )
 
     const handleReset = () => {
         dispatch(performReset())
@@ -137,26 +126,7 @@ function Sidebar() {
                             )}
                         </SidebarSection>
 
-                        {/* Algorithm picker */}
-                        <SidebarSection>
-                            <label
-                                htmlFor="algorithm"
-                                className="text-zinc-400"
-                            >
-                                Search Algorithm
-                            </label>
-                            <select
-                                id="algorithm"
-                                name="algorithm"
-                                className="bg-zinc-700 rounded-md p-1 border-r-2 border-transparent"
-                                value={selectedAlgorithm}
-                                onChange={handleAlgorithmSelect}
-                            >
-                                {AVAILABLE_ALGORITHMS.map((algorithm) => (
-                                    <option key={algorithm}>{algorithm}</option>
-                                ))}
-                            </select>
-                        </SidebarSection>
+                        <SearchAlgorithmSection />
 
                         <MazeGenerationSection />
 

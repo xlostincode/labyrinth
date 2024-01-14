@@ -19,8 +19,8 @@ export type StepsToAnimate = MazeIndex[][]
 
 export type PathFromStartToFinish = MazeIndex[]
 
-export type AlgorithmFn = (
-    maze: Maze,
-    start: MazeIndex,
-    finish: MazeIndex
-) => [StepsToAnimate, PathFromStartToFinish]
+// export type AlgorithmFn = (
+//     maze: Maze,
+//     start: MazeIndex,
+//     finish: MazeIndex
+// ) => [StepsToAnimate, PathFromStartToFinish]

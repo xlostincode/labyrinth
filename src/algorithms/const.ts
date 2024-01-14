@@ -1,4 +1,5 @@
-import { CELL_STATE_MAP, Maze } from "~/maze/const"
+import { CELL_STATE_MAP, Maze, MazeIndex } from "~/maze/const"
+import { PathFromStartToFinish, StepsToAnimate } from "~/visualizer/const"
 
 export const PATH_FINDING_ALGORITHM_IDS = ["BFS", "DFS", "DIJKSTRA"] as const
 
@@ -12,6 +13,12 @@ export type PathFindingAlgorithm<Id extends PathFindingAlgorithmId> = {
 type PathFindingAlgorithmMap = {
     [AlgorithmId in PathFindingAlgorithmId]: PathFindingAlgorithm<AlgorithmId>
 }
+
+export type PathFindingAlgorithmFn = (
+    maze: Maze,
+    start: MazeIndex,
+    finish: MazeIndex
+) => [StepsToAnimate, PathFromStartToFinish]
 
 export const PATH_FINDING_ALGORITHM_MAP: PathFindingAlgorithmMap = {
     BFS: {

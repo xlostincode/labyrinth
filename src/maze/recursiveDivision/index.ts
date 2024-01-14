@@ -1,4 +1,8 @@
-import { CELL_STATE_MAP, CellData } from "~/maze/const"
+import {
+    CELL_STATE_MAP,
+    CellData,
+    MazeGenerationAlgorithmFn,
+} from "~/maze/const"
 import { nanoid } from "nanoid"
 import { getRandomIntInclusive } from "~/utils/math"
 import { Logger } from "~/utils/logging"
@@ -121,11 +125,9 @@ type Options = {
     minRoomSize: number
 }
 
-export function generateRecursiveDivisionMaze(
-    mazeWidth: number,
-    mazeHeight: number,
-    options: Options
-) {
+export const generateRecursiveDivisionMaze: MazeGenerationAlgorithmFn<
+    Options
+> = (mazeWidth: number, mazeHeight: number, options: Options) => {
     if (mazeWidth < 5 || mazeHeight < 5) {
         throw Error(
             `Maze height and width should be greater than 5. Received ${mazeWidth} * ${mazeHeight}`
@@ -156,9 +158,5 @@ export function generateRecursiveDivisionMaze(
     maze[startRowIdx][startColIdx].weight = 0
     maze[finishRowIdx][finishColIdx].state = CELL_STATE_MAP.FINISH
 
-    return [maze, [startRowIdx, startColIdx], [finishRowIdx, finishColIdx]] as [
-        CellData[][],
-        [number, number],
-        [number, number]
-    ]
+    return [maze, [startRowIdx, startColIdx], [finishRowIdx, finishColIdx]]
 }

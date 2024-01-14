@@ -1,5 +1,9 @@
 import { nanoid } from "nanoid"
-import { CELL_STATE_MAP, CellData } from "~/maze/const"
+import {
+    CELL_STATE_MAP,
+    CellData,
+    MazeGenerationAlgorithmFn,
+} from "~/maze/const"
 import { getRandomIntInclusive } from "~/utils/math"
 
 type Options = {
@@ -8,11 +12,11 @@ type Options = {
     defaultFinish?: boolean
 }
 
-export function generateRandomMaze(
-    mazeWidth: number,
-    mazeHeight: number,
-    options?: Options
-): [CellData[][], [number, number], [number, number]] {
+export const generateRandomMaze: MazeGenerationAlgorithmFn<Options> = (
+    mazeWidth,
+    mazeHeight,
+    options
+) => {
     if (mazeWidth < 5 || mazeHeight < 5) {
         throw Error(
             `Maze height and width should be greater than 5. Received ${mazeWidth} * ${mazeHeight}`

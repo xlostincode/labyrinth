@@ -61,3 +61,9 @@ export const MAZE_GENERATION_ALGORITHM_MAP: MazeGenerationAlgorithmMap = {
 export const MAZE_GENERATION_ALGORITHM_LIST = Object.values(
     MAZE_GENERATION_ALGORITHM_MAP
 )
+
+export type MazeGenerationAlgorithmFn<Options> = (
+    mazeWidth: number,
+    mazeHeight: number,
+    options: Options
+) => [Maze, MazeIndex, MazeIndex]

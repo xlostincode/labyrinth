@@ -9,7 +9,11 @@ describe.concurrent("Maze related utilities", () => {
         const width = getRandomIntInclusive(5, 100)
         const height = getRandomIntInclusive(5, 100)
 
-        const [maze, start, finish] = generateRandomMaze(width, height)
+        const [maze, start, finish] = generateRandomMaze(width, height, {
+            blockChance: 25,
+            defaultFinish: true,
+            defaultStart: true,
+        })
 
         expect(maze.length).toBe(height)
         expect(maze[0].length).toBe(width)
@@ -34,7 +38,13 @@ describe.concurrent("Maze related utilities", () => {
         const width = 4
         const height = 4
 
-        expect(() => generateRandomMaze(width, height)).toThrowError()
+        expect(() =>
+            generateRandomMaze(width, height, {
+                blockChance: 25,
+                defaultFinish: true,
+                defaultStart: true,
+            })
+        ).toThrowError()
     })
 
     it("Should not have any blocks when block chance is 0", () => {

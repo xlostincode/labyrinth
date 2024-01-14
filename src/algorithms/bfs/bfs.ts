@@ -1,9 +1,9 @@
 import { generateVisitedMaze, isValidCell } from "~/utils/maze"
-import { AlgorithmFn, Step, StepsToAnimate } from "~/visualizer/const"
-import { OFFSETS_SIMPLE } from "~/algorithms/const"
+import { Step, StepsToAnimate } from "~/visualizer/const"
+import { OFFSETS_SIMPLE, PathFindingAlgorithmFn } from "~/algorithms/const"
 import { CELL_STATE_MAP } from "~/maze/const"
 
-export const bfs: AlgorithmFn = (maze, start, finish) => {
+export const bfs: PathFindingAlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length
     const mazeHeight = maze.length
 

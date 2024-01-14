@@ -4,17 +4,12 @@ import {
     getPathCost,
     isValidCell,
 } from "~/utils/maze"
-import {
-    AlgorithmFn,
-    PathFromStartToFinish,
-    Step,
-    StepsToAnimate,
-} from "~/visualizer/const"
+import { PathFromStartToFinish, Step, StepsToAnimate } from "~/visualizer/const"
 import PriorityQueue from "~/ds/PriorityQueue/PriorityQueue"
-import { OFFSETS_SIMPLE } from "~/algorithms/const"
+import { OFFSETS_SIMPLE, PathFindingAlgorithmFn } from "~/algorithms/const"
 import { CELL_STATE_MAP } from "~/maze/const"
 
-export const dijkstra: AlgorithmFn = (maze, start, finish) => {
+export const dijkstra: PathFindingAlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length
     const mazeHeight = maze.length
 

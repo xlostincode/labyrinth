@@ -42,13 +42,17 @@ export type CellData = {
     weight: number
 }
 
-export type Step = [number, number][]
-export type StepsToAnimate = [number, number][][]
+// TODO: Refine related types
+export type Maze = CellData[][]
+export type MazeIndex = [number, number]
 
-export type PathFromStartToFinish = [number, number][]
+export type Step = MazeIndex[]
+export type StepsToAnimate = MazeIndex[][]
+
+export type PathFromStartToFinish = MazeIndex[]
 
 export type AlgorithmFn = (
-    maze: CellData[][],
-    start: [number, number],
-    finish: [number, number]
+    maze: Maze,
+    start: MazeIndex,
+    finish: MazeIndex
 ) => [StepsToAnimate, PathFromStartToFinish]

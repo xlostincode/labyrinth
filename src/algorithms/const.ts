@@ -1,4 +1,4 @@
-import { CELL_STATE_MAP, CellData } from "~/visualizer/const"
+import { CELL_STATE_MAP, CellData, Maze } from "~/visualizer/const"
 
 export const PATH_FINDING_ALGORITHM_IDS = ["BFS", "DFS", "DIJKSTRA"] as const
 
@@ -577,7 +577,7 @@ export const MAZE_WITH_BLOCKED_FINISH = [
             weight: 2,
         },
     ],
-] as CellData[][]
+] as Maze
 
 export const MAZE_WITH_UNBLOCKED_FINISH = [
     [
@@ -1100,4 +1100,4 @@ export const MAZE_WITH_UNBLOCKED_FINISH = [
             weight: 1,
         },
     ],
-] as CellData[][]
+] as Maze

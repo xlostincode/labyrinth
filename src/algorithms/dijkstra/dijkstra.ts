@@ -7,7 +7,6 @@ import {
 import {
     AlgorithmFn,
     CELL_STATE_MAP,
-    CellData,
     PathFromStartToFinish,
     Step,
     StepsToAnimate,
@@ -15,11 +14,7 @@ import {
 import PriorityQueue from "~/ds/PriorityQueue/PriorityQueue"
 import { OFFSETS_SIMPLE } from "~/algorithms/const"
 
-export const dijkstra: AlgorithmFn = (
-    maze: CellData[][],
-    start: [number, number],
-    finish: [number, number]
-) => {
+export const dijkstra: AlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length
     const mazeHeight = maze.length
 

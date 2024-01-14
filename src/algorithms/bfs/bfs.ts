@@ -2,17 +2,12 @@ import { generateVisitedMaze, isValidCell } from "~/utils/maze"
 import {
     AlgorithmFn,
     CELL_STATE_MAP,
-    CellData,
     Step,
     StepsToAnimate,
 } from "~/visualizer/const"
 import { OFFSETS_SIMPLE } from "~/algorithms/const"
 
-export const bfs: AlgorithmFn = (
-    maze: CellData[][],
-    start: [number, number],
-    finish: [number, number]
-) => {
+export const bfs: AlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length
     const mazeHeight = maze.length
 

@@ -2,6 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
     CELL_STATE_MAP,
     CellData,
+    Maze,
+    MazeIndex,
     Step,
     VISUALIZER_STATUS_MAP,
     VisualizerStatus,
@@ -253,9 +255,9 @@ export const visualizerSlice = createSlice({
         generateMaze(state) {
             // TODO: Refactor
             // TODO: Improve and centralize types
-            let maze: CellData[][] | undefined
-            let start: [number, number] | undefined
-            let finish: [number, number] | undefined
+            let maze: Maze | undefined
+            let start: MazeIndex | undefined
+            let finish: MazeIndex | undefined
 
             switch (state.selectedMazeGenerationAlgorithm) {
                 case MAZE_GENERATION_ALGORITHM_MAP.RANDOM.id:

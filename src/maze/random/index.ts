@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-import { CELL_STATE_MAP, CellData } from "~/visualizer/const"
+import { CELL_STATE_MAP, CellData } from "~/maze/const"
 import { getRandomIntInclusive } from "~/utils/math"
 
 type Options = {

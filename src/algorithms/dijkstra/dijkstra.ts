@@ -6,13 +6,13 @@ import {
 } from "~/utils/maze"
 import {
     AlgorithmFn,
-    CELL_STATE_MAP,
     PathFromStartToFinish,
     Step,
     StepsToAnimate,
 } from "~/visualizer/const"
 import PriorityQueue from "~/ds/PriorityQueue/PriorityQueue"
 import { OFFSETS_SIMPLE } from "~/algorithms/const"
+import { CELL_STATE_MAP } from "~/maze/const"
 
 export const dijkstra: AlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length

@@ -7,7 +7,8 @@ import {
     setCellState,
 } from "~/slices/visualizerSlice"
 import { PATH_FINDING_ALGORITHM_MAP } from "~/algorithms/const"
-import { CELL_STATE_MAP, VISUALIZER_STATUS_MAP } from "~/visualizer/const"
+import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
+import { CELL_STATE_MAP } from "~/maze/const"
 
 export function useAlgorithm() {
     const {

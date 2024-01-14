@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
-    CELL_STATE_MAP,
-    CellData,
-    Maze,
-    MazeIndex,
     Step,
     VISUALIZER_STATUS_MAP,
     VisualizerStatus,
 } from "~/visualizer/const"
 import {
+    CELL_STATE_MAP,
     MAZE_GENERATION_ALGORITHM_MAP,
+    CellData,
+    Maze,
+    MazeIndex,
     MazeGenerationAlgorithmId,
 } from "~/maze/const"
 import { generateRandomMaze, generateRecursiveDivisionMaze } from "~/maze"

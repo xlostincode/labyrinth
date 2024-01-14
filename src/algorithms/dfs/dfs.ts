@@ -1,11 +1,7 @@
 import { generateVisitedMaze, isValidCell } from "~/utils/maze"
-import {
-    AlgorithmFn,
-    CELL_STATE_MAP,
-    Step,
-    StepsToAnimate,
-} from "~/visualizer/const"
+import { AlgorithmFn, Step, StepsToAnimate } from "~/visualizer/const"
 import { OFFSETS_SIMPLE } from "~/algorithms/const"
+import { CELL_STATE_MAP } from "~/maze/const"
 
 export const dfs: AlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length

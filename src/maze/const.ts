@@ -1,3 +1,38 @@
+// Cell
+const CELL_STATES = [
+    "EMPTY",
+    "VISITED",
+    "BLOCK",
+    "START",
+    "FINISH",
+    "PATH",
+] as const
+
+type CellState = (typeof CELL_STATES)[number]
+
+type CellStateMap = {
+    [State in CellState]: State
+}
+
+export const CELL_STATE_MAP: CellStateMap = {
+    EMPTY: "EMPTY",
+    VISITED: "VISITED",
+    BLOCK: "BLOCK",
+    START: "START",
+    FINISH: "FINISH",
+    PATH: "PATH",
+}
+
+export type CellData = {
+    id: string
+    state: CellState
+    weight: number
+}
+
+// Maze
+export type Maze = CellData[][]
+export type MazeIndex = [number, number]
+
 const MAZE_GENERATION_ALGORITHM_IDS = ["RANDOM", "RECURSIVE_DIVISION"] as const
 
 export type MazeGenerationAlgorithmId =

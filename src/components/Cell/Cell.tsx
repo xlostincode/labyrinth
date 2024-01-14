@@ -1,6 +1,6 @@
 import "./Cell.css"
 import { classNames } from "~/utils/style"
-import { CELL_STATE_MAP, CellData } from "~/visualizer/const"
+import { CELL_STATE_MAP, CellData } from "~/maze/const"
 import { useAppDispatch, useAppSelector } from "~/hooks/redux"
 import {
     setCellState,

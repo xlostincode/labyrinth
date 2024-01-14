@@ -1,4 +1,4 @@
-import { CELL_STATE_MAP, CellData } from "~/visualizer/const"
+import { CELL_STATE_MAP, CellData } from "~/maze/const"
 import { nanoid } from "nanoid"
 import { getRandomIntInclusive } from "~/utils/math"
 import { Logger } from "~/utils/logging"

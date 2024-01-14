@@ -1,4 +1,4 @@
-import { CELL_STATE_MAP, CellData, Maze } from "~/visualizer/const"
+import { CELL_STATE_MAP, Maze } from "~/maze/const"
 
 export const PATH_FINDING_ALGORITHM_IDS = ["BFS", "DFS", "DIJKSTRA"] as const
 

@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest"
 import { getRandomIntInclusive } from "~/utils/math"
 import { isValidCell } from "~/utils/maze"
 import { generateRandomMaze } from "~/maze/random"
-import { CELL_STATE_MAP } from "~/visualizer/const"
+import { CELL_STATE_MAP } from "~/maze/const"
 
 describe.concurrent("Maze related utilities", () => {
     it("Should generate a random maze with given width / height and default start / finish", () => {

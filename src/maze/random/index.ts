@@ -2,7 +2,7 @@ import { nanoid } from "nanoid"
 import type { CellData } from "~/types/visualizer"
 import { getRandomIntInclusive } from "~/utils/math"
 
-export type Options = {
+type Options = {
     blockChance?: number
     defaultStart?: boolean
     defaultFinish?: boolean

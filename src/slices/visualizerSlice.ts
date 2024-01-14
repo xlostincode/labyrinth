@@ -5,7 +5,9 @@ import type {
     CellData,
     Step,
 } from "~/types/visualizer"
-import { generateRandomMaze as _generateRandomMaze } from "~/maze/random"
+import type { MazeGenerationAlgorithmId } from "~/maze/const"
+import { MAZE_GENERATION_ALGORITHM_MAP } from "~/maze/const"
+import { generateRandomMaze, generateRecursiveDivisionMaze } from "~/maze"
 
 interface VisualizerState {
     mazeWidth: number
@@ -13,7 +15,6 @@ interface VisualizerState {
     maze: CellData[][]
     start: [number, number]
     finish: [number, number]
-    blockChance: number
 
     algorithmStatus: AlgorithmStatus
     isReady: boolean
@@ -24,9 +25,20 @@ interface VisualizerState {
     showCellWeights: boolean
     isPickingStart: boolean
     isPickingFinish: boolean
+
+    selectedMazeGenerationAlgorithm: MazeGenerationAlgorithmId
+    // TODO: There may be a better way to represent this
+    mazeGenerationOptions: {
+        // random
+        blockChance: number
+        defaultStart: boolean
+        defaultFinish: boolean
+        // recursiveDivision
+        roomSize: number
+    }
 }
 
-const [randomMaze, start, finish] = _generateRandomMaze(30, 30, {
+const [initialMaze, initialStart, initialFinish] = generateRandomMaze(30, 30, {
     blockChance: 30,
     defaultFinish: false,
     defaultStart: false,
@@ -35,10 +47,9 @@ const [randomMaze, start, finish] = _generateRandomMaze(30, 30, {
 const initialState: VisualizerState = {
     mazeWidth: 30,
     mazeHeight: 30,
-    blockChance: 25,
-    maze: randomMaze,
-    start: start,
-    finish: finish,
+    maze: initialMaze,
+    start: initialStart,
+    finish: initialFinish,
 
     algorithmStatus: "ready",
     isReady: true,
@@ -49,6 +60,14 @@ const initialState: VisualizerState = {
     showCellWeights: false,
     isPickingStart: false,
     isPickingFinish: false,
+
+    selectedMazeGenerationAlgorithm: MAZE_GENERATION_ALGORITHM_MAP.RANDOM.id,
+    mazeGenerationOptions: {
+        blockChance: 25,
+        defaultStart: false,
+        defaultFinish: false,
+        roomSize: 3,
+    },
 }
 
 export const visualizerSlice = createSlice({
@@ -206,26 +225,71 @@ export const visualizerSlice = createSlice({
         ) {
             state.mazeWidth = action.payload
         },
-        setMazeBlockChance(
-            state,
-            action: PayloadAction<VisualizerState["blockChance"]>
-        ) {
-            state.blockChance = action.payload
-        },
-        generateRandomMaze(state) {
-            const [randomMaze, start, finish] = _generateRandomMaze(
-                state.mazeWidth,
-                state.mazeHeight,
-                {
-                    blockChance: state.blockChance,
-                    defaultFinish: false,
-                    defaultStart: false,
-                }
-            )
+        generateMaze(state) {
+            // TODO: Refactor
+            // TODO: Improve and centralize types
+            let maze: CellData[][] | undefined
+            let start: [number, number] | undefined
+            let finish: [number, number] | undefined
 
-            state.maze = randomMaze
+            switch (state.selectedMazeGenerationAlgorithm) {
+                case MAZE_GENERATION_ALGORITHM_MAP.RANDOM.id:
+                    const randomMazeOutput = generateRandomMaze(
+                        state.mazeWidth,
+                        state.mazeHeight,
+                        {
+                            blockChance:
+                                state.mazeGenerationOptions.blockChance,
+                            defaultStart:
+                                state.mazeGenerationOptions.defaultStart,
+                            defaultFinish:
+                                state.mazeGenerationOptions.defaultFinish,
+                        }
+                    )
+
+                    maze = randomMazeOutput[0]
+                    start = randomMazeOutput[1]
+                    finish = randomMazeOutput[2]
+                    break
+                case MAZE_GENERATION_ALGORITHM_MAP.RECURSIVE_DIVISION.id:
+                    const recursiveDivisionMazeOutput =
+                        generateRecursiveDivisionMaze(
+                            state.mazeWidth,
+                            state.mazeHeight,
+                            {
+                                minRoomSize:
+                                    state.mazeGenerationOptions.roomSize,
+                            }
+                        )
+
+                    maze = recursiveDivisionMazeOutput[0]
+                    start = recursiveDivisionMazeOutput[1]
+                    finish = recursiveDivisionMazeOutput[2]
+                    break
+            }
+
+            state.maze = maze
             state.start = start
             state.finish = finish
+        },
+        setSelectedMazeGenerationAlgorithm(
+            state,
+            action: PayloadAction<
+                VisualizerState["selectedMazeGenerationAlgorithm"]
+            >
+        ) {
+            state.selectedMazeGenerationAlgorithm = action.payload
+        },
+        setMazeGenerationOptions(
+            state,
+            action: PayloadAction<
+                Partial<VisualizerState["mazeGenerationOptions"]>
+            >
+        ) {
+            state.mazeGenerationOptions = {
+                ...state.mazeGenerationOptions,
+                ...action.payload,
+            }
         },
     },
 })
@@ -245,8 +309,9 @@ export const {
     increaseOrDecreaseCellWeight,
     setMazeWidth,
     setMazeHeight,
-    setMazeBlockChance,
-    generateRandomMaze,
+    generateMaze,
+    setSelectedMazeGenerationAlgorithm,
+    setMazeGenerationOptions,
 } = visualizerSlice.actions
 
 export default visualizerSlice.reducer

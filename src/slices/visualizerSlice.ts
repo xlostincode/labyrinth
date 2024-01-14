@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import {
+    CELL_STATE_MAP,
     CellData,
     Step,
     VISUALIZER_STATUS_MAP,
@@ -100,7 +101,11 @@ export const visualizerSlice = createSlice({
 
             const cell = state.maze[rowIdx][colIdx]
 
-            if (cell.state === "start" || cell.state === "finish") return
+            if (
+                cell.state === CELL_STATE_MAP.START ||
+                cell.state === CELL_STATE_MAP.FINISH
+            )
+                return
 
             state.maze[rowIdx][colIdx].state = newState
         },
@@ -135,8 +140,9 @@ export const visualizerSlice = createSlice({
 
             const [currentStartRow, currentStartCol] = state.start
 
-            state.maze[currentStartRow][currentStartCol].state = "empty"
-            state.maze[rowIdx][colIdx].state = "start"
+            state.maze[currentStartRow][currentStartCol].state =
+                CELL_STATE_MAP.EMPTY
+            state.maze[rowIdx][colIdx].state = CELL_STATE_MAP.START
             state.maze[rowIdx][colIdx].weight = 0
 
             state.start = [rowIdx, colIdx]
@@ -159,8 +165,9 @@ export const visualizerSlice = createSlice({
 
             const [currentFinishRow, currentFinishCol] = state.finish
 
-            state.maze[currentFinishRow][currentFinishCol].state = "empty"
-            state.maze[rowIdx][colIdx].state = "finish"
+            state.maze[currentFinishRow][currentFinishCol].state =
+                CELL_STATE_MAP.EMPTY
+            state.maze[rowIdx][colIdx].state = CELL_STATE_MAP.FINISH
             state.maze[rowIdx][colIdx].weight = 0
 
             state.finish = [rowIdx, colIdx]
@@ -182,9 +189,12 @@ export const visualizerSlice = createSlice({
         ) {
             const { rowIdx, colIdx, operation } = action.payload
 
-            if (state.maze[rowIdx][colIdx].state === "start") return
-            if (state.maze[rowIdx][colIdx].state === "finish") return
-            if (state.maze[rowIdx][colIdx].state === "block") return
+            if (state.maze[rowIdx][colIdx].state === CELL_STATE_MAP.START)
+                return
+            if (state.maze[rowIdx][colIdx].state === CELL_STATE_MAP.FINISH)
+                return
+            if (state.maze[rowIdx][colIdx].state === CELL_STATE_MAP.BLOCK)
+                return
 
             const currentCellWeight = state.maze[rowIdx][colIdx].weight
 
@@ -204,10 +214,10 @@ export const visualizerSlice = createSlice({
             for (let i = 0; i < state.maze.length; i++) {
                 for (let j = 0; j < state.maze[i].length; j++) {
                     if (
-                        state.maze[i][j].state === "visited" ||
-                        state.maze[i][j].state === "path"
+                        state.maze[i][j].state === CELL_STATE_MAP.VISITED ||
+                        state.maze[i][j].state === CELL_STATE_MAP.PATH
                     ) {
-                        state.maze[i][j].state = "empty"
+                        state.maze[i][j].state = CELL_STATE_MAP.EMPTY
                     }
                 }
             }
@@ -219,13 +229,13 @@ export const visualizerSlice = createSlice({
                 const [row, col] = steps[i]
 
                 if (
-                    state.maze[row][col].state === "start" ||
-                    state.maze[row][col].state === "finish"
+                    state.maze[row][col].state === CELL_STATE_MAP.START ||
+                    state.maze[row][col].state === CELL_STATE_MAP.FINISH
                 ) {
                     return
                 }
 
-                state.maze[row][col].state = "visited"
+                state.maze[row][col].state = CELL_STATE_MAP.VISITED
             }
         },
         setMazeHeight(

@@ -8,11 +8,11 @@ export type MazeGenerationAlgorithm<Id extends MazeGenerationAlgorithmId> = {
     name: string
 }
 
-type MazeGenerationAlgorithmLookup = {
+type MazeGenerationAlgorithmMap = {
     [AlgorithmId in MazeGenerationAlgorithmId]: MazeGenerationAlgorithm<AlgorithmId>
 }
 
-export const MAZE_GENERATION_ALGORITHM_MAP: MazeGenerationAlgorithmLookup = {
+export const MAZE_GENERATION_ALGORITHM_MAP: MazeGenerationAlgorithmMap = {
     RANDOM: {
         id: "RANDOM",
         name: "Random",

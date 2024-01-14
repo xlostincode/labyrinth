@@ -1,6 +1,7 @@
 import { generateVisitedMaze, isValidCell } from "~/utils/maze"
-import type {
+import {
     AlgorithmFn,
+    CELL_STATE_MAP,
     CellData,
     Step,
     StepsToAnimate,
@@ -50,7 +51,7 @@ export const bfs: AlgorithmFn = (
             if (
                 isValidCell(mazeWidth, mazeHeight, nextRow, nextCol) &&
                 !visitedMaze[nextRow][nextCol] &&
-                maze[nextRow][nextCol].state !== "block"
+                maze[nextRow][nextCol].state !== CELL_STATE_MAP.BLOCK
             ) {
                 queue.push([
                     nextRow,

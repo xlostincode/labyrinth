@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid"
-import type { CellData } from "~/visualizer/const"
+import { CELL_STATE_MAP, CellData } from "~/visualizer/const"
 import { getRandomIntInclusive } from "~/utils/math"
 
 type Options = {
@@ -31,14 +31,14 @@ export function generateRandomMaze(
         return new Array(mazeWidth).fill(null).map((e1) => {
             const cell: CellData = {
                 id: nanoid(16),
-                state: "empty",
+                state: CELL_STATE_MAP.EMPTY,
                 weight: getRandomIntInclusive(0, 9),
             }
 
             const shouldBlock = getRandomIntInclusive(1, 100)
 
             if (shouldBlock <= _options.blockChance) {
-                cell.state = "block"
+                cell.state = CELL_STATE_MAP.BLOCK
             }
 
             return cell
@@ -69,9 +69,9 @@ export function generateRandomMaze(
             : getRandomIntInclusive(0, mazeWidth - 1)
     }
 
-    maze[startRowIdx][startColIdx].state = "start"
+    maze[startRowIdx][startColIdx].state = CELL_STATE_MAP.START
     maze[startRowIdx][startColIdx].weight = 0
-    maze[finishRowIdx][finishColIdx].state = "finish"
+    maze[finishRowIdx][finishColIdx].state = CELL_STATE_MAP.FINISH
 
     return [maze, [startRowIdx, startColIdx], [finishRowIdx, finishColIdx]]
 }

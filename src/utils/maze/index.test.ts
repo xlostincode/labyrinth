@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest"
 import { getRandomIntInclusive } from "~/utils/math"
 import { isValidCell } from "~/utils/maze"
 import { generateRandomMaze } from "~/maze/random"
+import { CELL_STATE_MAP } from "~/visualizer/const"
 
 describe.concurrent("Maze related utilities", () => {
     it("Should generate a random maze with given width / height and default start / finish", () => {
@@ -43,7 +44,7 @@ describe.concurrent("Maze related utilities", () => {
         const [maze] = generateRandomMaze(width, height, { blockChance: 0 })
 
         const blockRow = maze.find((row) =>
-            row.some((cell) => cell.state === "block")
+            row.some((cell) => cell.state === CELL_STATE_MAP.BLOCK)
         )
 
         expect(blockRow).toBeUndefined()
@@ -56,7 +57,7 @@ describe.concurrent("Maze related utilities", () => {
         const [maze] = generateRandomMaze(width, height, { blockChance: 100 })
 
         const emptyRow = maze.find((row) =>
-            row.some((cell) => cell.state === "empty")
+            row.some((cell) => cell.state === CELL_STATE_MAP.EMPTY)
         )
 
         expect(emptyRow).toBeUndefined()

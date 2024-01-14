@@ -7,7 +7,7 @@ import {
     setCellState,
 } from "~/slices/visualizerSlice"
 import { PATH_FINDING_ALGORITHM_MAP } from "~/algorithms/const"
-import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
+import { CELL_STATE_MAP, VISUALIZER_STATUS_MAP } from "~/visualizer/const"
 
 export function useAlgorithm() {
     const {
@@ -54,7 +54,7 @@ export function useAlgorithm() {
                 setCellState({
                     rowIdx: row,
                     colIdx: col,
-                    newState: "path",
+                    newState: CELL_STATE_MAP.PATH,
                 })
             )
 

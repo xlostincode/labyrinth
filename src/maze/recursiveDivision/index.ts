@@ -1,4 +1,4 @@
-import { CellData } from "~/visualizer/const"
+import { CELL_STATE_MAP, CellData } from "~/visualizer/const"
 import { nanoid } from "nanoid"
 import { getRandomIntInclusive } from "~/utils/math"
 import { Logger } from "~/utils/logging"
@@ -68,7 +68,7 @@ const recursivelyDivide = (maze: CellData[][], minRoomSize: number) => {
                     index <= mazeBottomRightRow;
                     index++
                 ) {
-                    maze[index][verticalWallCol].state = "block"
+                    maze[index][verticalWallCol].state = CELL_STATE_MAP.BLOCK
                 }
 
                 const nextMazeLeft = [
@@ -98,7 +98,7 @@ const recursivelyDivide = (maze: CellData[][], minRoomSize: number) => {
                     index <= mazeBottomRightCol;
                     index++
                 ) {
-                    maze[horizontalWallRow][index].state = "block"
+                    maze[horizontalWallRow][index].state = CELL_STATE_MAP.BLOCK
                 }
 
                 const nextMazeTop = [
@@ -136,7 +136,7 @@ export function generateRecursiveDivisionMaze(
         return new Array(mazeWidth).fill(null).map(() => {
             const cell: CellData = {
                 id: nanoid(16),
-                state: "empty",
+                state: CELL_STATE_MAP.EMPTY,
                 weight: getRandomIntInclusive(0, 9),
             }
 
@@ -152,9 +152,9 @@ export function generateRecursiveDivisionMaze(
     let finishRowIdx = mazeHeight - 1
     let finishColIdx = mazeWidth - 1
 
-    maze[startRowIdx][startColIdx].state = "start"
+    maze[startRowIdx][startColIdx].state = CELL_STATE_MAP.START
     maze[startRowIdx][startColIdx].weight = 0
-    maze[finishRowIdx][finishColIdx].state = "finish"
+    maze[finishRowIdx][finishColIdx].state = CELL_STATE_MAP.FINISH
 
     return [maze, [startRowIdx, startColIdx], [finishRowIdx, finishColIdx]] as [
         CellData[][],

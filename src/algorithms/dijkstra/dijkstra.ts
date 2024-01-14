@@ -4,8 +4,9 @@ import {
     getPathCost,
     isValidCell,
 } from "~/utils/maze"
-import type {
+import {
     AlgorithmFn,
+    CELL_STATE_MAP,
     CellData,
     PathFromStartToFinish,
     Step,
@@ -62,7 +63,7 @@ export const dijkstra: AlgorithmFn = (
 
             if (
                 isValidCell(mazeWidth, mazeHeight, nextRow, nextCol) &&
-                maze[nextRow][nextCol].state !== "block"
+                maze[nextRow][nextCol].state !== CELL_STATE_MAP.BLOCK
             ) {
                 const distanceToNextNode =
                     distances[currentRow][currentCol] +

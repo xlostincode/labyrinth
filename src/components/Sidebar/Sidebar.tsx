@@ -4,7 +4,7 @@ import { classNames } from "~/utils/style"
 import { setIsSidebarOpen } from "~/slices/uiSlice"
 import {
     performReset,
-    setAlgorithmStatus,
+    setVisualizerStatus,
     setIsPickingFinish,
     setIsPickingStart,
     setShowCellWeights,
@@ -16,6 +16,7 @@ import Switch from "~/components/Switch/Switch"
 import SidebarSection from "./SidebarSection"
 import MazeGenerationSection from "./section/MazeGeneration"
 import SearchAlgorithmSection from "./section/SearchAlgorithm"
+import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
 
 function Sidebar() {
     const dispatch = useAppDispatch()
@@ -32,7 +33,7 @@ function Sidebar() {
 
     const handleReset = () => {
         dispatch(performReset())
-        dispatch(setAlgorithmStatus("ready"))
+        dispatch(setVisualizerStatus(VISUALIZER_STATUS_MAP.READY))
     }
 
     return (

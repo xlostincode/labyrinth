@@ -1,4 +1,17 @@
 export type AlgorithmStatus = "ready" | "running" | "completed"
+const VISUALIZER_STATUSES = ["READY", "RUNNING", "COMPLETED"] as const
+
+export type VisualizerStatus = (typeof VISUALIZER_STATUSES)[number]
+
+type VisualizerStatusMap = {
+    [Status in VisualizerStatus]: Status
+}
+
+export const VISUALIZER_STATUS_MAP: VisualizerStatusMap = {
+    READY: "READY",
+    RUNNING: "RUNNING",
+    COMPLETED: "COMPLETED",
+}
 
 export type CellData = {
     id: string

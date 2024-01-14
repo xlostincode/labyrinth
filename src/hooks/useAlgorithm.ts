@@ -3,10 +3,11 @@ import { delay } from "~/utils/logic"
 import { useAppDispatch, useAppSelector } from "./redux"
 import {
     renderVisitedSteps,
-    setAlgorithmStatus,
+    setVisualizerStatus,
     setCellState,
 } from "~/slices/visualizerSlice"
 import { PATH_FINDING_ALGORITHM_MAP } from "~/algorithms/const"
+import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
 
 export function useAlgorithm() {
     const {
@@ -30,7 +31,7 @@ export function useAlgorithm() {
     }
 
     const runAlgorithm = async () => {
-        dispatch(setAlgorithmStatus("running"))
+        dispatch(setVisualizerStatus(VISUALIZER_STATUS_MAP.RUNNING))
         const algorithmFn = getAlgorithm()
 
         const [stepsToAnimate, pathFromStartToFinish] = algorithmFn(
@@ -61,7 +62,7 @@ export function useAlgorithm() {
             await delay(stepAnimationDelay)
         }
 
-        dispatch(setAlgorithmStatus("completed"))
+        dispatch(setVisualizerStatus(VISUALIZER_STATUS_MAP.COMPLETED))
     }
 
     return runAlgorithm

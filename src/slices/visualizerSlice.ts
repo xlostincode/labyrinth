@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
-import type { AlgorithmStatus, CellData, Step } from "~/visualizer/const"
+import {
+    CellData,
+    Step,
+    VISUALIZER_STATUS_MAP,
+    VisualizerStatus,
+} from "~/visualizer/const"
 import {
     MAZE_GENERATION_ALGORITHM_MAP,
     MazeGenerationAlgorithmId,
@@ -17,7 +22,7 @@ interface VisualizerState {
     start: [number, number]
     finish: [number, number]
 
-    algorithmStatus: AlgorithmStatus
+    visualizerStatus: VisualizerStatus
     isReady: boolean
     isRunning: boolean
     isCompleted: boolean
@@ -52,7 +57,7 @@ const initialState: VisualizerState = {
     start: initialStart,
     finish: initialFinish,
 
-    algorithmStatus: "ready",
+    visualizerStatus: VISUALIZER_STATUS_MAP.READY,
     isReady: true,
     isRunning: false,
     isCompleted: false,
@@ -99,12 +104,16 @@ export const visualizerSlice = createSlice({
 
             state.maze[rowIdx][colIdx].state = newState
         },
-        setAlgorithmStatus(state, action: PayloadAction<AlgorithmStatus>) {
-            state.algorithmStatus = action.payload
+        setVisualizerStatus(
+            state,
+            action: PayloadAction<VisualizerState["visualizerStatus"]>
+        ) {
+            state.visualizerStatus = action.payload
 
-            state.isReady = action.payload === "ready"
-            state.isRunning = action.payload === "running"
-            state.isCompleted = action.payload === "completed"
+            state.isReady = action.payload === VISUALIZER_STATUS_MAP.READY
+            state.isRunning = action.payload === VISUALIZER_STATUS_MAP.RUNNING
+            state.isCompleted =
+                action.payload === VISUALIZER_STATUS_MAP.COMPLETED
         },
         setStepAnimationDelay(state, action: PayloadAction<number>) {
             state.stepAnimationDelay = action.payload
@@ -303,7 +312,7 @@ export const visualizerSlice = createSlice({
 export const {
     setCellState,
     setSelectedPathFindingAlgorithm,
-    setAlgorithmStatus,
+    setVisualizerStatus,
     setStepAnimationDelay,
     setIsPickingStart,
     setStart,

@@ -36,8 +36,10 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
         (event: React.MouseEvent) => {
             if (isRunning) return
             if (event.buttons === 0) return
+            if (event.shiftKey) return
 
             if (event.buttons === 1) {
+                // Left-click
                 dispatch(
                     setCellState({
                         rowIdx,
@@ -46,6 +48,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
                     })
                 )
             } else if (event.buttons === 2) {
+                // Right-click
                 dispatch(
                     setCellState({
                         rowIdx,
@@ -58,6 +61,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
         [isRunning]
     )
 
+    // TODO: Figure out a way to handle this while keeping the zoom
     const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
         if (event.deltaY < 0) {
             // Scrolling Up

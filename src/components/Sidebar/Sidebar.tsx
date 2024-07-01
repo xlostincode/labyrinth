@@ -17,6 +17,31 @@ import SidebarSection from "./SidebarSection"
 import MazeGenerationSection from "./section/MazeGeneration"
 import SearchAlgorithmSection from "./section/SearchAlgorithm"
 import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
+import usePanPinchZoom from "~/context/PanPinchZoom/usePanPinchZoom"
+import { Popover, Transition } from "@headlessui/react"
+
+const ControlsInformation = () => {
+    return (
+        <div className="flex flex-col p-2 text-xs gap-2 text-zinc-400">
+            <p>
+                <span className="text-zinc-50">Left-click</span> to place a
+                block
+            </p>
+            <p>
+                <span className="text-zinc-50">Right-click</span> to erase a
+                block
+            </p>
+            <p>
+                <span className="text-zinc-50">Shift + Drag</span> to pan around
+                the maze.
+            </p>
+            <p>
+                <span className="text-zinc-50">Mouse wheel</span> to zoom in/out
+                of the maze.
+            </p>
+        </div>
+    )
+}
 
 function Sidebar() {
     const dispatch = useAppDispatch()
@@ -30,6 +55,7 @@ function Sidebar() {
     } = useAppSelector((state) => state.visualizer)
 
     const runAlgorithm = useAlgorithm()
+    const { panPinchZoom } = usePanPinchZoom()
 
     const handleReset = () => {
         dispatch(performReset())
@@ -71,7 +97,7 @@ function Sidebar() {
                         onClick={() =>
                             dispatch(setIsSidebarOpen(!isSidebarOpen))
                         }
-                        className="h-8 w-8 text-violet-500 cursor-pointer"
+                        className="h-8 w-8 text-zinc-500 cursor-pointer mt-2"
                     />
                 )}
 
@@ -140,11 +166,59 @@ function Sidebar() {
                                 }
                             />
                         </SidebarSection>
+
+                        <SidebarSection title="Controls">
+                            <ControlsInformation />
+                            <Button
+                                onClick={() => panPinchZoom?.centerView(1)}
+                                secondary
+                            >
+                                Center Maze
+                            </Button>
+                        </SidebarSection>
                     </div>
                 )}
             </div>
 
-            <div className="w-full flex-none py-4 px-2 flex flex-col gap-2">
+            <div className="w-full flex-none py-4 px-2 flex flex-col items-center gap-2">
+                {!isSidebarOpen && (
+                    <Popover className="relative h-8 w-8 mb-2">
+                        <Popover.Button>
+                            <Icon
+                                name="IconBulb"
+                                className="h-8 w-8 text-zinc-500 cursor-pointer"
+                            />
+                        </Popover.Button>
+
+                        <Transition
+                            enter="transition duration-100 ease-out"
+                            enterFrom="transform scale-95 opacity-0"
+                            enterTo="transform scale-100 opacity-100"
+                            leave="transition duration-75 ease-out"
+                            leaveFrom="transform scale-100 opacity-100"
+                            leaveTo="transform scale-95 opacity-0"
+                        >
+                            <Popover.Panel
+                                className={`
+                            fixed z-10 w-52 bottom-1
+                            ${isSidebarOpen ? "left-72" : "left-16"}
+                            bg-zinc-900 border-2 border-zinc-700
+                            rounded-md`}
+                            >
+                                <ControlsInformation />
+                            </Popover.Panel>
+                        </Transition>
+                    </Popover>
+                )}
+
+                {!isSidebarOpen && (
+                    <Icon
+                        name="IconFocusCentered"
+                        onClick={() => panPinchZoom?.centerView(1)}
+                        className="h-8 w-8 text-zinc-500 cursor-pointer mb-4"
+                    />
+                )}
+
                 <Button
                     onClick={runAlgorithm}
                     disabled={isRunning || isCompleted}

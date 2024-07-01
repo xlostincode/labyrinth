@@ -21,8 +21,12 @@ import Icon from "~/components/Icon/Icon"
 
 function MazeGeneration() {
     const dispatch = useAppDispatch()
-    const { selectedMazeGenerationAlgorithm, mazeGenerationOptions } =
-        useAppSelector((state) => state.visualizer)
+    const {
+        mazeWidth,
+        mazeHeight,
+        selectedMazeGenerationAlgorithm,
+        mazeGenerationOptions,
+    } = useAppSelector((state) => state.visualizer)
 
     return (
         <SidebarSection title="Maze Generation">
@@ -66,7 +70,7 @@ function MazeGeneration() {
             <Range
                 minimum={5}
                 maximum={100}
-                initialValue={30}
+                initialValue={mazeWidth}
                 label="Width"
                 debounce={500}
                 onChange={(value) => dispatch(setMazeWidth(value))}
@@ -74,7 +78,7 @@ function MazeGeneration() {
             <Range
                 minimum={5}
                 maximum={100}
-                initialValue={30}
+                initialValue={mazeHeight}
                 label="Height"
                 debounce={500}
                 onChange={(value) => dispatch(setMazeHeight(value))}

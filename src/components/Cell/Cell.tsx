@@ -61,7 +61,6 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
         [isRunning]
     )
 
-    // TODO: Figure out a way to handle this while keeping the zoom
     const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
         if (event.deltaY < 0) {
             // Scrolling Up

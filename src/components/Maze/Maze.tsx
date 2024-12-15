@@ -40,6 +40,9 @@ function Maze() {
                 panning={{
                     activationKeys: ["Shift"],
                 }}
+                wheel={{
+                    activationKeys: ["Shift"],
+                }}
                 centerOnInit
             >
                 <TransformComponent wrapperClass="!w-full !h-screen">

@@ -16,7 +16,6 @@ type CellProps = {
     colIdx: number
 }
 
-// TODO: Check if the rowIdx, colIdx and cell need to be added to the useCallback dependancies
 function Cell({ cell, rowIdx, colIdx }: CellProps) {
     const { isRunning, showCellWeights, isPickingStart, isPickingFinish } =
         useAppSelector((state) => state.visualizer)
@@ -29,7 +28,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
             if (isPickingFinish) dispatch(setFinish({ rowIdx, colIdx }))
             event.preventDefault()
         },
-        [isRunning, isPickingStart, isPickingFinish]
+        [isRunning, isPickingStart, isPickingFinish, rowIdx, colIdx]
     )
 
     const handleDrawing = React.useCallback(
@@ -58,7 +57,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
                 )
             }
         },
-        [isRunning]
+        [isRunning, rowIdx, colIdx]
     )
 
     const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {

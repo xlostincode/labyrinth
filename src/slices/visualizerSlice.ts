@@ -254,7 +254,6 @@ export const visualizerSlice = createSlice({
         },
         generateMaze(state) {
             // TODO: Refactor
-            // TODO: Improve and centralize types
             let maze: Maze | undefined
             let start: MazeIndex | undefined
             let finish: MazeIndex | undefined

@@ -2,12 +2,21 @@ import { useAppDispatch, useAppSelector } from "~/hooks/redux"
 import { classNames } from "~/utils/style"
 import Button from "~/components/Button/Button"
 import { setIsLearnSidebarOpen } from "~/slices/uiSlice"
+import Markdown from "react-markdown"
+import remarkGfm from "remark-gfm"
+import { PATH_FINDING_ALGORITHM_MAP } from "~/algorithms/const"
+import useLearnAlgorithmContent from "~/hooks/useLearnAlgorithmContent"
 
 function Learn() {
     const dispatch = useAppDispatch()
     const isLearnSidebarOpen = useAppSelector(
         (state) => state.ui.isLearnSidebarOpen
     )
+    const selectedPathFindingAlgorithm = useAppSelector(
+        (state) => state.visualizer.selectedPathFindingAlgorithm
+    )
+
+    const { content } = useLearnAlgorithmContent(selectedPathFindingAlgorithm)
 
     return (
         <aside
@@ -37,8 +46,17 @@ function Learn() {
                     }}
                     secondary
                 />
-                <h2 className="w-full flex-1">Placeholder Heading</h2>
+                <h2 className="w-full flex-1">
+                    {`Learn ${PATH_FINDING_ALGORITHM_MAP[selectedPathFindingAlgorithm].name}`}
+                </h2>
             </div>
+
+            <Markdown
+                remarkPlugins={[remarkGfm]}
+                className="prose prose-invert p-4 font-poppins overflow-y-auto custom-scrollbar"
+            >
+                {content}
+            </Markdown>
         </aside>
     )
 }

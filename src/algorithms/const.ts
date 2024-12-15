@@ -8,6 +8,7 @@ export type PathFindingAlgorithmId = (typeof PATH_FINDING_ALGORITHM_IDS)[number]
 export type PathFindingAlgorithm<Id extends PathFindingAlgorithmId> = {
     id: Id
     name: string
+    learnContentUrl: string
 }
 
 type PathFindingAlgorithmMap = {
@@ -24,14 +25,17 @@ export const PATH_FINDING_ALGORITHM_MAP: PathFindingAlgorithmMap = {
     BFS: {
         id: "BFS",
         name: "Breadth-First Search",
+        learnContentUrl: "./content/markdown/learn_bfs.md",
     },
     DFS: {
         id: "DFS",
         name: "Depth-First Search",
+        learnContentUrl: "./content/markdown/learn_dfs.md",
     },
     DIJKSTRA: {
         id: "DIJKSTRA",
         name: "Dijkstra's Algorithm",
+        learnContentUrl: "./content/markdown/learn_dijkstra.md",
     },
 }
 

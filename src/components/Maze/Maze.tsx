@@ -1,5 +1,4 @@
 import { useAppSelector } from "~/hooks/redux"
-import { classNames } from "~/utils/style"
 import { createRowId } from "~/utils/maze"
 import Cell from "~/components/Cell/Cell"
 import {
@@ -12,7 +11,6 @@ import usePanPinchZoom from "~/context/PanPinchZoom/usePanPinchZoom"
 
 function Maze() {
     const { maze } = useAppSelector((state) => state.visualizer)
-    const { isSidebarOpen } = useAppSelector((state) => state.ui)
 
     // START - To make `react-zoom-pan-pinch` available across components
     const panPinchZoomRef = React.useRef<ReactZoomPanPinchContentRef | null>(
@@ -28,12 +26,7 @@ function Maze() {
     // END
 
     return (
-        <section
-            className={classNames(
-                "duration-300 w-full max-h-screen overflow-hidden bg-zinc-950",
-                isSidebarOpen ? "pl-72" : "pl-16"
-            )}
-        >
+        <section className="flex-1 duration-300 w-full max-h-screen overflow-hidden bg-zinc-950">
             <TransformWrapper
                 ref={panPinchZoomRef}
                 limitToBounds={false}

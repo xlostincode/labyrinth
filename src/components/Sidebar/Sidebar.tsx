@@ -36,8 +36,8 @@ const ControlsInformation = () => {
                 the maze.
             </p>
             <p>
-                <span className="text-zinc-50">Mouse wheel</span> to zoom in/out
-                of the maze.
+                <span className="text-zinc-50">Shift + Mouse wheel</span> to
+                zoom in/out of the maze.
             </p>
         </div>
     )
@@ -65,7 +65,7 @@ function Sidebar() {
     return (
         <aside
             className={classNames(
-                "fixed duration-300 min-h-screen max-h-screen bg-zinc-900 flex flex-col",
+                "duration-300 min-h-screen max-h-screen bg-zinc-900 flex flex-col",
                 isSidebarOpen ? "w-72" : "w-16"
             )}
         >

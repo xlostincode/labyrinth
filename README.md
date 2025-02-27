@@ -1,5 +1,7 @@
 # Labyrinth - algorithm visualiser
 
+![labyrinth_banner](https://github.com/user-attachments/assets/9c7a4b07-9233-4cf6-a894-e336f8174adc)
+
 Labyrinth is a project that lets you visualise graph search algorithms and learn about them in a fun and visual way.
 
 Currently it supports these algorithms:

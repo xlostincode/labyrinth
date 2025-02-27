@@ -10,12 +10,14 @@
         "prettier": "prettier ./src --write",
         "test:unit": "vitest run",
         "test:typecheck": "tsc",
-        "playground": "ts-node-esm ./playground.ts"
+        "playground": "ts-node-esm ./playground.ts",
+        "deploy-gh-pages": "gh-pages -d dist"
     },
     "dependencies": {
         "@headlessui/react": "^1.7.17",
         "@reduxjs/toolkit": "^1.9.5",
         "@tabler/icons-react": "^2.17.0",
+        "gh-pages": "^6.3.0",
         "nanoid": "^4.0.2",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",

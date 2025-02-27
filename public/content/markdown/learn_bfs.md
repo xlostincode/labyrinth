@@ -17,14 +17,24 @@ Eventually, one of two things will happen:
 1. 🎉 You find the house—yay, mission accomplished!
 2. ❌ You’ve explored every road and junction, and there’s nowhere left to go. In that case, you know either the address is wrong or it’s impossible to reach the house from the post office.
 
+---
+
+### Try it yourself!
+
+![video](/content/video/bfs.mp4)
+
+Notice how it spreads evenly—this happens because BFS explores all neighbors of a node before moving to the next level.
+
+#### Fun experiment
+
+See flood-fill in action! Set Block Chance to 0% to generate an open maze, draw a closed shape, place the starting point inside, and hit play — you just witnessed a scrappy version of the paint bucket tool!
+
+![video](/content/video/flood-fill.mp4)
+
 ### Fun facts
 
 -   The name Breadth-first Search comes from the fact that the algorithm explores the connected nodes at the same level before moving to the next level. This is the behaviour that gives it the "flooding" effect.
 -   One of the most common applications of the BFS is implementing the flood-fill algorithm in drawing softwares. Ever used the paint bucket tool in Paint or Photoshop? It uses some version of BFS under the hood!
-
-See flood-fill in action! Set Block Chance to 0% to generate an open maze, draw a closed shape, place the starting point inside, and hit play — and you get a very slow version of paint bucket tool.
-
-![video](/content/video/flood-fill.mp4)
 
 ### Let’s talk about code:
 

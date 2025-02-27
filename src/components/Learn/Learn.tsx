@@ -2,10 +2,9 @@ import { useAppDispatch, useAppSelector } from "~/hooks/redux"
 import { classNames } from "~/utils/style"
 import Button from "~/components/Button/Button"
 import { setIsLearnSidebarOpen } from "~/slices/uiSlice"
-import Markdown from "react-markdown"
-import remarkGfm from "remark-gfm"
 import { PATH_FINDING_ALGORITHM_MAP } from "~/algorithms/const"
 import useLearnAlgorithmContent from "~/hooks/useLearnAlgorithmContent"
+import Markdown from "~/components/Markdown/Markdown"
 
 function Learn() {
     const dispatch = useAppDispatch()
@@ -51,12 +50,7 @@ function Learn() {
                 </h2>
             </div>
 
-            <Markdown
-                remarkPlugins={[remarkGfm]}
-                className="prose prose-invert p-4 font-poppins overflow-y-auto custom-scrollbar"
-            >
-                {content}
-            </Markdown>
+            {content && <Markdown content={content} />}
         </aside>
     )
 }

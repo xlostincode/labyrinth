@@ -7,7 +7,7 @@ interface UIState {
 
 const initialState: UIState = {
     isSidebarOpen: false,
-    isLearnSidebarOpen: false,
+    isLearnSidebarOpen: true,
 }
 
 export const uiSlice = createSlice({

@@ -73,7 +73,7 @@ function Sidebar() {
         >
             <div className="w-full h-16 flex-none overflow-y-auto flex flex-col items-center justify-center overflow-hidden bg-zinc-800/50">
                 {isSidebarOpen && (
-                    <div className="p-4 w-full flex items-center overflow-hidden sidebar-fade-in">
+                    <div className="p-4 gap-4 w-full flex items-center overflow-hidden sidebar-fade-in">
                         <Icon
                             name="IconLayoutSidebarLeftCollapse"
                             onClick={() =>
@@ -81,14 +81,19 @@ function Sidebar() {
                             }
                             className="h-8 w-8 text-violet-500 cursor-pointer"
                         />
-                        <h1 className="font-semibold grow text-center">
-                            Path Finding Visualizer
-                        </h1>
+                        <div>
+                            <h1 className="font-semibold grow">Labyrinth</h1>
+                            <p className="text-xs text-zinc-500">
+                                An algorithm visualizer
+                            </p>
+                        </div>
                     </div>
                 )}
-                {/* TODO: Replace with icon */}
                 {!isSidebarOpen && (
-                    <div className="h-10 w-10 font-semibold text-center bg-zinc-500 rounded-md"></div>
+                    <img
+                        src="/logo.png"
+                        className="h-10 w-10 font-semibold text-center bg-zinc-500"
+                    ></img>
                 )}
             </div>
 
@@ -206,6 +211,10 @@ function Sidebar() {
                                 }
                             />
                         </SidebarSection>
+
+                        <p className="text-xs text-zinc-500 text-right">
+                            Made with ❤️ by Vihar
+                        </p>
                     </div>
                 )}
             </div>

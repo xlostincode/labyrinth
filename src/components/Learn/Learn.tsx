@@ -5,6 +5,7 @@ import { setIsLearnSidebarOpen } from "~/slices/uiSlice"
 import { PATH_FINDING_ALGORITHM_MAP } from "~/algorithms/const"
 import useLearnAlgorithmContent from "~/hooks/useLearnAlgorithmContent"
 import Markdown from "~/components/Markdown/Markdown"
+import usePanPinchZoom from "~/context/PanPinchZoom/usePanPinchZoom"
 
 function Learn() {
     const dispatch = useAppDispatch()
@@ -16,6 +17,8 @@ function Learn() {
     )
 
     const { content } = useLearnAlgorithmContent(selectedPathFindingAlgorithm)
+
+    const { panPinchZoom } = usePanPinchZoom()
 
     return (
         <aside
@@ -30,6 +33,7 @@ function Learn() {
                     icon="IconSparkles"
                     onClick={() => {
                         dispatch(setIsLearnSidebarOpen(true))
+                        setTimeout(() => panPinchZoom?.centerView(1), 400)
                     }}
                 >
                     Learn
@@ -42,6 +46,7 @@ function Learn() {
                     icon="IconLayoutSidebarRightCollapse"
                     onClick={() => {
                         dispatch(setIsLearnSidebarOpen(false))
+                        setTimeout(() => panPinchZoom?.centerView(1), 400)
                     }}
                     secondary
                 />

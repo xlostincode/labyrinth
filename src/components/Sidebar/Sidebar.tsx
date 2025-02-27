@@ -20,6 +20,7 @@ import SearchAlgorithmSection from "./section/SearchAlgorithm"
 import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
 import usePanPinchZoom from "~/context/PanPinchZoom/usePanPinchZoom"
 import { Popover, Transition } from "@headlessui/react"
+import * as React from "react"
 
 const ControlsInformation = () => {
     return (
@@ -63,6 +64,16 @@ function Sidebar() {
         dispatch(performReset())
         dispatch(setVisualizerStatus(VISUALIZER_STATUS_MAP.READY))
     }
+
+    React.useEffect(function showControlsInformation() {
+        // Hack to make Headlessui.Popover open by default
+        setTimeout(() => {
+            const button = document.querySelector("#controlsInfo")
+            if (button && button instanceof HTMLButtonElement) {
+                button.click()
+            }
+        }, 500)
+    }, [])
 
     return (
         <aside
@@ -222,31 +233,40 @@ function Sidebar() {
             <div className="w-full flex-none py-4 px-2 flex flex-col items-center gap-2">
                 {!isSidebarOpen && (
                     <Popover className="relative h-8 w-8 mb-2">
-                        <Popover.Button>
-                            <Icon
-                                name="IconBulb"
-                                className="h-8 w-8 text-zinc-500 cursor-pointer"
-                            />
-                        </Popover.Button>
+                        {({ open }) => (
+                            <>
+                                <Popover.Button id="controlsInfo">
+                                    <Icon
+                                        name="IconBulb"
+                                        className={classNames(
+                                            "h-8 w-8 cursor-pointer",
+                                            open
+                                                ? "text-yellow-500"
+                                                : "text-zinc-500"
+                                        )}
+                                    />
+                                </Popover.Button>
 
-                        <Transition
-                            enter="transition duration-100 ease-out"
-                            enterFrom="transform scale-95 opacity-0"
-                            enterTo="transform scale-100 opacity-100"
-                            leave="transition duration-75 ease-out"
-                            leaveFrom="transform scale-100 opacity-100"
-                            leaveTo="transform scale-95 opacity-0"
-                        >
-                            <Popover.Panel
-                                className={`
+                                <Transition
+                                    enter="transition duration-100 ease-out"
+                                    enterFrom="transform scale-95 opacity-0"
+                                    enterTo="transform scale-100 opacity-100"
+                                    leave="transition duration-75 ease-out"
+                                    leaveFrom="transform scale-100 opacity-100"
+                                    leaveTo="transform scale-95 opacity-0"
+                                >
+                                    <Popover.Panel
+                                        className={`
                             fixed z-10 w-52 bottom-1
                             ${isSidebarOpen ? "left-72" : "left-16"}
                             bg-zinc-900 border-2 border-zinc-700
                             rounded-md`}
-                            >
-                                <ControlsInformation />
-                            </Popover.Panel>
-                        </Transition>
+                                    >
+                                        <ControlsInformation />
+                                    </Popover.Panel>
+                                </Transition>
+                            </>
+                        )}
                     </Popover>
                 )}
 

@@ -14,4 +14,8 @@
     .custom-scrollbar::-webkit-scrollbar-thumb {
         @apply bg-violet-500 rounded-md;
     }
+
+    button {
+        @apply focus:outline-none
+    }
 }

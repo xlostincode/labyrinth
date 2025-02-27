@@ -1,4 +1,4 @@
-## Breadth-First Search (BFS) Algorithm
+### Breadth-First Search (BFS) Algorithm
 
 **Breadth-first search**—or just **BFS**—is one of the simplest and most intuitive ways to explore a graph. Seriously, if someone asked you to find the shortest path between two points, you'd probably invent BFS without even realizing it!
 

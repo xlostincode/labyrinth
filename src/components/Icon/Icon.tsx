@@ -5,6 +5,7 @@ type IconProps = TablerIconsProps & {
     name: Exclude<keyof typeof TablerIconsList, "createReactComponent">
 }
 
+// TODO: Optimize for bundle size
 function Icon({ name, ...rest }: IconProps) {
     const TablerIcon = TablerIconsList[name]
 

@@ -32,6 +32,7 @@ interface VisualizerState {
     stepAnimationDelay: number
     selectedPathFindingAlgorithm: PathFindingAlgorithmId
     showCellWeights: boolean
+    showRawCellWeights: boolean
     isPickingStart: boolean
     isPickingFinish: boolean
 
@@ -67,6 +68,7 @@ const initialState: VisualizerState = {
     stepAnimationDelay: 0,
     selectedPathFindingAlgorithm: PATH_FINDING_ALGORITHM_MAP.BFS.id,
     showCellWeights: false,
+    showRawCellWeights: false,
     isPickingStart: false,
     isPickingFinish: false,
 
@@ -181,6 +183,12 @@ export const visualizerSlice = createSlice({
         ) {
             state.showCellWeights = action.payload
         },
+        setShowRawCellWeights(
+            state,
+            action: PayloadAction<VisualizerState["showRawCellWeights"]>
+        ) {
+            state.showRawCellWeights = action.payload
+        },
         increaseOrDecreaseCellWeight(
             state,
             action: PayloadAction<{
@@ -254,7 +262,6 @@ export const visualizerSlice = createSlice({
         },
         generateMaze(state) {
             // TODO: Refactor
-            // TODO: Improve and centralize types
             let maze: Maze | undefined
             let start: MazeIndex | undefined
             let finish: MazeIndex | undefined
@@ -331,6 +338,7 @@ export const {
     setIsPickingFinish,
     setFinish,
     setShowCellWeights,
+    setShowRawCellWeights,
     performReset,
     renderVisitedSteps,
     increaseOrDecreaseCellWeight,

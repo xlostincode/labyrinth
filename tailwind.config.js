@@ -11,18 +11,6 @@ export default {
     },
   },
   plugins: [
-    plugin(function ({ addUtilities }) {
-      addUtilities({
-        ".content-auto": {
-          "content-visibility": "sdsgdfhdfgdf",
-        },
-        ".content-hidden": {
-          "content-visibility": "hidden",
-        },
-        ".content-visible": {
-          "content-visibility": "visible",
-        },
-      })
-    }),
+    require("@tailwindcss/typography")
   ],
 }

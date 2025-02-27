@@ -16,10 +16,14 @@ type CellProps = {
     colIdx: number
 }
 
-// TODO: Check if the rowIdx, colIdx and cell need to be added to the useCallback dependancies
 function Cell({ cell, rowIdx, colIdx }: CellProps) {
-    const { isRunning, showCellWeights, isPickingStart, isPickingFinish } =
-        useAppSelector((state) => state.visualizer)
+    const {
+        isRunning,
+        showCellWeights,
+        showRawCellWeights,
+        isPickingStart,
+        isPickingFinish,
+    } = useAppSelector((state) => state.visualizer)
     const dispatch = useAppDispatch()
 
     const handleRightClick = React.useCallback(
@@ -29,15 +33,17 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
             if (isPickingFinish) dispatch(setFinish({ rowIdx, colIdx }))
             event.preventDefault()
         },
-        [isRunning, isPickingStart, isPickingFinish]
+        [isRunning, isPickingStart, isPickingFinish, rowIdx, colIdx]
     )
 
     const handleDrawing = React.useCallback(
         (event: React.MouseEvent) => {
             if (isRunning) return
             if (event.buttons === 0) return
+            if (event.shiftKey) return
 
             if (event.buttons === 1) {
+                // Left-click
                 dispatch(
                     setCellState({
                         rowIdx,
@@ -46,6 +52,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
                     })
                 )
             } else if (event.buttons === 2) {
+                // Right-click
                 dispatch(
                     setCellState({
                         rowIdx,
@@ -55,7 +62,7 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
                 )
             }
         },
-        [isRunning]
+        [isRunning, rowIdx, colIdx]
     )
 
     const handleWheel = (event: React.WheelEvent<HTMLDivElement>) => {
@@ -80,19 +87,18 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
         }
     }
 
-    const shouldShowWeight = () => {
+    const canShowWeight = () => {
         return (
-            showCellWeights &&
-            (cell.state === CELL_STATE_MAP.EMPTY ||
-                cell.state === CELL_STATE_MAP.VISITED ||
-                cell.state === CELL_STATE_MAP.PATH)
+            cell.state === CELL_STATE_MAP.EMPTY ||
+            cell.state === CELL_STATE_MAP.VISITED ||
+            cell.state === CELL_STATE_MAP.PATH
         )
     }
 
     return (
         <div
             className={classNames(
-                "flex items-center justify-center h-6 w-6 transition-all",
+                "relative group flex items-center justify-center h-6 w-6 transition-all",
                 cell.state === CELL_STATE_MAP.BLOCK && "bg-zinc-600",
                 cell.state === CELL_STATE_MAP.VISITED && "bg-orange-500",
                 cell.state === CELL_STATE_MAP.FINISH && "bg-green-500",
@@ -108,7 +114,19 @@ function Cell({ cell, rowIdx, colIdx }: CellProps) {
             onWheel={handleWheel}
             draggable={false}
         >
-            {shouldShowWeight() && cell.weight}
+            {canShowWeight() && showCellWeights && (
+                <span
+                    className="absolute bg-zinc-800 h-6 w-6 rounded-full"
+                    style={{
+                        transform: `scale(${cell.weight / 9})`,
+                    }}
+                ></span>
+            )}
+            {canShowWeight() && showRawCellWeights && (
+                <span className="absolute text-sm text-zinc-400 group-hover:text-black">
+                    {cell.weight}
+                </span>
+            )}
         </div>
     )
 }

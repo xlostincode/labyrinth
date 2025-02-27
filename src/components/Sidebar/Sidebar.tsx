@@ -102,7 +102,7 @@ function Sidebar() {
                 )}
                 {!isSidebarOpen && (
                     <img
-                        src="/logo.png"
+                        src="logo.png"
                         className="h-10 w-10 font-semibold text-center bg-zinc-500"
                     ></img>
                 )}

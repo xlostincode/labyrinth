@@ -1,0 +1,28 @@
+# Labyrinth - algorithm visualiser
+
+Labyrinth is a project that lets you visualise graph search algorithms and learn about them in a fun and visual way.
+
+Currently it supports these algorithms:
+
+-   Breadth-first search
+-   Depth-first search
+-   Dijkstra's algorithm
+
+Planned improvements:
+
+-   More algorithms!
+    -   A\* search
+    -   Bidirectional swarm
+    -   Convergent swarm
+-   Better maze generation
+-   Mobile support
+
+## Setup
+
+This project is built with Vite. To run it yourself, follow the below steps.
+
+```sh
+npm install
+
+npm run dev
+```

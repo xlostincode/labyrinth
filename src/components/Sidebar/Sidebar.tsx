@@ -8,6 +8,7 @@ import {
     setIsPickingFinish,
     setIsPickingStart,
     setShowCellWeights,
+    setShowRawCellWeights,
 } from "~/slices/visualizerSlice"
 import { useAlgorithm } from "~/hooks/useAlgorithm"
 import Button from "~/components/Button/Button"
@@ -48,6 +49,7 @@ function Sidebar() {
     const { isSidebarOpen } = useAppSelector((state) => state.ui)
     const {
         showCellWeights,
+        showRawCellWeights,
         isRunning,
         isCompleted,
         isPickingStart,
@@ -157,16 +159,6 @@ function Sidebar() {
 
                         <MazeGenerationSection />
 
-                        <SidebarSection title="Maze Settings">
-                            <Switch
-                                label="Show cell weights"
-                                checked={showCellWeights}
-                                onChange={(show) =>
-                                    dispatch(setShowCellWeights(show))
-                                }
-                            />
-                        </SidebarSection>
-
                         <SidebarSection title="Controls">
                             <ControlsInformation />
                             <Button
@@ -175,6 +167,44 @@ function Sidebar() {
                             >
                                 Center Maze
                             </Button>
+                        </SidebarSection>
+
+                        <SidebarSection title="Maze Settings">
+                            <div className="flex flex-col py-2 text-xs gap-2 text-zinc-400">
+                                <p className="text-zinc-400">
+                                    Cell weights are hidden by default. For
+                                    algorithms that work with weighted graphs,
+                                    like Dijkstras, you can enable them from
+                                    this panel.
+                                </p>
+                                <p>
+                                    <span className="text-zinc-50">
+                                        Mouse-wheel up
+                                    </span>{" "}
+                                    over a cell to increase it's weight
+                                </p>
+                                <p>
+                                    <span className="text-zinc-50">
+                                        Mouse-wheel down
+                                    </span>{" "}
+                                    over a cell to decrease it's weight
+                                </p>
+                            </div>
+
+                            <Switch
+                                label="Visual cell weights"
+                                checked={showCellWeights}
+                                onChange={(show) =>
+                                    dispatch(setShowCellWeights(show))
+                                }
+                            />
+                            <Switch
+                                label="Raw cell weights"
+                                checked={showRawCellWeights}
+                                onChange={(show) =>
+                                    dispatch(setShowRawCellWeights(show))
+                                }
+                            />
                         </SidebarSection>
                     </div>
                 )}

@@ -14,8 +14,8 @@ But wait! Cities can be tricky, full of looping roads. How do you avoid going in
 
 Eventually, one of two things will happen:
 
-1. You find the house—yay, mission accomplished!
-2. You’ve explored every road and junction, and there’s nowhere left to go. In that case, you know either the address is wrong or it’s impossible to reach the house from the post office.
+1. 🎉 You find the house—yay, mission accomplished!
+2. ❌ You’ve explored every road and junction, and there’s nowhere left to go. In that case, you know either the address is wrong or it’s impossible to reach the house from the post office.
 
 ### Fun facts
 

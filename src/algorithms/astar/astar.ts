@@ -4,7 +4,12 @@ import PriorityQueue from "~/ds/PriorityQueue/PriorityQueue"
 import { OFFSETS_SIMPLE, PathFindingAlgorithmFn } from "~/algorithms/const"
 import { CELL_STATE_MAP } from "~/maze/const"
 
-export const dijkstra: PathFindingAlgorithmFn = (maze, start, finish) => {
+// Manhattan distance heuristic
+const heuristic = (node: [number, number], goal: [number, number]) => {
+    return Math.abs(node[0] - goal[0]) + Math.abs(node[1] - goal[1])
+}
+
+export const astar: PathFindingAlgorithmFn = (maze, start, finish) => {
     const mazeWidth = maze[0].length
     const mazeHeight = maze.length
 
@@ -18,21 +23,18 @@ export const dijkstra: PathFindingAlgorithmFn = (maze, start, finish) => {
     distances[start[0]][start[1]] = 0
 
     const queue = new PriorityQueue<[number, number]>()
-
-    queue.enqueue([start[0], start[1]], 0)
+    queue.enqueue([start[0], start[1]], heuristic(start, finish))
 
     const stepsToAnimate: StepsToAnimate = []
 
     while (queue.size() > 0) {
         const currentNode = queue.dequeue()
-
         if (currentNode === null) {
             break
         }
 
         const [currentRow, currentCol] = currentNode.value
 
-        // Path from start to finish found
         if (currentRow === finish[0] && currentCol === finish[1]) {
             break
         }
@@ -47,28 +49,25 @@ export const dijkstra: PathFindingAlgorithmFn = (maze, start, finish) => {
                 isValidCell(mazeWidth, mazeHeight, nextRow, nextCol) &&
                 maze[nextRow][nextCol].state !== CELL_STATE_MAP.BLOCK
             ) {
-                const distanceToNextNode =
+                const gCost =
                     distances[currentRow][currentCol] +
                     maze[nextRow][nextCol].weight
+                const hCost = heuristic([nextRow, nextCol], finish)
+                const fCost = gCost + hCost
 
-                if (distanceToNextNode < distances[nextRow][nextCol]) {
-                    distances[nextRow][nextCol] = distanceToNextNode
+                if (gCost < distances[nextRow][nextCol]) {
+                    distances[nextRow][nextCol] = gCost
                     previousNodes[nextRow][nextCol] = [currentRow, currentCol]
-
-                    queue.enqueue(
-                        [nextRow, nextCol],
-                        distances[nextRow][nextCol]
-                    )
+                    queue.enqueue([nextRow, nextCol], fCost)
 
                     stepToAnimate.push([nextRow, nextCol])
                 }
             }
         }
-
         stepsToAnimate.push(stepToAnimate)
     }
-    const path = getPath(previousNodes, start, finish)
 
+    const path = getPath(previousNodes, start, finish)
     return [stepsToAnimate, path]
 }
 
@@ -79,10 +78,6 @@ const getPath = (
 ) => {
     const path = []
 
-    /**
-     * If finish does not have a previous cell reference it means
-     * there is no path from start to finish. We can safely return empty array here.
-     */
     let cell = previousNodes[finish[0]][finish[1]]
     if (cell === null) {
         return []
@@ -92,17 +87,11 @@ const getPath = (
 
     while (currentRow !== start[0] || currentCol !== start[1]) {
         path.push([currentRow, currentCol])
-
         const next = previousNodes[currentRow][currentCol]
 
         if (next === null) {
-            /**
-             * This condition should never occur. Its only here to make Typescript happy.
-             * This loop only runs when finish is not null and that means there is a path from start to finish.
-             * It means we can safely assume that each cell will have a reference to the previous cell.
-             */
             throw new Error(
-                "Bad Dijkstra state. Something is wrong with the universe."
+                "Bad A* state. Something is wrong with the universe."
             )
         }
 

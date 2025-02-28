@@ -78,3 +78,7 @@ while (PQ is not empty)
 
 No guesswork, no random wandering—just a **smart, calculated approach** to finding the shortest path in a weighted graph.
 So next time you use Google Maps, **thank Dijkstra** for getting you there on time!
+
+---
+
+Made with ❤️ by Vihar - [Source code](https://github.com/xlostincode/labyrinth)

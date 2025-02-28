@@ -2,3 +2,4 @@
 export * from "./bfs/bfs"
 export * from "./dfs/dfs"
 export * from "./dijkstra/dijkstra"
+export * from "./astar/astar"

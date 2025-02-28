@@ -1,4 +1,4 @@
-### Breadth-First Search (BFS) Algorithm
+### Breadth-First Search (BFS)
 
 **Breadth-first search**—or just **BFS**—is one of the simplest and most intuitive ways to explore a graph. Seriously, if someone asked you to find the shortest path between two points, you'd probably invent BFS without even realizing it!
 
@@ -75,3 +75,7 @@ Note: You would generally use a Set or a Map to keep track of the visited nodes 
 ### That's it
 
 No fancy tricks, no overthinking. BFS is just this straightforward process of exploring everything layer by layer.
+
+---
+
+Made with ❤️ by Vihar - [Source code](https://github.com/xlostincode/labyrinth)

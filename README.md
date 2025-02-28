@@ -13,7 +13,7 @@ Currently it supports these algorithms:
 Planned improvements:
 
 -   More algorithms!
-    -   A\* search
+    -   ~~A\* search~~
     -   Bidirectional swarm
     -   Convergent swarm
 -   Better maze generation

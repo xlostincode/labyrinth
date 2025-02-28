@@ -1,7 +1,12 @@
 import { CELL_STATE_MAP, Maze, MazeIndex } from "~/maze/const"
 import { PathFromStartToFinish, StepsToAnimate } from "~/visualizer/const"
 
-export const PATH_FINDING_ALGORITHM_IDS = ["BFS", "DFS", "DIJKSTRA"] as const
+export const PATH_FINDING_ALGORITHM_IDS = [
+    "BFS",
+    "DFS",
+    "DIJKSTRA",
+    "ASTAR",
+] as const
 
 export type PathFindingAlgorithmId = (typeof PATH_FINDING_ALGORITHM_IDS)[number]
 
@@ -36,6 +41,11 @@ export const PATH_FINDING_ALGORITHM_MAP: PathFindingAlgorithmMap = {
         id: "DIJKSTRA",
         name: "Dijkstra's Algorithm",
         learnContentUrl: "./content/markdown/learn_dijkstra.md",
+    },
+    ASTAR: {
+        id: "ASTAR",
+        name: "A* Search",
+        learnContentUrl: "./content/markdown/learn_astar.md",
     },
 }
 

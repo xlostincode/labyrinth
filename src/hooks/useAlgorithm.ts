@@ -9,6 +9,7 @@ import {
 import { PATH_FINDING_ALGORITHM_MAP } from "~/algorithms/const"
 import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
 import { CELL_STATE_MAP } from "~/maze/const"
+import { astar } from "~/algorithms/astar/astar"
 
 export function useAlgorithm() {
     const {
@@ -28,6 +29,8 @@ export function useAlgorithm() {
                 return dfs
             case PATH_FINDING_ALGORITHM_MAP.DIJKSTRA.id:
                 return dijkstra
+            case PATH_FINDING_ALGORITHM_MAP.ASTAR.id:
+                return astar
         }
     }
 

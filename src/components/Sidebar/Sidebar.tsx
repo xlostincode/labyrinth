@@ -223,9 +223,19 @@ function Sidebar() {
                             />
                         </SidebarSection>
 
-                        <p className="text-xs text-zinc-500 text-right">
-                            Made with ❤️ by Vihar
-                        </p>
+                        <div>
+                            <p className="text-xs text-zinc-500 text-right">
+                                Made with ❤️ by Vihar
+                            </p>
+                            <p className="text-xs text-zinc-500 text-right underline mt-1">
+                                <a
+                                    href="https://github.com/xlostincode/labyrinth"
+                                    target="_blank"
+                                >
+                                    Source code
+                                </a>
+                            </p>
+                        </div>
                     </div>
                 )}
             </div>

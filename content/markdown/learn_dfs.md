@@ -1,4 +1,4 @@
-### Depth-first search algorithm
+### Depth-First Search (DFS)
 
 **Depth-First Search**—or just **DFS**—is like the adventurous sibling of BFS. Instead of carefully exploring all paths evenly, DFS is the kind of algorithm that picks a path and dives straight in, only backtracking when it hits a dead end.
 
@@ -68,3 +68,7 @@ Note: Just like with BFS, you'd typically use a Set or Map to track visited node
 ### That's it!
 
 No magic, no fancy tricks—just **pick a path, go deep, and backtrack if needed**. DFS is like a **determined adventurer**—always going forward until there's no other choice but to turn back. 🚀
+
+---
+
+Made with ❤️ by Vihar - [Source code](https://github.com/xlostincode/labyrinth)

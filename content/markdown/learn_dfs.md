@@ -30,7 +30,7 @@ Eventually, one of two things will happen:
 -   Select Depth-First Search in the sidebar
 -   Hit play
 
-![video](/content/video/dfs.mp4)
+![video](content/video/dfs.mp4)
 
 Notice how the visualization resembles a snake slithering through the maze, unlike BFS, which spreads like a flood. This happens because DFS focuses on a single path, only backtracking when needed.
 

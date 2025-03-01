@@ -9,11 +9,11 @@ Currently it supports these algorithms:
 -   Breadth-first search
 -   Depth-first search
 -   Dijkstra's algorithm
+-   A\* search
 
 Planned improvements:
 
 -   More algorithms!
-    -   ~~A\* search~~
     -   Bidirectional swarm
     -   Convergent swarm
 -   Better maze generation

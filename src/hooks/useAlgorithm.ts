@@ -62,7 +62,6 @@ export function useAlgorithm() {
                 })
             )
 
-            // TODO: Maybe have this fixed
             await delay(stepAnimationDelay)
         }
 

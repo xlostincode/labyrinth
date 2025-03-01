@@ -17,6 +17,7 @@ import Switch from "~/components/Switch/Switch"
 import SidebarSection from "./SidebarSection"
 import MazeGenerationSection from "./section/MazeGeneration"
 import SearchAlgorithmSection from "./section/SearchAlgorithm"
+import VisualisationSettings from "./section/VisualisationSettings"
 import { VISUALIZER_STATUS_MAP } from "~/visualizer/const"
 import usePanPinchZoom from "~/context/PanPinchZoom/usePanPinchZoom"
 import { Popover, Transition } from "@headlessui/react"
@@ -65,8 +66,8 @@ function Sidebar() {
         dispatch(setVisualizerStatus(VISUALIZER_STATUS_MAP.READY))
     }
 
+    // Hack to make Headlessui.Popover open by default
     React.useEffect(function showControlsInformation() {
-        // Hack to make Headlessui.Popover open by default
         setTimeout(() => {
             const button = document.querySelector("#controlsInfo")
             if (button && button instanceof HTMLButtonElement) {
@@ -175,15 +176,7 @@ function Sidebar() {
 
                         <MazeGenerationSection />
 
-                        <SidebarSection title="Controls">
-                            <ControlsInformation />
-                            <Button
-                                onClick={() => panPinchZoom?.centerView(1)}
-                                secondary
-                            >
-                                Center Maze
-                            </Button>
-                        </SidebarSection>
+                        <VisualisationSettings />
 
                         <SidebarSection title="Maze Settings">
                             <div className="flex flex-col py-2 text-xs gap-2 text-zinc-400">
@@ -221,6 +214,16 @@ function Sidebar() {
                                     dispatch(setShowRawCellWeights(show))
                                 }
                             />
+                        </SidebarSection>
+
+                        <SidebarSection title="Controls">
+                            <ControlsInformation />
+                            <Button
+                                onClick={() => panPinchZoom?.centerView(1)}
+                                secondary
+                            >
+                                Center Maze
+                            </Button>
                         </SidebarSection>
 
                         <div>

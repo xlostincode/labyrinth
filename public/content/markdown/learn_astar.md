@@ -34,11 +34,11 @@ Here’s how A\* works:
 
 ### Try it yourself!
 
-![video](/content/video/astar.mp4)
+![video](content/video/astar.mp4)
 
 Watch how **A\*** moves toward the goal more efficiently than Dijkstra! Here is Dijkstra's algorithm running on the same maze for comparison.
 
-![video](/content/video/dijkstra_v_astar.mp4)
+![video](content/video/dijkstra_v_astar.mp4)
 
 Notice how Dijkstra's algorithm spreads out more as it focuses only on finding the absolute shortest path, while A\* is more contained since it considers both the cost and the distance to the end goal.
 
@@ -46,11 +46,11 @@ Here are the end results for better comparison
 
 > A\* Search
 
-![image](/content/image/astar_result.png)
+![image](content/image/astar_result.png)
 
 > Dijkstra's algorithm
 
-![image](/content/image/dijkstra_result.png)
+![image](content/image/dijkstra_result.png)
 
 ---
 

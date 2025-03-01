@@ -27,7 +27,7 @@ Instead, you need a **smarter** approach.
 
 ### Try it yourself!
 
-![video](/content/video/dijkstra.mp4)
+![video](content/video/dijkstra.mp4)
 
 Notice how **Dijkstra’s algorithm doesn’t just spread out evenly like BFS**. Instead, it **carefully weighs each option** before moving. We can even increase the weights of some cells along the path it finds, then re-run the algorithm and watch it avoid that route due to the higher costs!
 

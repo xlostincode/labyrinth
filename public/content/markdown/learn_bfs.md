@@ -21,7 +21,7 @@ Eventually, one of two things will happen:
 
 ### Try it yourself!
 
-![video](/content/video/bfs.mp4)
+![video](content/video/bfs.mp4)
 
 Notice how it spreads evenly—this happens because BFS explores all neighbors of a node before moving to the next level.
 
@@ -29,7 +29,7 @@ Notice how it spreads evenly—this happens because BFS explores all neighbors o
 
 See flood-fill in action! Set Block Chance to 0% to generate an open maze, draw a closed shape, place the starting point inside, and hit play — you just witnessed a scrappy version of the paint bucket tool!
 
-![video](/content/video/flood-fill.mp4)
+![video](content/video/flood-fill.mp4)
 
 ### Fun facts
 

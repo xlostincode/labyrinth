@@ -28,3 +28,7 @@ npm install
 
 npm run dev
 ```
+
+## Font used in banner
+
+Bebas / Bebas Neue

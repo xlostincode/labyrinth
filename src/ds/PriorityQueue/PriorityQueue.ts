@@ -75,9 +75,6 @@ class PriorityQueue<T> {
 
             if (rightChild === undefined) {
                 smallerChildIndex = leftChildIndex
-            } else if (leftChild === undefined) {
-                // TODO: Will this ever be true?
-                smallerChildIndex = rightChildIndex
             } else if (leftChild.priority < rightChild.priority) {
                 smallerChildIndex = leftChildIndex
             } else {
@@ -86,7 +83,7 @@ class PriorityQueue<T> {
 
             const smallerChild = this._nodes[smallerChildIndex]
 
-            if (node.priority < smallerChild.priority) {
+            if (node.priority <= smallerChild.priority) {
                 break
             }
 

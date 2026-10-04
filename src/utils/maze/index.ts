@@ -32,7 +32,9 @@ export function isValidCell(
 }
 
 export const getPathCost = (maze: Maze, path: PathFromStartToFinish) => {
-    return path.reduce((prev, curr) => prev + maze[curr[0]][curr[1]].weight, 0)
+    return path.slice(1).reduce((cost, [row, col]) => {
+        return cost + 1 + maze[row][col].weight
+    }, 0)
 }
 
 export const generate2DArray = <T>(

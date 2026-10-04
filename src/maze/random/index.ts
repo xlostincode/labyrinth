@@ -63,14 +63,15 @@ export const generateRandomMaze: MazeGenerationAlgorithmFn<Options> = (
         ? mazeWidth - 1
         : getRandomIntInclusive(0, mazeWidth - 1)
 
-    // In case start and finish are same change the start
-    while (startRowIdx === finishRowIdx && startColIdx === finishRowIdx) {
-        startRowIdx = _options.defaultStart
-            ? 0
-            : getRandomIntInclusive(0, mazeHeight - 1)
-        startColIdx = _options.defaultStart
-            ? 0
-            : getRandomIntInclusive(0, mazeWidth - 1)
+    // Regenerate the non-fixed endpoint if start and finish overlap.
+    while (startRowIdx === finishRowIdx && startColIdx === finishColIdx) {
+        if (_options.defaultStart) {
+            finishRowIdx = getRandomIntInclusive(0, mazeHeight - 1)
+            finishColIdx = getRandomIntInclusive(0, mazeWidth - 1)
+        } else {
+            startRowIdx = getRandomIntInclusive(0, mazeHeight - 1)
+            startColIdx = getRandomIntInclusive(0, mazeWidth - 1)
+        }
     }
 
     maze[startRowIdx][startColIdx].state = CELL_STATE_MAP.START

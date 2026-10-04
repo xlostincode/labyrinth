@@ -35,6 +35,15 @@ export const astar: PathFindingAlgorithmFn = (maze, start, finish) => {
 
         const [currentRow, currentCol] = currentNode.value
 
+        const currentFCost =
+            distances[currentRow][currentCol] +
+            heuristic([currentRow, currentCol], finish)
+
+        // A better route may have re-enqueued this node at a lower priority.
+        if (currentNode.priority > currentFCost) {
+            continue
+        }
+
         if (currentRow === finish[0] && currentCol === finish[1]) {
             break
         }
@@ -49,8 +58,10 @@ export const astar: PathFindingAlgorithmFn = (maze, start, finish) => {
                 isValidCell(mazeWidth, mazeHeight, nextRow, nextCol) &&
                 maze[nextRow][nextCol].state !== CELL_STATE_MAP.BLOCK
             ) {
+                // A base cost of 1 keeps the Manhattan heuristic admissible.
                 const gCost =
                     distances[currentRow][currentCol] +
+                    1 +
                     maze[nextRow][nextCol].weight
                 const hCost = heuristic([nextRow, nextCol], finish)
                 const fCost = gCost + hCost
@@ -76,13 +87,12 @@ const getPath = (
     start: [number, number],
     finish: [number, number]
 ) => {
-    const path = []
-
     let cell = previousNodes[finish[0]][finish[1]]
     if (cell === null) {
         return []
     }
 
+    const path = [finish]
     let [currentRow, currentCol] = cell
 
     while (currentRow !== start[0] || currentCol !== start[1]) {
@@ -98,6 +108,8 @@ const getPath = (
         currentRow = next[0]
         currentCol = next[1]
     }
+
+    path.push(start)
 
     return path.reverse() as PathFromStartToFinish
 }

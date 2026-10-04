@@ -7,6 +7,7 @@ import {
     MAZE_WITH_UNBLOCKED_FINISH,
     TEST_MAZE_START_AND_FINISH,
 } from "~/algorithms/const"
+import { CELL_STATE_MAP } from "~/maze/const"
 
 describe.concurrent("Djisktra's algorithm", () => {
     it("Should find a path when the maze has no blocks", () => {
@@ -71,5 +72,21 @@ describe.concurrent("Djisktra's algorithm", () => {
 
         expect(stepsToAnimate.length).toBeGreaterThan(0)
         expect(pathFromStartToFinish.length).toBeGreaterThan(0)
+    })
+
+    it("Should include the start and finish in an adjacent path", () => {
+        const maze = [
+            [
+                { id: "start", state: CELL_STATE_MAP.START, weight: 0 },
+                { id: "finish", state: CELL_STATE_MAP.FINISH, weight: 0 },
+            ],
+        ]
+
+        const [, pathFromStartToFinish] = dijkstra(maze, [0, 0], [0, 1])
+
+        expect(pathFromStartToFinish).toEqual([
+            [0, 0],
+            [0, 1],
+        ])
     })
 })

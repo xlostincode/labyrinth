@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest"
 import { getRandomIntInclusive } from "~/utils/math"
-import { isValidCell } from "~/utils/maze"
+import { getPathCost, isValidCell } from "~/utils/maze"
 import { generateRandomMaze } from "~/maze/random"
 import { CELL_STATE_MAP } from "~/maze/const"
 
@@ -141,5 +141,23 @@ describe.concurrent("Maze related utilities", () => {
         const message = `height: ${height}, width: ${width} | row: ${row}, col: ${col}`
 
         expect(isValid, message).toBeFalsy()
+    })
+
+    it("Should calculate path cost without charging for the start cell", () => {
+        const maze = [
+            [
+                { id: "start", state: CELL_STATE_MAP.START, weight: 0 },
+                { id: "middle", state: CELL_STATE_MAP.EMPTY, weight: 4 },
+                { id: "finish", state: CELL_STATE_MAP.FINISH, weight: 2 },
+            ],
+        ]
+
+        const pathCost = getPathCost(maze, [
+            [0, 0],
+            [0, 1],
+            [0, 2],
+        ])
+
+        expect(pathCost).toBe(8)
     })
 })

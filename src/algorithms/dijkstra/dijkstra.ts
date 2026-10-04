@@ -32,6 +32,11 @@ export const dijkstra: PathFindingAlgorithmFn = (maze, start, finish) => {
 
         const [currentRow, currentCol] = currentNode.value
 
+        // A better route may have re-enqueued this node at a lower priority.
+        if (currentNode.priority > distances[currentRow][currentCol]) {
+            continue
+        }
+
         // Path from start to finish found
         if (currentRow === finish[0] && currentCol === finish[1]) {
             break
@@ -47,8 +52,10 @@ export const dijkstra: PathFindingAlgorithmFn = (maze, start, finish) => {
                 isValidCell(mazeWidth, mazeHeight, nextRow, nextCol) &&
                 maze[nextRow][nextCol].state !== CELL_STATE_MAP.BLOCK
             ) {
+                // A base cost of 1 ensures every move has a positive cost.
                 const distanceToNextNode =
                     distances[currentRow][currentCol] +
+                    1 +
                     maze[nextRow][nextCol].weight
 
                 if (distanceToNextNode < distances[nextRow][nextCol]) {
@@ -77,8 +84,6 @@ const getPath = (
     start: [number, number],
     finish: [number, number]
 ) => {
-    const path = []
-
     /**
      * If finish does not have a previous cell reference it means
      * there is no path from start to finish. We can safely return empty array here.
@@ -88,6 +93,7 @@ const getPath = (
         return []
     }
 
+    const path = [finish]
     let [currentRow, currentCol] = cell
 
     while (currentRow !== start[0] || currentCol !== start[1]) {
@@ -109,6 +115,8 @@ const getPath = (
         currentRow = next[0]
         currentCol = next[1]
     }
+
+    path.push(start)
 
     return path.reverse() as PathFromStartToFinish
 }

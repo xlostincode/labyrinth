@@ -141,6 +141,7 @@ export const visualizerSlice = createSlice({
             const { rowIdx, colIdx } = action.payload
 
             if (rowIdx === state.start[0] && colIdx === state.start[1]) return
+            if (rowIdx === state.finish[0] && colIdx === state.finish[1]) return
 
             const [currentStartRow, currentStartCol] = state.start
 
@@ -166,6 +167,7 @@ export const visualizerSlice = createSlice({
             const { rowIdx, colIdx } = action.payload
 
             if (rowIdx === state.finish[0] && colIdx === state.finish[1]) return
+            if (rowIdx === state.start[0] && colIdx === state.start[1]) return
 
             const [currentFinishRow, currentFinishCol] = state.finish
 
